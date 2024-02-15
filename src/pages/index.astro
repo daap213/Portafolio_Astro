@@ -6,22 +6,26 @@ import LinkedInIcon from "../components/icons/LinkedIn.astro";
 import GitHubIcon from "../components/icons/GitHub.astro";
 import MailIcon from "../components/icons/Mail.astro";
 import Expirience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
 import SectionContainer from "../components/SectionContainer.astro";
 import Briefcase from "../components/icons/Briefcase.astro";
+import CodeIcon from "../components/icons/Code.astro";
 ---
 
 <Layout
   title="Porfolio: Daniel Alvarado Peláez - Ingeniero Mecatrónico, Desarrollador y Programador"
   description="Graduado de la carrera Mecatrónica en la universidad ESPOL, en Ecuador."
 >
-  <main>
+  <main class="px-4">
     <SectionContainer class="py-20 pb-10">
       <img
         class="rounded-md size-20 mb-4"
         src="/img/logo_rimuru.png"
         alt="Logo of rimuru"
       />
-      <h1 class="text-5xl font-bold flex justify-center flex-row gap-x-4 pb-4">
+      <h1
+        class="text-3xl md:text-4xl lg:text-5xl font-bold flex justify-center flex-row gap-x-4 pb-4 lg:pb-8"
+      >
         Ing. Daniel Alvarado
         <a
           href="https://www.linkedin.com/in/daniel-alvarado-peláez/"
@@ -32,7 +36,7 @@ import Briefcase from "../components/icons/Briefcase.astro";
           <Badge>Disponible - remoto</Badge>
         </a>
       </h1>
-      <h2 class="text-2xl opacity-85">
+      <h2 class="text-xl lg:text-2xl text-wrap max-w-[900px]">
         <span
           >Graduado de la carrera Mecatrónica en la universidad ESPOL, en
           Ecuador.
@@ -45,7 +49,7 @@ import Briefcase from "../components/icons/Briefcase.astro";
         Capaz de trabajo y aprendizaje autónomo, predispuesto a trabajar en equipos
         multidisciplinarios para compartir, mejorar o aprender conocimientos varios.
       </h2>
-      <nav class="flex gap-x-4 mt-8">
+      <nav class="flex gap-4 mt-8 text-wrap">
         <SocialPill href="https://www.linkedin.com/in/daniel-alvarado-peláez/">
           <LinkedInIcon class="size-4 md:size-6" />
           LinkedIn
@@ -66,6 +70,13 @@ import Briefcase from "../components/icons/Briefcase.astro";
         Experiencia laboral
       </h2>
       <Expirience />
+    </SectionContainer>
+    <SectionContainer id="projects">
+      <h2 class="text-2xl font-semibold mb-10 flex gap-x-2 items-center">
+        <CodeIcon class="size-8" />
+        Proyectos
+      </h2>
+      <Projects />
     </SectionContainer>
   </main>
 </Layout>
