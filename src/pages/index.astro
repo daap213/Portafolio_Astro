@@ -16,7 +16,13 @@ import Hero from "@/components/Hero.astro";
   description="Graduado de la carrera Mecatrónica en la universidad ESPOL, en Ecuador."
 >
   <main class="px-4">
-    <SectionContainer class="py-16 md:py-36">
+    <SectionContainer id="sobre-mi" class="py-16 md:py-36">
+      <h2
+        class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
+      >
+        <ProfileCheck class="size-8" />
+        Sobre mí
+      </h2>
       <Hero />
     </SectionContainer>
   </main>
@@ -41,13 +47,7 @@ import Hero from "@/components/Hero.astro";
       <Projects />
     </SectionContainer>
 
-    <SectionContainer id="sobre-mi">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
-      >
-        <ProfileCheck class="size-8" />
-        Sobre mí
-      </h2>
+    <SectionContainer>
       <AboutMe />
     </SectionContainer>
   </div>

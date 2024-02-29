@@ -2,7 +2,7 @@
 
 <div align="center">
 <a href="https://daap213.github.io/MiPortafolio/">
-<img src="./#">
+<img src="./public/porfolio.webp">
 </a>
 <p></p>
 </div>
