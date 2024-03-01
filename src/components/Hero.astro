@@ -1,7 +1,5 @@
 ---
 import Badge from "@/components/Badge.astro";
-import LinkedInIcon from "@/components/icons/LinkedIn.astro";
-import MailIcon from "@/components/icons/Mail.astro";
 import SocialPill from "@/components/SocialPill.astro";
 import { sobreMi } from "@cv";
 ---
@@ -29,9 +27,10 @@ import { sobreMi } from "@cv";
   </h1>
   {
     sobreMi.contenido.map((content) => (
-      <p class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300">
-        {content}
-      </p>
+      <p
+        class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
+        set:html={content}
+      />
     ))
   }
 
