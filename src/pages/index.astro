@@ -1,54 +1,35 @@
 ---
+import { pagIndex } from "@cv";
 import Layout from "@/layouts/Layout.astro";
-
-import AboutMe from "@/components/AboutMe.astro";
-import Briefcase from "@/components/icons/Briefcase.astro";
-import CodeIcon from "@/components/icons/Code.astro";
-import Experience from "@/components/Experience.astro";
-import ProfileCheck from "@/components/icons/ProfileCheck.astro";
-import Projects from "@/components/Projects.astro";
 import SectionContainer from "@/components/SectionContainer.astro";
-import Hero from "@/components/Hero.astro";
+const primeraSeccion = pagIndex.primeraSeccion;
+const secciones = pagIndex.secciones;
 ---
 
-<Layout
-  title="Porfolio: Daniel Alvarado Peláez - Ingeniero Mecatrónico, Desarrollador y Programador"
-  description="Graduado de la carrera Mecatrónica en la universidad ESPOL, en Ecuador."
->
+<Layout title={pagIndex.title} description={pagIndex.description}>
   <main class="px-4">
-    <SectionContainer id="sobre-mi" class="py-16 md:py-36">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white"
-      >
-        <ProfileCheck class="size-8" />
-        Sobre mí
+    <SectionContainer
+      id={primeraSeccion.id}
+      class={primeraSeccion.classSeccion}
+    >
+      <h2 class={primeraSeccion.classTittle}>
+        <primeraSeccion.icon class={primeraSeccion.classIcon} />
+        {primeraSeccion.name}
       </h2>
-      <Hero />
+      <primeraSeccion.seccion />
     </SectionContainer>
   </main>
   <div class="space-y-24">
-    <SectionContainer id="experiencia">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <Briefcase class="size-8" />
-        Experiencia laboral
-      </h2>
-      <Experience />
-    </SectionContainer>
-
-    <SectionContainer id="proyectos">
-      <h2
-        class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white"
-      >
-        <CodeIcon class="size-7" />
-        Proyectos
-      </h2>
-      <Projects />
-    </SectionContainer>
-
-    <SectionContainer>
-      <AboutMe />
-    </SectionContainer>
+    {
+      secciones.map((bloque) => (
+        <SectionContainer id={bloque.id} class={bloque.classSeccion}>
+          <h2 class={bloque.classTittle}>
+            {bloque.icon && <bloque.icon class={bloque.classIcon} />}
+            {bloque.name}
+          </h2>
+          <bloque.seccion />
+        </SectionContainer>
+      ))
+    }
   </div>
 </Layout>
