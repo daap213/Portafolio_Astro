@@ -3,6 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@cv": [
+        "src/config.js"
+      ],
       "@/*": [
         "src/*"
       ]
