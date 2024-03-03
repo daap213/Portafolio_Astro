@@ -1,7 +1,7 @@
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
 import Hero from "@/components/Hero.astro";
-import AboutMe from "@/components/AboutMe.astro";
+import PreviewFooter from "@/components/PreviewFooter.astro";
 import Briefcase from "@/components/icons/Briefcase.astro";
 import CodeIcon from "@/components/icons/Code.astro";
 import Experience from "@/components/Experience.astro";
@@ -10,6 +10,7 @@ import Projects from "@/components/Projects.astro";
 
 //Datos generales
 const nombre = "Daniel Alvarado Peláez"
+const siglasNombre = "DAAP"
 const nombreTitulo = "Ing. " + nombre
 const tituloUniversidad = "Ingeniero Mecatrónico"
 
@@ -22,11 +23,38 @@ const idsobreMi = "sobre-mi"
 const idexperiencia = "experiencia"
 const idproyecto = "proyectos"
 
-export const pagIndex = {
-  title: "Porfolio: Daniel Alvarado Peláez - Ingeniero Mecatrónico, Desarrollador y Programador",
-  description: "Graduado de la carrera Mecatrónica en la universidad ESPOL, en Ecuador.",
-  primeraSeccion: {
+// Nav items de la pag
+export const navItems = [
+  {
+    title: "Sobre_mí",
+    label: idsobreMi,
     id: idsobreMi,
+    url: "/#" + idsobreMi,
+  },
+  {
+    title: "Experiencia",
+    label: idexperiencia,
+    id: idexperiencia,
+    url: "/#" + idexperiencia,
+  },
+  {
+    title: "Proyectos",
+    label: idproyecto,
+    id: idproyecto,
+    url: "/#" + idproyecto,
+  },
+  {
+    title: "Contacto",
+    label: "contacto",
+    url: urlCorreo,
+    id: ''
+  }
+];
+
+//Las secciones visibles en index.astro
+const seccionItems = [
+  {
+    navitems: navItems[0],
     name: "Sobre mí",
     icon: ProfileCheck,
     classSeccion: "py-16 md:py-32",
@@ -34,45 +62,56 @@ export const pagIndex = {
     classIcon: "size-8",
     seccion: Hero
   },
+  {
+    navitems: navItems[1],
+    name: "Experiencia laboral",
+    icon: Briefcase,
+    classSeccion: "",
+    classTittle: "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-8",
+    seccion: Experience
+  },
+  {
+    navitems: navItems[2],
+    name: "Proyectos",
+    icon: CodeIcon,
+    classSeccion: "",
+    classTittle: "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-7",
+    seccion: Projects
+  },
+  {
+    navitems: navItems[3],
+    name: 'Frase de un ingeniero:',
+    icon: '',
+    classSeccion: "",
+    classTittle: "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/50 dark:text-white",
+    classIcon: "",
+    seccion: PreviewFooter
+  }
+];
+
+//Secciones y titulo de la pag index.astro
+export const pagIndex = {
+  title: "Porfolio: Daniel Alvarado Peláez - Ingeniero Mecatrónico, Desarrollador y Programador",
+  description: "Graduado de la carrera Mecatrónica en la universidad ESPOL, en Ecuador.",
+  primeraSeccion: seccionItems[0],
   secciones: [
-    {
-      id: idexperiencia,
-      name: "Experiencia laboral",
-      icon: Briefcase,
-      classSeccion: "",
-      classTittle: "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-      classIcon: "size-8",
-      seccion: Experience
-    },
-    {
-      id: idproyecto,
-      name: "Proyectos",
-      icon: CodeIcon,
-      classSeccion: "",
-      classTittle: "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-      classIcon: "size-7",
-      seccion: Projects
-    },
-    {
-      id: '',
-      name: '',
-      icon: '',
-      classSeccion: "",
-      classTittle: "",
-      classIcon: "",
-      seccion: AboutMe
-    },
+    seccionItems[1],
+    seccionItems[2],
+    seccionItems[3],
   ]
 }
 
+// Informacion de hero.astro (sobre mi)
 export const sobreMi = {
-  title: "Sobre_mí",
-  label: idsobreMi,
-  url: "/#" + idsobreMi,
   nombre: nombre,
   nombreTitulo: nombreTitulo,
   titulo: tituloUniversidad,
-  estado: "Trabajo remoto",
+  estado: {
+    est: "Trabajo remoto",
+    url: urlLinkedIn
+  },
   imagenRuta: "/img/logo_rimuru.png",
   contenido: [
     "Desde Ecuador un <strong>Ingeniero Mecatrónico</strong> apasionado por el mundo tecnológico y con ello la posibilidad de ser parte de él creando mis propios proyectos.",
@@ -101,10 +140,20 @@ export const proyectos = {
   label: idproyecto,
   url: "/#" + idproyecto,
 }
-export const contactos = {
-  title: "Contacto",
-  label: "contacto",
-  url: urlCorreo,
+
+// Informacion de PreviewFooter.astro
+export const previewFooter = {
+  name: nombre,
+  frase: "Dios creó la Tierra, la naturaleza, los animales, la humanidad… Y al ingeniero para que se encargue de todo lo demás.",
+}
+
+// Informacion de PreviewFooter.astro
+export const footerInfor = {
+  itemInfo: navItems[0],
+  itemcontact: navItems[3],
+  name: siglasNombre,
+  mencion: "Plantilla diseñada por Midudev.",
+  url: urlLinkedIn,
 }
 
 

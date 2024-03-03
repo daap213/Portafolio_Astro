@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
+import { footerInfor } from "@cv";
 ---
 
 <footer
@@ -10,22 +11,24 @@ const currentYear = new Date().getFullYear();
   >
     <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90"
       >© {currentYear}
-      <a
-        href="https://www.linkedin.com/in/daniel-alvarado-peláez/"
-        class="hover:underline">DAAP</a
-      >. Plantilla diseñada por Midudev.
+      <a href={footerInfor.url} class="hover:underline">{footerInfor.name}</a>. {
+        footerInfor.mencion
+      }
     </span>
     <ul
       class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
     >
       <li>
-        <a href="/#sobre-mi" class="hover:underline me-4 md:me-6">Sobre mí</a>
+        <a href={footerInfor.itemInfo.url} class="hover:underline me-4 md:me-6"
+          >{footerInfor.itemInfo.title}</a
+        >
       </li>
       <li>
         <a
-          id="contacto"
-          href="mailto:daap21.3@gmail.com"
-          class="hover:underline me-4 md:me-3">Contacto</a
+          id={footerInfor.itemcontact.label}
+          href={footerInfor.itemcontact.url}
+          class="hover:underline me-4 md:me-3"
+          >{footerInfor.itemcontact.title}</a
         >
       </li>
     </ul>

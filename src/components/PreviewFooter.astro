@@ -1,5 +1,5 @@
 ---
-const personalImageAlt = "Daniel Alvarado Peláez";
+import { previewFooter } from "@cv";
 ---
 
 <article
@@ -11,14 +11,13 @@ const personalImageAlt = "Daniel Alvarado Peláez";
     <h3
       class="text-justify text-xl font-bold tracking-tight text-gray-800 sm:text-2xl dark:text-white"
     >
-      Dios creó la Tierra, la naturaleza, los animales, la humanidad… Y al
-      ingeniero para que se encargue de todo lo demás.
+      {previewFooter.frase}
     </h3>
   </div>
 
   <img
     src="/me.png"
-    alt={personalImageAlt}
+    alt={previewFooter.name}
     class="order-1 object-cover w-64 h-full p-1 md:order-2 rotate-2 lg:w-40 aspect-square rounded-2xl bg-black/20 dark:bg-yellow-500/5 ring-1 ring-black/70 dark:ring-white/20"
     style="object-position: 10% 30%"
   />

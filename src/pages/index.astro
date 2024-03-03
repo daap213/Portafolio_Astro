@@ -9,7 +9,7 @@ const secciones = pagIndex.secciones;
 <Layout title={pagIndex.title} description={pagIndex.description}>
   <main class="px-4">
     <SectionContainer
-      id={primeraSeccion.id}
+      id={primeraSeccion.navitems.id}
       class={primeraSeccion.classSeccion}
     >
       <h2 class={primeraSeccion.classTittle}>
@@ -22,7 +22,7 @@ const secciones = pagIndex.secciones;
   <div class="space-y-24">
     {
       secciones.map((bloque) => (
-        <SectionContainer id={bloque.id} class={bloque.classSeccion}>
+        <SectionContainer id={bloque.navitems.id} class={bloque.classSeccion}>
           <h2 class={bloque.classTittle}>
             {bloque.icon && <bloque.icon class={bloque.classIcon} />}
             {bloque.name}
