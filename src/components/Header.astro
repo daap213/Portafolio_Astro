@@ -7,7 +7,7 @@ import { navItems } from "@cv";
   class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
 >
   <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="menu flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
   >
     {
       navItems.map((link) => (
@@ -25,44 +25,29 @@ import { navItems } from "@cv";
 </header>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section");
-    const navItems = document.querySelectorAll("header nav a");
-
-    const callback = (entries: any[]) => {
+  const observer = new IntersectionObserver(
+    (entries) => {
       entries.forEach((entry) => {
+        const id = entry.target.getAttribute("id");
+        const link = document.querySelector(`.menu a[href="#${id}"]`);
         if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-yellow-500");
-            } else {
-              item.classList.remove("text-yellow-500");
-            }
-          });
+          link?.classList.add("text-yellow-500");
+        } else {
+          link?.classList.remove("text-yellow-500");
         }
       });
-    };
+    },
+    { rootMargin: "-30% 0px -70% 0px" }
+  );
 
-    const observer = new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.3,
-    });
+  const menuLinks = document.querySelectorAll(".menu a[href^='#']");
 
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
-
-    // Cleanup function
-    document.onvisibilitychange = () => {
-      if (document.visibilityState === "hidden") {
-        observer.disconnect();
-      } else {
-        sections.forEach((section) => {
-          observer.observe(section);
-        });
-      }
-    };
+  menuLinks.forEach((menuLink) => {
+    const hash = menuLink.getAttribute("href") ?? "";
+    const target = document.querySelector(hash);
+    if (target) {
+      observer.observe(target);
+    }
   });
 </script>
 
