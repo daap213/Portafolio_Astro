@@ -130,11 +130,63 @@ export const sobreMi = {
     },
   ]
 }
-export const experiencia = {
-  title: "Experiencia",
-  label: idexperiencia,
-  url: "/#" + idexperiencia,
-}
+
+//Experiencia
+export const experiencias = [
+  {
+    date: "MAY 2023 - Actualidad",
+    title: "Especialista general",
+    company: "Information Tecnology XOA S. A.",
+    description: [
+      "Programación 'frontend' y 'backend' para añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
+      "Resolución de problemas, inquietudes y bugs, para los clientes, relacionados con los servicios ofrecidos.",
+      "Chequeo de servicios, servidores, para su óptimo funcionamiento.",
+      "Desarrollo de servicios locales para uso propio de la compañía.",
+      "Actualización de versiones de los servicios ofrecidos a diferentes clientes.",
+      "Ensamblar y realizar pruebas de funcionamiento de sistemas embebidos de la empresa."
+    ]
+  },
+  {
+    date: "OCT 2022 - FEB 2023",
+    title: "Diseñador/Programador de dron con módulo térmico  ",
+    company: "ESPOL - Curso de titulación",
+    description: [
+      "Diseño de un chasis y sistema de un dron a control remoto de bajo costo y tamaño mediano.",
+      "Diseño de un sistema embebido para monitoreo de cables de potencia en industria.",
+      "Con una Raspberry Pi 4, una cámara HD y un módulo de cámara térmica, se realizó un programa .py que usando un modelo entrenado para reconocimiento, detecta si hay presencia de cables y si en la zona se supera cierta temperatura configurada, para guardar y compartir dicha información a un Bot de Telegram."
+    ]
+  },
+  {
+    date: "MAR 2022 - Abr 2022",
+    title: "Ayudante de investigación (Técnico de desarrollo)",
+    company: "Centro de Tecnologías de Información (CTI)",
+    description: [
+      "Desarrollo de modelos de predicción para el consumo energético de la infraestructura de un Data Center, desarrollando Jupyter notebooks para el preprocesado, procesado de datos, ejecución de los diferentes modelos, y muestra y comparación de los resultados.",
+      "Revisión, y mejoramiento de aplicación para la obtención de datos de los equipos."
+    ],
+    link: "https://twitch.tv/midudev",
+  },
+  {
+    date: "MAY 2021 - SEPT 2021",
+    title: "Diseñador de piladora de arroz con energía renovable",
+    company: "Prácticas comunitarias",
+    description:
+      [
+        "Para una comunidad agrícola, se analizó la viabilidad de fabricar una piladora de arroz potenciada por energía renovable. Se investigó piladoras de arroz existentes, además del uso de energías renovables. Posteriormente, se realizó un diseño y dimensionamiento acorde las necesidades de la comunidad."
+      ]
+  },
+  {
+    date: "MAY 2021 - Jul 2021",
+    title: "Programador web",
+    company: "Edu4lab",
+    description:
+      [
+        "Diseño con el framework Laravel, Se desarrolló una  plataforma web educativa, con las funcionalidades de crear, perfiles y roles, y pruebas online, asociadas a libros, cursos y encargados."
+      ]
+  },
+]
+
+
 export const proyectos = {
   title: "Proyectos",
   label: idproyecto,
