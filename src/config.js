@@ -164,7 +164,7 @@ export const experiencias = [
       "Desarrollo de modelos de predicción para el consumo energético de la infraestructura de un Data Center, desarrollando Jupyter notebooks para el preprocesado, procesado de datos, ejecución de los diferentes modelos, y muestra y comparación de los resultados.",
       "Revisión, y mejoramiento de aplicación para la obtención de datos de los equipos."
     ],
-    link: "https://twitch.tv/midudev",
+    // link: "https://twitch.tv/midudev",
   },
   {
     date: "MAY 2021 - SEPT 2021",
