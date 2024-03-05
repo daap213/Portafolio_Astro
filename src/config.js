@@ -1,14 +1,25 @@
+//iconos
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
-import Hero from "@/components/Hero.astro";
-import PreviewFooter from "@/components/PreviewFooter.astro";
 import Briefcase from "@/components/icons/Briefcase.astro";
 import CodeIcon from "@/components/icons/Code.astro";
-import Experience from "@/components/Experience.astro";
 import ProfileCheck from "@/components/icons/ProfileCheck.astro";
-import Projects from "@/components/Projects.astro";
 import NextJS from "@/components/icons/NextJS.astro";
 import Tailwind from "@/components/icons/Tailwind.astro";
+import PublicationIcon from "@/components/icons/Publication.astro";
+import EducationIcon from "@/components/icons/Education.astro";
+import SkillIcon from "@/components/icons/Skill.astro";
+import CertIcon from "@/components/icons/Certificado.astro";
+
+//Componentes:
+import Hero from "@/components/Hero.astro";
+import Experience from "@/components/Experience.astro";
+import Projects from "@/components/Projects.astro";
+import Publications from "@/components/Publications.astro";
+import Education from "@/components/Education.astro";
+import AllSkills from "@/components/AllSkills.astro";
+import Certificados from "@/components/Certificados.astro";
+import PreviewFooter from "@/components/PreviewFooter.astro";
 
 //Datos paginaweb
 const titleWeb =
@@ -52,37 +63,37 @@ export const navItems = [
     url: "#" + idsobreMi,
   },
   {
-    title: "Experiencia",
+    title: "Exp.",
     label: idexperiencia,
     id: idexperiencia,
     url: "#" + idexperiencia,
   },
   {
-    title: "Proyectos",
+    title: "Proy.",
     label: idproyecto,
     id: idproyecto,
     url: "#" + idproyecto,
   },
   {
-    title: "Publicaciones",
+    title: "Publ.",
     label: idpublicaciones,
     url: "#" + idpublicaciones,
     id: ideducacion,
   },
   {
-    title: "Educación",
+    title: "Educ.",
     label: ideducacion,
     url: "#" + ideducacion,
     id: ideducacion,
   },
   {
-    title: "Habilidades",
+    title: "KSAO",
     label: idhabilidades,
     id: idhabilidades,
     url: "#" + idhabilidades,
   },
   {
-    title: "Certificados",
+    title: "Cert.",
     label: idcertificados,
     url: "#" + idcertificados,
     id: idcertificados,
@@ -133,7 +144,7 @@ const seccionItems = [
   },
   {
     navitems: navItems[4],
-    name: "Educacion",
+    name: "Educación",
     icon: EducationIcon,
     classSeccion: "",
     classTittle:
