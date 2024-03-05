@@ -4,10 +4,11 @@ import SocialPill from "@/components/SocialPill.astro";
 import { sobreMi } from "@cv";
 ---
 
-<div class="max-w-3xl">
+<div class="max-w-4xl">
   <div class="flex gap-4 mb-4">
     <img
-      class="rounded-full shadow-lg size-16"
+      class="object-cover rounded-full shadow-lg size-16"
+      style="object-position: 10% 30%"
       src={sobreMi.imagenRuta}
       alt={sobreMi.nombre}
     />

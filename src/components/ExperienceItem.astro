@@ -1,5 +1,6 @@
 ---
 import LinkInline from "./LinkInline.astro";
+import DropdownText from "@/components/DropdownText.astro";
 
 interface Props {
   title: string;
@@ -27,64 +28,40 @@ const { title, company, description, link, date } = Astro.props;
         >{date}</time
       >
     </div>
-  </div>
-  <div
-    class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
-  >
-    <details class="group">
-      <summary
-        class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-800 border border-b-0 border-gray-200 rounded-t-xl focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-900 gap-3"
-      >
-        <span> Responsabilidades y Actividades:</span>
-        <span class="transition group-open:rotate-180">
+  </div><DropdownText titulo="Responsabilidades y actividades:">
+    <ul class="border border-gray-200 rounded overflow-hidden shadow-md">
+      {
+        description.map((activity) => (
+          <li class="w-full px-4 py-2 border-b text-justify hover:bg-sky-100 hover:text-gray-900 border-gray-300 dark:border-gray-200 last:border-none transition-all duration-300 ease-in-out">
+            {activity}
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      link && (
+        <LinkInline href={link}>
+          Saber más{" "}
           <svg
-            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 icon icon-tabler icon-tabler-chevron-right"
+            width="24"
             height="24"
-            shape-rendering="geometricPrecision"
+            viewBox="0 0 24 24"
+            stroke-width="2"
             stroke="currentColor"
+            fill="none"
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="1.5"
-            viewBox="0 0 24 24"
-            width="24"
-            ><path d="M6 9l6 6 6-6"></path>
+          >
+            <>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M9 6l6 6l-6 6" />
+            </>
           </svg>
-        </span>
-      </summary>
-      <ul class="border border-gray-200 rounded overflow-hidden shadow-md">
-        {
-          description.map((activity) => (
-            <li class="w-full px-4 py-2 border-b text-justify hover:bg-sky-100 hover:text-gray-900 border-gray-300 dark:border-gray-200 last:border-none transition-all duration-300 ease-in-out">
-              {activity}
-            </li>
-          ))
-        }
-      </ul>
-
-      {
-        link && (
-          <LinkInline href={link}>
-            Saber más{" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 icon icon-tabler icon-tabler-chevron-right"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <>
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 6l6 6l-6 6" />
-              </>
-            </svg>
-          </LinkInline>
-        )
-      }
-    </details>
-  </div>
+        </LinkInline>
+      )
+    }
+  </DropdownText>
 </div>

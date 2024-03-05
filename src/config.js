@@ -114,7 +114,7 @@ export const sobreMi = {
     est: "Trabajo remoto",
     url: urlLinkedIn
   },
-  imagenRuta: "/img/logo_rimuru.webp",
+  imagenRuta: "/img/me.webp",
   contenido: [
     "Desde Ecuador un <strong>Ingeniero Mecatrónico</strong> apasionado por el mundo tecnológico y con ello la posibilidad de ser parte de él creando mis propios proyectos.",
     "Cuento con habilidades y experiencia relacionada a <strong>diseño 3D, programación web y aplicaciones, análisis y ciencia de datos, y desarrollo de sistemas embebidos</strong>, capaz de trabajar y aprender de forma autónoma, predispuesto a trabajar en equipos multidisciplinarios para compartir, mejorar o aprender conocimientos varios.",
@@ -172,6 +172,7 @@ export const experiencias = [
 // Informacion de PreviewFooter.astro
 export const previewFooter = {
   name: nombre,
+  logo: "/img/logo.webp",
   frase: "Dios creó la Tierra, la naturaleza, los animales, la humanidad… Y al ingeniero para que se encargue de todo lo demás.",
 }
 
@@ -194,30 +195,30 @@ export const proyectos = [
     description:
       ["Diseños CAD y circuitos con Arduino de un dron. Diseños CAD, circuitos y programa con Raspberry Pi de un sistema embebido que detecta presencia de cables, capturar imágenes térmicas y detectar si existen picos de temperatura.",
       ],
-    link: "",
+    link: "https://www.canva.com/design/DAFX9yXkbVk/DF8M5vSArvJTF0_a-fzVag/watch?utm_content=DAFX9yXkbVk&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/MonitoreoTermico",
     image: "/projects/dron.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Simulación OPC en tiempo real",
     description:
       ["Simulación de un circuito en tiempo real, conectado por OPC a un interzas de LABVIEW, para su monitoreo y control.",
       ],
-    link: "",
+    link: "https://www.canva.com/design/DAFJCVANN2g/aI2GtYXtZmk-CkhwHaSFEQ/watch?utm_content=DAFJCVANN2g&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
     image: "/projects/simulacionOPC.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Control de bombas Proteus/Ubidots",
     description:
       ["Diseño de un sistema de bombas en el programa Proteus, controlado por un Atmega328p, y visualización en Ubidots del estado del sistema, comunicados por un programa desarrollado en Python.",
       ],
-    link: "",
+    link: "https://www.canva.com/design/DAE1pn3Eg34/oXMn2FTiOz5Hzs9sH3YjGQ/watch?utm_content=DAE1pn3Eg34&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Control-de-bombas-Proteus-",
     image: "/projects/bombasUbidots.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Adaptación de prótesis para rodilla",
@@ -227,7 +228,7 @@ export const proyectos = [
     link: "",
     github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
     image: "/projects/protesisRodilla.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Control de bombeo LABVIEW",
@@ -237,7 +238,7 @@ export const proyectos = [
     link: "",
     github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
     image: "/projects/bombasLabview.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Simulación Dinámica de Mecanismo",
@@ -247,7 +248,7 @@ export const proyectos = [
     link: "",
     github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
     image: "/projects/ejeMolino.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Diseño una apiladora de arroz",
@@ -257,37 +258,37 @@ export const proyectos = [
     link: "",
     github: "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
     image: "/projects/apiladoraArroz.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Alimentador de mascotas automático",
     description:
       ["Proyecto de alimentador de mascotas automático controlado por una aplicación móvil que permita programar los horarios de comida.",
       ],
-    link: "",
+    link: "https://youtu.be/xK9o9PrH0lI",
     github: "https://github.com/daap213/Alimentador-de-mascotas",
     image: "/projects/petFeeder.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Proceso de fabricación flexible",
     description:
       ["<strong>Objetivo:</strong><br />Rediseñar el sistema de fabricación de botellas de una empresa, para la reducción de los tiempos de producción, aumento de la flexibilidad del sistema y la rentabilidad de la empresa.<br /><strong>Descripción:</strong><br />Una empresa quiere montar una fabrica de botellas de plástico, esta industria ha adquirido varias maquinarias automatizadas para el proceso de elaboración de materia prima, estas ya han sido instaladas y automatizadas respectivamente.<br /> Las siguientes fases, que son:<br /> *El proceso de mezclado<br /> *El proceso de formación de botellas<br />*El proceso de paletizado de botellas<br />",
       ],
-    link: "",
+    link: "https://www.canva.com/design/DAFLZCEZKGQ/C2buCKb0bE4fJlOO9KrR9w/watch?utm_content=DAFLZCEZKGQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Flexible-Manufacturing-Process",
     image: "/projects/fabricacionFlexible.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   },
   {
     title: "Calidad de Producción de Azúcar",
     description:
       ["<strong>Objetivo:</strong><br />Mejorar el sistema de producción de calidad de azúcar mediante la modificación en las etapas de fabricación evitando el frecuente rechazo del producto al momento de su entrega.<br /><strong>Problematica:</strong><br />Una planta encargada de generar azúcar se conforma por una serie de etapas que contienenciertos procesos que hacen la producción de forma eficiente:<br />*Cristalización<br />*Entrega y extracción de jugo<br />*Evaporación<br />*Purificación del jugo<br />La planta no cuenta con controles de la calidad del azúcar, por ello los clientes desean realizar pruebas de calidad en base a la toma de muestras aleatorias, de manera que, si el producto pasa las pruebas, se acepte el pedido, por otra parte, si el producto no pasa las pruebas de calidad, el producto será devuelto en su totalidad independientemente del tamaño del pedido.",
       ],
-    link: "",
+    link: "https://www.youtube.com/watch?v=AorRajwlaNI",
     github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
     image: "/projects/sinfoto.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [],
   }
 ];
 
