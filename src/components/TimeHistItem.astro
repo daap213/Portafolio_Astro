@@ -10,9 +10,13 @@ const { title, company, date } = Astro.props;
       <span class="text-yellow-400 -left-[42px] absolute rounded-full text-5xl"
         >&bull;</span
       ><h3 class="text-xl font-bold text-yellow-500">{title}</h3>
-      <h4 class="font-semibold text-lg text-gray-600 dark:text-white">
-        {company}
-      </h4>
+      {
+        company && (
+          <h4 class="font-semibold text-lg text-gray-600 dark:text-white">
+            {company}
+          </h4>
+        )
+      }
       {
         date && (
           <time class="p-0 m-0 text-sm text-gray-600/80 dark:text-white/80">

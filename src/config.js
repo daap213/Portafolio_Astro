@@ -275,77 +275,76 @@ export const gradosCompletados = [
 ];
 
 //Certificados
-export const certificados = [
-  {
-    link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
-    items: [
-      {
-        date: "MAR 2023",
-        title: "Despliegue de MySQL con Docker",
-      },
-      {
-        date: "FEB 2023",
-        title: "Python para data scientist avanzado",
-      },
-      {
-        date: "FEB 2023",
-        title: "Docker esencial",
-      },
-      {
-        date: "FEB 2023",
-        title: "Learning Docker",
-      },
-      {
-        date: "ENE 2023",
-        title: "OPENedX Escritura Académica",
-      },
-      {
-        date: "DIC 2022",
-        title: "Examen CAMBRIDGE ENGLISH PLACEMENT TEST, C1",
-      },
-      {
-        date: "FEB 2022",
-        title: "Cuarta revolución Industrial: Data science",
-      },
-      {
-        date: "FEB 2022",
-        title: "Aprende Excel (Office365/Microsoft365)",
-      },
-      {
-        date: "FEB 2022",
-        title: "Cómo eliminar las distracciones",
-      },
-      {
-        date: "FEB 2022",
-        title: "Cómo conciliar las funciones múltiples del líder",
-      },
-      {
-        date: "ABR 2021",
-        title: "Introducción a la programación en Python",
-      },
-      {
-        date: "SEPT 2021",
-        title: "Fundamentos de progromación en PLC",
-      },
-      {
-        date: "SEPT 2021",
-        title: "Python para data science y big data ecencial",
-      },
-      {
-        date: "OCT 2020",
-        title: "MATLAB Onramp",
-      },
-      {
-        date: "NOV 2017",
-        title: "Certificate of Competency in English, ECCE B2",
-      },
-      {
-        date: "MAY 2017",
-        title: "Certificado de graduación, CEN",
-      },
-    ],
-  },
-];
+export const certificados =
+{
+  link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
+  items: [
+    {
+      date: "MAR 2023",
+      title: "Despliegue de MySQL con Docker",
+    },
+    {
+      date: "FEB 2023",
+      title: "Python para data scientist avanzado",
+    },
+    {
+      date: "FEB 2023",
+      title: "Docker esencial",
+    },
+    {
+      date: "FEB 2023",
+      title: "Learning Docker",
+    },
+    {
+      date: "ENE 2023",
+      title: "OPENedX Escritura Académica",
+    },
+    {
+      date: "DIC 2022",
+      title: "Examen CAMBRIDGE ENGLISH PLACEMENT TEST, C1",
+    },
+    {
+      date: "FEB 2022",
+      title: "Cuarta revolución Industrial: Data science",
+    },
+    {
+      date: "FEB 2022",
+      title: "Aprende Excel (Office365/Microsoft365)",
+    },
+    {
+      date: "FEB 2022",
+      title: "Cómo eliminar las distracciones",
+    },
+    {
+      date: "FEB 2022",
+      title: "Cómo conciliar las funciones múltiples del líder",
+    },
+    {
+      date: "ABR 2021",
+      title: "Introducción a la programación en Python",
+    },
+    {
+      date: "SEPT 2021",
+      title: "Fundamentos de progromación en PLC",
+    },
+    {
+      date: "SEPT 2021",
+      title: "Python para data science y big data ecencial",
+    },
+    {
+      date: "OCT 2020",
+      title: "MATLAB Onramp",
+    },
+    {
+      date: "NOV 2017",
+      title: "Certificate of Competency in English, ECCE B2",
+    },
+    {
+      date: "MAY 2017",
+      title: "Certificado de graduación, CEN",
+    },
+  ],
+}
 
 //Publicaciones
 export const publicaciones = [
