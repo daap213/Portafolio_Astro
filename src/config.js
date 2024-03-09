@@ -1,15 +1,17 @@
-//iconos
+//iconos links
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
+// icons sections
 import Briefcase from "@/components/icons/Briefcase.astro";
 import CodeIcon from "@/components/icons/Code.astro";
 import ProfileCheck from "@/components/icons/ProfileCheck.astro";
-import NextJS from "@/components/icons/NextJS.astro";
-import Tailwind from "@/components/icons/Tailwind.astro";
 import PublicationIcon from "@/components/icons/Publication.astro";
 import EducationIcon from "@/components/icons/Education.astro";
 import SkillIcon from "@/components/icons/Skill.astro";
 import CertIcon from "@/components/icons/Certificado.astro";
+// icons tags
+import NextJS from "@/components/icons/NextJS.astro";
+import Tailwind from "@/components/icons/Tailwind.astro";
 
 //Componentes:
 import Hero from "@/components/Hero.astro";
@@ -138,7 +140,7 @@ const seccionItems = [
     icon: PublicationIcon,
     classSeccion: "",
     classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white",
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
     classIcon: "size-8",
     seccion: Publications,
   },
@@ -148,7 +150,7 @@ const seccionItems = [
     icon: EducationIcon,
     classSeccion: "",
     classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white",
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
     classIcon: "size-8",
     seccion: Education,
   },
