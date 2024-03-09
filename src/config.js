@@ -14,14 +14,14 @@ import NextJS from "@/components/icons/NextJS.astro";
 import Tailwind from "@/components/icons/Tailwind.astro";
 
 //Componentes:
-import Hero from "@/components/Hero.astro";
-import Experience from "@/components/Experience.astro";
-import Projects from "@/components/Projects.astro";
-import Publications from "@/components/Publications.astro";
-import Education from "@/components/Education.astro";
-import AllSkills from "@/components/AllSkills.astro";
-import Certificados from "@/components/Certificados.astro";
-import PreviewFooter from "@/components/PreviewFooter.astro";
+import Hero from "@/components/seccions/Hero.astro";
+import Experience from "@/components/seccions/Experience.astro";
+import Projects from "@/components/seccions/Projects.astro";
+import Publications from "@/components/seccions/Publications.astro";
+import Education from "@/components/seccions/Education.astro";
+import AllSkills from "@/components/seccions/AllSkills.astro";
+import Certificados from "@/components/seccions/Certificados.astro";
+import PreviewFooter from "@/components/otros/PreviewFooter.astro";
 
 //Datos paginaweb
 const titleWeb =
@@ -55,6 +55,20 @@ const idpublicaciones = "mispublicaciones";
 const ideducacion = "educacion";
 const idhabilidades = "mishabilidades";
 const idcertificados = "miscertificados";
+
+// Tags iconos de proyectos
+const TAGS = {
+  NEXT: {
+    name: "Next.js",
+    class: "bg-black text-white",
+    icon: NextJS,
+  },
+  TAILWIND: {
+    name: "Tailwind CSS",
+    class: "bg-[#003159] text-white",
+    icon: Tailwind,
+  },
+};
 
 // Nav items de la pag
 export const navItems = [
@@ -359,20 +373,6 @@ export const publicaciones = [
     image: "",
   }
 ];
-
-// Tags iconos de proyectos
-const TAGS = {
-  NEXT: {
-    name: "Next.js",
-    class: "bg-black text-white",
-    icon: NextJS,
-  },
-  TAILWIND: {
-    name: "Tailwind CSS",
-    class: "bg-[#003159] text-white",
-    icon: Tailwind,
-  },
-};
 
 // Herramientas y habilidades
 export const habilidades = [
