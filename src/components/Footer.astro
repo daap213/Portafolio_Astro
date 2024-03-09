@@ -12,8 +12,9 @@ import { footerInfor } from "@cv";
     <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90"
       >© {currentYear}
       <a href={footerInfor.url} class="hover:underline">{footerInfor.name}</a>.
-      <a href=""></a>
-      {footerInfor.mencion}
+      <a href={footerInfor.urlMencion} class="pl-2 hover:underline"
+        >{footerInfor.mencion}</a
+      >
     </span>
     <ul
       class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
