@@ -562,6 +562,7 @@ export const footerInfor = {
   itemInfo: navItems[0],
   itemcontact: contactObj,
   name: siglasNombre,
-  mencion: "Plantilla diseñada por Midudev.",
   url: urlLinkedIn,
+  mencion: "Plantilla diseñada por Midudev.",
+  urlMencion: "https://linkedin.com/in/midudev"
 };
