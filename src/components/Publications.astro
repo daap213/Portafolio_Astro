@@ -5,7 +5,10 @@ import { publicaciones } from "@cv";
 <div class="flex flex-wrap gap-4">
   {
     publicaciones.map(({ title, authors, description, link, codigo }) => (
-      <div class="block text-balance max-w-sm p-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <div
+        title={description}
+        class="block text-balance max-w-sm p-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      >
         <h7 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
           {title}
         </h7>
