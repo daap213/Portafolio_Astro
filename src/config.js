@@ -80,7 +80,7 @@ export const navItems = [
     title: "Publ.",
     label: idpublicaciones,
     url: "#" + idpublicaciones,
-    id: ideducacion,
+    id: idpublicaciones,
   },
   {
     title: "Educ.",

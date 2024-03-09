@@ -1,17 +1,25 @@
-<svg
-  {...Astro.props}
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  stroke-width="2"
-  stroke="currentColor"
-  fill="none"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-  <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
-  <path
-    d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"
-  ></path>
-</svg>
+---
+import { publicaciones } from "@cv";
+---
+
+{
+  publicaciones.map(({ title, authors, description, link, codigo }) => (
+    <div class="block  text-balance max-w-sm p-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <h7 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+        {title}
+      </h7>
+      <p class="mb-2 mt-2 font-normal text-lg text-sky-800 dark:text-sky-400">
+        <a href={link} target="_blank">
+          {codigo}
+        </a>
+      </p>
+
+      <h7 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+        Autores:
+      </h7>
+      <p class="font-normal  text-lg text-gray-700 dark:text-gray-400">
+        {authors}
+      </p>
+    </div>
+  ))
+}
