@@ -219,8 +219,8 @@ export const sobreMi = {
   },
   imagenRuta: "/img/me.webp",
   contenido: [
-    "Desde Ecuador un <strong>Ingeniero Mecatrónico</strong> apasionado por el mundo tecnológico y con ello la posibilidad de ser parte de él creando mis propios proyectos.",
-    "Cuento con habilidades y experiencia relacionada a <strong>diseño 3D, programación web y aplicaciones, análisis y ciencia de datos, y desarrollo de sistemas embebidos</strong>, capaz de trabajar y aprender de forma autónoma, predispuesto a trabajar en equipos multidisciplinarios para compartir, mejorar o aprender conocimientos varios.",
+    "Soy ecuatoriano, <strong>Ingeniero Mecatrónico</strong> apasionado por el mundo tecnológico y con ello la posibilidad de ser parte de él creando mis propios proyectos.",
+    "Cuento con habilidades y experiencia relacionada a <strong>diseño 3D, programación web y aplicaciones, análisis de datos, ciencia de datos, y desarrollo de sistemas embebidos</strong>. Capaz de trabajar y aprender de forma autónoma, predispuesto a trabajar en equipos multidisciplinarios para compartir, mejorar o aprender conocimientos varios.",
   ],
   botones: [
     {
@@ -244,7 +244,7 @@ export const experiencias = [
     company: "Information Tecnology XOA S. A.",
     description: [
       "Programación 'frontend' y 'backend' para añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
-      "Resolución de problemas, inquietudes y bugs, para los clientes, relacionados con los servicios ofrecidos.",
+      "Resolución de problemas, inquietudes y bugs, para los clientes relacionados con los servicios ofrecidos.",
       "Chequeo de servicios, servidores, para su óptimo funcionamiento.",
       "Desarrollo de servicios locales para uso propio de la compañía.",
       "Actualización de versiones de los servicios ofrecidos a diferentes clientes.",
@@ -256,8 +256,8 @@ export const experiencias = [
     title: "Ayudante de investigación (Técnico de desarrollo)",
     company: "Centro de Tecnologías de Información (CTI)",
     description: [
-      "Desarrollo de modelos de predicción para el consumo energético de la infraestructura de un Data Center, desarrollando Jupyter notebooks para el preprocesado, procesado de datos, ejecución de los diferentes modelos, y muestra y comparación de los resultados.",
-      "Revisión, y mejoramiento de aplicación para la obtención de datos de los equipos.",
+      "Desarrollo de modelos de predicción para el consumo energético de la infraestructura de un Data Center, desarrollando Jupyter notebooks para el preprocesado, procesado de datos, ejecución de los diferentes modelos de ML y comparación de los resultados.",
+      "Revisión y mejoramiento de aplicación para la obtención de datos de los equipos.",
     ],
     //link: "https://twitch.tv/midudev",
   },
@@ -276,7 +276,7 @@ export const gradosCompletados = [
   {
     date: "Guayaquil- Ecuador / OCT 2017- FEBR 2023",
     title: "Educación Superior, Ingeniería Mecatrónica",
-    institution: "Escuela Superior Politécnica del Litoral",
+    institution: "Escuela Superior Politécnica del Litoral (ESPOL)",
     description: [],
   },
   {
@@ -339,11 +339,11 @@ export const certificados =
     },
     {
       date: "SEPT 2021",
-      title: "Fundamentos de progromación en PLC",
+      title: "Fundamentos de programación en PLC",
     },
     {
       date: "SEPT 2021",
-      title: "Python para data science y big data ecencial",
+      title: "Python para data science y big data esencial",
     },
     {
       date: "OCT 2020",
@@ -458,7 +458,7 @@ export const proyectos = [
   {
     title: "Simulación OPC en tiempo real",
     description: [
-      "Simulación de un circuito en tiempo real, conectado por OPC a un interzas de LABVIEW, para su monitoreo y control.",
+      "Simulación de un circuito en tiempo real, conectado por OPC a un interfaz de LABVIEW, para su monitoreo y control.",
     ],
     link: "https://www.canva.com/design/DAFJCVANN2g/aI2GtYXtZmk-CkhwHaSFEQ/watch?utm_content=DAFJCVANN2g&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github:
@@ -469,7 +469,7 @@ export const proyectos = [
   {
     title: "Control de bombas Proteus/Ubidots",
     description: [
-      "Diseño de un sistema de bombas en el programa Proteus, controlado por un Atmega328p, y visualización en Ubidots del estado del sistema, comunicados por un programa desarrollado en Python.",
+      "Diseño de un sistema de bombas en el programa Proteus, controlado por un Atmega328p, y visualización en Ubidots del estado del sistema comunicados por un programa desarrollado en Python.",
     ],
     link: "https://www.canva.com/design/DAE1pn3Eg34/oXMn2FTiOz5Hzs9sH3YjGQ/watch?utm_content=DAE1pn3Eg34&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Control-de-bombas-Proteus-",
@@ -479,7 +479,7 @@ export const proyectos = [
   {
     title: "Adaptación de prótesis para rodilla",
     description: [
-      "Diseño 3D de una rodilla y edición de una prótesis total de rodilla utilizando el software 3D Slice y Blender, para adaptar la prótesis de rodilla que ya existir a la rodilla de prueba.",
+      "Diseño 3D de una rodilla y edición de una prótesis total de rodilla, utilizando el software 3D Slice y Blender para adaptar la prótesis de rodilla que ya existir a la rodilla de prueba.",
     ],
     link: "",
     github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
@@ -489,7 +489,7 @@ export const proyectos = [
   {
     title: "Control de bombeo LABVIEW",
     description: [
-      "Diseño de una HMI para el control de un sistema de bombas, el cual cuenta con tres bombas. Dos bombas son las principales y la tercera es de respaldo en caso de que una se dañe o se deshabilite por mantenimiento. Cada bomba tiene su pulsador de marcha y paro, así como también su selector de habilitado o deshabilitada. El sistema tendrá funcionamiento manual y automático comandado por la señal enviada por un selector.",
+      "Diseño de una HMI para el control de un sistema de bombas, el cual cuenta con tres bombas. Dos bombas son las principales y la tercera es de respaldo en caso de que una se dañe o se deshabilite por mantenimiento. Cada bomba tiene su pulsador de marcha y paro, así como también su selector de habilitado o deshabilitado. El sistema tendrá funcionamiento manual y automático comandado por la señal enviada por un selector.",
     ],
     link: "",
     github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
@@ -499,7 +499,7 @@ export const proyectos = [
   {
     title: "Simulación Dinámica de Mecanismo",
     description: [
-      "Se diseña un mecanismo donde el eje de un molino recibe la potencia y velocidad necesaria por medio de poleas-cadenas, a su ves el eje que le trasmite la potencia a la polea con cadena, recibe la potencia de entrada por medio de un juego de poleas con banda en V, ademas de estar apoyado en 2 rodamientos.",
+      "Se diseña un mecanismo donde el eje de un molino recibe la potencia y velocidad necesaria por medio de poleas-cadenas, a su vez el eje que transmite la potencia a la polea con cadena recibe la potencia de entrada por medio de un juego de poleas con banda en V, ademas de estar apoyado en 2 rodamientos.",
     ],
     link: "",
     github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
@@ -507,9 +507,9 @@ export const proyectos = [
     tags: [],
   },
   {
-    title: "Diseño una apiladora de arroz",
+    title: "Diseño de una apiladora de arroz",
     description: [
-      "Diseño y análisis de viabilidad de una apiladora de arroz usando energía renovable para su implementación en una comunidad agricola en desarrollo.",
+      "Diseño y análisis de viabilidad de una apiladora de arroz usando energía renovable para su implementación en una comunidad agrícola en desarrollo.",
     ],
     link: "",
     github:
@@ -530,7 +530,7 @@ export const proyectos = [
   {
     title: "Proceso de fabricación flexible",
     description: [
-      "<strong>Objetivo:</strong><br />Rediseñar el sistema de fabricación de botellas de una empresa, para la reducción de los tiempos de producción, aumento de la flexibilidad del sistema y la rentabilidad de la empresa.<br /><strong>Descripción:</strong><br />Una empresa quiere montar una fabrica de botellas de plástico, esta industria ha adquirido varias maquinarias automatizadas para el proceso de elaboración de materia prima, estas ya han sido instaladas y automatizadas respectivamente.<br /> Las siguientes fases, que son:<br /> *El proceso de mezclado<br /> *El proceso de formación de botellas<br />*El proceso de paletizado de botellas<br />",
+      "Rediseñar el sistema de fabricación de botellas de una empresa, para la reducción de los tiempos de producción asi como el aumento de la flexibilidad del sistema y la rentabilidad de la empresa.",
     ],
     link: "https://www.canva.com/design/DAFLZCEZKGQ/C2buCKb0bE4fJlOO9KrR9w/watch?utm_content=DAFLZCEZKGQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Flexible-Manufacturing-Process",
@@ -540,7 +540,7 @@ export const proyectos = [
   {
     title: "Calidad de Producción de Azúcar",
     description: [
-      "<strong>Objetivo:</strong><br />Mejorar el sistema de producción de calidad de azúcar mediante la modificación en las etapas de fabricación evitando el frecuente rechazo del producto al momento de su entrega.<br /><strong>Problematica:</strong><br />Una planta encargada de generar azúcar se conforma por una serie de etapas que contienenciertos procesos que hacen la producción de forma eficiente:<br />*Cristalización<br />*Entrega y extracción de jugo<br />*Evaporación<br />*Purificación del jugo<br />La planta no cuenta con controles de la calidad del azúcar, por ello los clientes desean realizar pruebas de calidad en base a la toma de muestras aleatorias, de manera que, si el producto pasa las pruebas, se acepte el pedido, por otra parte, si el producto no pasa las pruebas de calidad, el producto será devuelto en su totalidad independientemente del tamaño del pedido.",
+      "<strong>Objetivo:</strong><br />Mejorar el sistema de producción de calidad de azúcar mediante la modificación en las etapas de fabricación evitando el frecuente rechazo del producto al momento de su entrega.<br /><strong>Problemática:</strong><br />Una planta encargada de generar azúcar se conforma por una serie de etapas que contienen ciertos procesos que hacen la producción de forma eficiente:<br />*Cristalización<br />*Entrega y extracción de jugo<br />*Evaporación<br />*Purificación del jugo<br />La planta no cuenta con controles de la calidad del azúcar, por ello los clientes desean realizar pruebas de calidad en base a la toma de muestras aleatorias de manera que, si el producto pasa las pruebas, se acepte el pedido, por otra parte, si el producto no pasa las pruebas de calidad, el producto será devuelto en su totalidad independientemente del tamaño del pedido.",
     ],
     link: "https://www.youtube.com/watch?v=AorRajwlaNI",
     github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
