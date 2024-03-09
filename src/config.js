@@ -348,12 +348,6 @@ export const certificados = [
 ];
 
 //Publicaciones
-
-/* R. Estrada, V. Asanza, D. Torres, I. Valeriano and D. Alvarado, 
-"Comparison of Traditional ML Algorithms for Energy Consumption Prediction Models,"
- 2022 IEEE Future Networks World Forum (FNWF), Montreal, QC, Canada, 2022, 
- pp. 232-237, doi: 10.1109/FNWF55208.2022.00048.
- */
 export const publicaciones = [
   {
     title:
