@@ -365,6 +365,36 @@ export const publicaciones = [
     codigo: "doi: 10.1109/FNWF55208.2022.00048.",
     image: "",
   },
+  {
+    title:
+      "Comparison of Traditional ML Algorithms for Energy Consumption Prediction Models",
+    authors: "R. Estrada, V. Asanza, D. Torres, I. Valeriano and D. Alvarado",
+    description:
+      " 2022 IEEE Future Networks World Forum (FNWF), Montreal, QC, Canada, 2022, pp. 232-237,",
+    link: "https://ieeexplore.ieee.org/document/10056675",
+    codigo: "doi: 10.1109/FNWF55208.2022.00048.",
+    image: "",
+  },
+  {
+    title:
+      "Comparison of Traditional ML Algorithms for Energy Consumption Prediction Models",
+    authors: "R. Estrada, V. Asanza, D. Torres, I. Valeriano and D. Alvarado",
+    description:
+      " 2022 IEEE Future Networks World Forum (FNWF), Montreal, QC, Canada, 2022, pp. 232-237,",
+    link: "https://ieeexplore.ieee.org/document/10056675",
+    codigo: "doi: 10.1109/FNWF55208.2022.00048.",
+    image: "",
+  },
+  {
+    title:
+      "Comparison of Traditional ML Algorithms for Energy Consumption Prediction Models",
+    authors: "R. Estrada, V. Asanza, D. Torres, I. Valeriano and D. Alvarado",
+    description:
+      " 2022 IEEE Future Networks World Forum (FNWF), Montreal, QC, Canada, 2022, pp. 232-237,",
+    link: "https://ieeexplore.ieee.org/document/10056675",
+    codigo: "doi: 10.1109/FNWF55208.2022.00048.",
+    image: "",
+  },
 ];
 
 // Tags iconos de proyectos
