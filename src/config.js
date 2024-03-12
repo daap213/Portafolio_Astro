@@ -21,7 +21,7 @@ import Publications from "@/components/seccions/Publications.astro";
 import Education from "@/components/seccions/Education.astro";
 import AllSkills from "@/components/seccions/AllSkills.astro";
 import Certificados from "@/components/seccions/Certificados.astro";
-import PreviewFooter from "@/components/otros/PreviewFooter.astro";
+import PreviewFooter from "@/components/seccions/PreviewFooter.astro";
 
 //Datos paginaweb
 const titleWeb =
@@ -552,7 +552,7 @@ export const proyectos = [
 // Informacion de PreviewFooter.astro
 export const previewFooter = {
   name: nombre,
-  logo: "/img/logo.webp",
+  logo: "/img/me_panoramico.webp",
   frase:
     "Dios creó la Tierra, la naturaleza, los animales, la humanidad… Y al ingeniero para que se encargue de todo lo demás.",
 };
