@@ -1,7 +1,19 @@
 # 👨🏻‍💻 Porfolio para programadores y desarrolladores
 
+# Mi portafolio
+
+### Descripción:
+
+Adaptación un temple de desarrollado por Midudev, para realizar un portafolio que muestre mi CV a modo de web.
+
 <div align="center">
-<a href="https://daap213.github.io/MiPortafolio/">
+
+![GitHub de Midudev](https://github.com/midudev)
+
+</div>
+
+<div align="center">
+<a href="https://daap213.github.io/Portafolio_Astro/">
 <img src="./public/img/porfolio.webp">
 </a>
 <p></p>
