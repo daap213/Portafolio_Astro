@@ -16,7 +16,7 @@ import Tailwind from "@/components/icons/Tailwind.astro";
 //Componentes:
 import Hero from "@/components/seccions/Hero.astro";
 import Experience from "@/components/seccions/Experience.astro";
-import Projects from "@/components/seccions/Projects.astro";
+import Projects from "@/components/seccions/Portafolio_Astro/projects.astro";
 import Publications from "@/components/seccions/Publications.astro";
 import Education from "@/components/seccions/Education.astro";
 import AllSkills from "@/components/seccions/AllSkills.astro";
@@ -217,7 +217,7 @@ export const sobreMi = {
     est: "Trabajo remoto",
     url: urlLinkedIn,
   },
-  imagenRuta: "/img/me.webp",
+  imagenRuta: "/Portafolio_Astro/img/me.webp",
   contenido: [
     "Soy ecuatoriano, <strong>Ingeniero Mecatrónico</strong> apasionado por el mundo tecnológico y con ello la posibilidad de ser parte de él creando mis propios proyectos.",
     "Cuento con habilidades y experiencia relacionada a <strong>diseño 3D, programación web y aplicaciones, análisis de datos, ciencia de datos, y desarrollo de sistemas embebidos</strong>. Capaz de trabajar y aprender de forma autónoma, predispuesto a trabajar en equipos multidisciplinarios para compartir, mejorar o aprender conocimientos varios.",
@@ -454,7 +454,7 @@ export const proyectos = [
     ],
     link: "https://www.canva.com/design/DAFX9yXkbVk/DF8M5vSArvJTF0_a-fzVag/watch?utm_content=DAFX9yXkbVk&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/MonitoreoTermico",
-    image: "/projects/dron.webp",
+    image: "/Portafolio_Astro/projects/dron.webp",
     tags: [],
   },
   {
@@ -465,7 +465,7 @@ export const proyectos = [
     link: "https://www.canva.com/design/DAFJCVANN2g/aI2GtYXtZmk-CkhwHaSFEQ/watch?utm_content=DAFJCVANN2g&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github:
       "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
-    image: "/projects/simulacionOPC.webp",
+    image: "/Portafolio_Astro/projects/simulacionOPC.webp",
     tags: [],
   },
   {
@@ -475,7 +475,7 @@ export const proyectos = [
     ],
     link: "https://www.canva.com/design/DAE1pn3Eg34/oXMn2FTiOz5Hzs9sH3YjGQ/watch?utm_content=DAE1pn3Eg34&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Control-de-bombas-Proteus-",
-    image: "/projects/bombasUbidots.webp",
+    image: "/Portafolio_Astro/projects/bombasUbidots.webp",
     tags: [],
   },
   {
@@ -485,7 +485,7 @@ export const proyectos = [
     ],
     link: "",
     github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
-    image: "/projects/protesisRodilla.webp",
+    image: "/Portafolio_Astro/projects/protesisRodilla.webp",
     tags: [],
   },
   {
@@ -495,7 +495,7 @@ export const proyectos = [
     ],
     link: "",
     github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
-    image: "/projects/bombasLabview.webp",
+    image: "/Portafolio_Astro/projects/bombasLabview.webp",
     tags: [],
   },
   {
@@ -505,7 +505,7 @@ export const proyectos = [
     ],
     link: "",
     github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
-    image: "/projects/ejeMolino.webp",
+    image: "/Portafolio_Astro/projects/ejeMolino.webp",
     tags: [],
   },
   {
@@ -516,7 +516,7 @@ export const proyectos = [
     link: "",
     github:
       "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
-    image: "/projects/apiladoraArroz.webp",
+    image: "/Portafolio_Astro/projects/apiladoraArroz.webp",
     tags: [],
   },
   {
@@ -526,7 +526,7 @@ export const proyectos = [
     ],
     link: "https://youtu.be/xK9o9PrH0lI",
     github: "https://github.com/daap213/Alimentador-de-mascotas",
-    image: "/projects/petFeeder.webp",
+    image: "/Portafolio_Astro/projects/petFeeder.webp",
     tags: [],
   },
   {
@@ -536,7 +536,7 @@ export const proyectos = [
     ],
     link: "https://www.canva.com/design/DAFLZCEZKGQ/C2buCKb0bE4fJlOO9KrR9w/watch?utm_content=DAFLZCEZKGQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Flexible-Manufacturing-Process",
-    image: "/projects/fabricacionFlexible.webp",
+    image: "/Portafolio_Astro/projects/fabricacionFlexible.webp",
     tags: [],
   },
   {
@@ -546,7 +546,7 @@ export const proyectos = [
     ],
     link: "https://www.youtube.com/watch?v=AorRajwlaNI",
     github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
-    image: "/projects/sinfoto.webp",
+    image: "/Portafolio_Astro/projects/sinfoto.webp",
     tags: [],
   },
 ];
@@ -554,7 +554,7 @@ export const proyectos = [
 // Informacion de PreviewFooter.astro
 export const previewFooter = {
   name: nombre,
-  logo: "/img/me_panoramico.webp",
+  logo: "/Portafolio_Astro/img/me_panoramico.webp",
   frase:
     "Dios creó la Tierra, la naturaleza, los animales, la humanidad… Y al ingeniero para que se encargue de todo lo demás.",
 };
