@@ -1,6 +1,7 @@
 //iconos links
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
+import GitHubIcon from "@/components/icons/GitHub.astro";
 // icons sections
 import Briefcase from "@/components/icons/Briefcase.astro";
 import CodeIcon from "@/components/icons/Code.astro";
@@ -37,6 +38,7 @@ const tituloUniversidad = "Ingeniero Mecatrónico";
 
 //Link
 const urlCorreo = "mailto:daap21.3@gmail.com";
+const urlGithub = "https://github.com/daap213";
 const urlLinkedIn = "https://www.linkedin.com/in/daniel-alvarado-peláez/";
 
 // contacto
@@ -232,6 +234,11 @@ export const sobreMi = {
       title: "LinkedIn",
       icon: LinkedInIcon,
       url: urlLinkedIn,
+    },
+    {
+      title: "GitHub",
+      icon: GitHubIcon,
+      url: urlGithub,
     },
   ],
 };
