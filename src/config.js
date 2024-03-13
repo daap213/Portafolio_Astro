@@ -250,6 +250,7 @@ export const experiencias = [
       "Actualización de versiones de los servicios ofrecidos a diferentes clientes.",
       "Ensamblar y realizar pruebas de funcionamiento de sistemas embebidos de la empresa.",
     ],
+    link: ""
   },
   {
     date: "MAR 2022 - Abr 2022",
@@ -268,6 +269,7 @@ export const experiencias = [
     description: [
       "Diseño con el framework Laravel, Se desarrolló una  plataforma web educativa, con las funcionalidades de crear, perfiles y roles, y pruebas online, asociadas a libros, cursos y encargados.",
     ],
+    link: ""
   },
 ];
 
