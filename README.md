@@ -8,15 +8,14 @@ Adaptación un temple de desarrollado por Midudev, para realizar un portafolio q
 
 <div align="center">
 
-![GitHub de Midudev](https://github.com/midudev)
+[GitHub de Midudev](https://github.com/midudev)
 
 </div>
 
 <div align="center">
 <a href="https://daap213.github.io/Portafolio_Astro/">
-<img src="./public/img/porfolio.webp">
+<img src="./public/img/Miporfolio.webp">
 </a>
-<p></p>
 </div>
 
 <div align="center">
