@@ -16,7 +16,7 @@ import Tailwind from "@/components/icons/Tailwind.astro";
 //Componentes:
 import Hero from "@/components/seccions/Hero.astro";
 import Experience from "@/components/seccions/Experience.astro";
-import Projects from "@/components/seccions/projects.astro";
+import Projects from "@/components/seccions/Projects.astro";
 import Publications from "@/components/seccions/Publications.astro";
 import Education from "@/components/seccions/Education.astro";
 import AllSkills from "@/components/seccions/AllSkills.astro";
