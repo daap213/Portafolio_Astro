@@ -10,8 +10,8 @@ import { certificados } from "@cv";
     {
       certificados.items.map((certificado) => (
         <li class="">
-          <TimeHist title={certificado.title}>
-            <time class="p-0 m-0 md:col-span-3 text-right text-sm text-gray-600/80 dark:text-white/80">
+          <TimeHist title={certificado.title} extraclass = "md:col-span-3">
+            <time class="p-0 m-0 md:col-span-2 text-right text-sm text-gray-600/80 dark:text-white/80">
               {certificado.date}
             </time>
           </TimeHist>
