@@ -1,11 +1,11 @@
 ---
 interface Props {
   title: string;
-  company: string;
+  company?: string;
   date?: string;
   extraclass?: string;
 }
-const { title, company, date,extraclass = "md:col-span-2" } = Astro.props;
+const { title, company, date, extraclass = "md:col-span-2" } = Astro.props;
 ---
 
 <div
