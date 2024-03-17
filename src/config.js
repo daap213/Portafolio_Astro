@@ -1,7 +1,9 @@
 //iconos links
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
+import CVIcon from "@/components/icons/CV.astro";
 import GitHubIcon from "@/components/icons/GitHub.astro";
+
 // icons sections
 import Briefcase from "@/components/icons/Briefcase.astro";
 import CodeIcon from "@/components/icons/Code.astro";
@@ -10,6 +12,7 @@ import PublicationIcon from "@/components/icons/Publication.astro";
 import EducationIcon from "@/components/icons/Education.astro";
 import SkillIcon from "@/components/icons/Skill.astro";
 import CertIcon from "@/components/icons/Certificado.astro";
+
 // icons tags
 import NextJS from "@/components/icons/NextJS.astro";
 import Tailwind from "@/components/icons/Tailwind.astro";
@@ -40,6 +43,8 @@ const tituloUniversidad = "Ingeniero Mecatrónico";
 const urlCorreo = "mailto:daap21.3@gmail.com";
 const urlGithub = "https://github.com/daap213";
 const urlLinkedIn = "https://www.linkedin.com/in/daniel-alvarado-peláez/";
+const urlCVEN = "/Portafolio_Astro/docs/CV_EN.pdf";
+const urlCVESP = "/Portafolio_Astro/docs/CV_ESP.pdf";
 
 // contacto
 const contactObj = {
@@ -225,6 +230,16 @@ export const sobreMi = {
     "Cuento con habilidades y experiencia relacionada a <strong>diseño 3D, programación web y aplicaciones, análisis de datos, ciencia de datos, y desarrollo de sistemas embebidos</strong>. Capaz de trabajar y aprender de forma autónoma, predispuesto a trabajar en equipos multidisciplinarios para compartir, mejorar o aprender conocimientos varios.",
   ],
   botones: [
+    {
+      title: "CV Esp",
+      icon: CVIcon,
+      url: urlCVESP,
+    },
+    {
+      title: "CV En",
+      icon: CVIcon,
+      url: urlCVEN,
+    },
     {
       title: "Contáctame",
       icon: MailIcon,

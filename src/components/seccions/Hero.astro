@@ -2,6 +2,11 @@
 import Badge from "@/components/otros/Badge.astro";
 import SocialPill from "@/components/otros/SocialPill.astro";
 import { sobreMi } from "@cv";
+
+function isPdfUrl(url: string): boolean {
+  const extension = url.split(".").pop()?.toLowerCase();
+  return extension === "pdf";
+}
 ---
 
 <div class="max-w-4xl">
@@ -38,8 +43,11 @@ import { sobreMi } from "@cv";
   <nav class="flex flex-wrap gap-4 mt-8">
     {
       sobreMi.botones.map((boton) => (
-        <SocialPill href={boton.url}>
-          <boton.icon class="size-4" />
+        <SocialPill
+          href={boton.url}
+          download={isPdfUrl(boton.url) ? boton.url.split("/").pop() : ""}
+        >
+          <boton.icon class="size-5" />
           {boton.title}
         </SocialPill>
       ))
