@@ -3,7 +3,7 @@ export const languages = {
     en: '🇺🇸',
 };
 
-export const defaultLang = 'es';
+export const defaultLang = 'Portafolio_Astro/';
 
 export const ui = {
     es: {
