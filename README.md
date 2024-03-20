@@ -15,7 +15,7 @@ Adaptación un temple de desarrollado por Midudev, para realizar un portafolio q
 
 <div align="center">
 
-[Mi portafolio](https://daap213.github.io/MiPortafolio/)
+[Mi portafolio](https://daap213.github.io/Portafolio_Astro/)
 
 </div>
 
