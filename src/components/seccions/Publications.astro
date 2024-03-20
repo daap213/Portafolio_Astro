@@ -1,10 +1,13 @@
 ---
-import { publicaciones } from "@cv";
+interface Props {
+  infoSeccion: any;
+}
+const { infoSeccion } = Astro.props;
 ---
 
 <div class="flex flex-wrap gap-4">
   {
-    publicaciones.map(({ title, authors, description, link, codigo }) => (
+    infoSeccion.map(({ title, authors, description, link, codigo }: any) => (
       <div
         title={description}
         class="block text-balance max-w-sm p-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"

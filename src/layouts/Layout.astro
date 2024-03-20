@@ -3,16 +3,20 @@ import "@fontsource-variable/onest";
 import Header from "@/components/otros/NavBar.astro";
 import Footer from "@/components/seccions/Footer.astro";
 import { ViewTransitions } from "astro:transitions";
+const { currentLocale } = Astro;
+
 interface Props {
   title: string;
   description: string;
+  navItems: any;
+  footerInfor: any;
 }
 
-const { description, title } = Astro.props;
+const { description, title, navItems, footerInfor } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={currentLocale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -34,9 +38,9 @@ const { description, title } = Astro.props;
       dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
     >
     </div>
-    <Header />
+    <Header navItems={navItems} ; />
     <slot />
-    <Footer />
+    <Footer footerInfor={footerInfor} />
     <style is:global>
       :root {
         color-scheme: light dark;

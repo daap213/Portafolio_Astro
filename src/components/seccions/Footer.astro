@@ -1,6 +1,9 @@
 ---
 const currentYear = new Date().getFullYear();
-import { footerInfor } from "@cv";
+interface Props {
+  footerInfor: any;
+}
+const { footerInfor } = Astro.props;
 ---
 
 <footer

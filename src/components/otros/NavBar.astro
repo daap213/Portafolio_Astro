@@ -1,6 +1,10 @@
 ---
 import ThemeToggle from "@/components/otros/ThemeToggle.astro";
-import { navItems } from "@cv";
+import LanguagePicker from "./LanguagePicker.astro";
+interface Props {
+  navItems: any;
+}
+const { navItems } = Astro.props;
 ---
 
 <header
@@ -10,7 +14,7 @@ import { navItems } from "@cv";
     class="menu flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
   >
     {
-      navItems.map((link) => (
+      navItems.map((link: Props["navItems"]) => (
         <a
           class="relative block px-2 py-2 transition hover:text-yellow-500 dark:hover:text-yellow-400"
           aria-label={link.label}
@@ -21,6 +25,7 @@ import { navItems } from "@cv";
       ))
     }
     <ThemeToggle />
+    <LanguagePicker />
   </nav>
 </header>
 

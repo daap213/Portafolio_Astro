@@ -1,11 +1,14 @@
 ---
 import ExperienceItem from "@/components/otros/TimeHistItem.astro";
-import { gradosCompletados } from "@cv";
+interface Props {
+  infoSeccion: any;
+}
+const { infoSeccion } = Astro.props;
 ---
 
 <ol class="relative mt-16">
   {
-    gradosCompletados.map((grados) => (
+    infoSeccion.map((grados: any) => (
       <li class="">
         <ExperienceItem title={grados.title} company={grados.institution}>
           <time class="p-0 m-0 md:col-span-3 text-right text-sm text-gray-600/80 dark:text-white/80">

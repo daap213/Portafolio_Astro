@@ -29,7 +29,7 @@ import PreviewFooter from "@/components/seccions/PreviewFooter.astro";
 
 //Datos paginaweb
 const titleWeb =
-  "Porfolio: Daniel Alvarado Peláez - Ingeniero Mecatrónico, Desarrollador y Programador";
+  "Portafolio: Daniel Alvarado Peláez - Ingeniero Mecatrónico, Desarrollador y Programador";
 const descriptionWeb =
   "Graduado de la carrera Mecatrónica en la universidad ESPOL, en Ecuador.";
 
@@ -45,7 +45,7 @@ const urlGithub = "https://github.com/daap213";
 const urlLinkedIn = "https://www.linkedin.com/in/daniel-alvarado-peláez/";
 const urlCVEN = "/Portafolio_Astro/docs/CV_EN.pdf";
 const urlCVESP = "/Portafolio_Astro/docs/CV_ESP.pdf";
-
+const rutaProyect = "/Portafolio_Astro/img/projects/"
 // contacto
 const contactObj = {
   title: "Contacto",
@@ -123,98 +123,6 @@ export const navItems = [
   },
 ];
 
-//Las secciones visibles en index.astro
-const seccionItems = [
-  {
-    navitems: navItems[0],
-    name: "Sobre mí",
-    icon: ProfileCheck,
-    classSeccion: "py-16 md:py-32",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white",
-    classIcon: "size-8",
-    seccion: Hero,
-  },
-  {
-    navitems: navItems[1],
-    name: "Experiencia laboral",
-    icon: Briefcase,
-    classSeccion: "",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-    classIcon: "size-8",
-    seccion: Experience,
-  },
-  {
-    navitems: navItems[2],
-    name: "Proyectos",
-    icon: CodeIcon,
-    classSeccion: "",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-    classIcon: "size-7",
-    seccion: Projects,
-  },
-  {
-    navitems: navItems[3],
-    name: "Publicaciones",
-    icon: PublicationIcon,
-    classSeccion: "",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-    classIcon: "size-8",
-    seccion: Publications,
-  },
-  {
-    navitems: navItems[4],
-    name: "Educación",
-    icon: EducationIcon,
-    classSeccion: "",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-    classIcon: "size-8",
-    seccion: Education,
-  },
-  {
-    navitems: navItems[5],
-    name: "Habilidades y herramientas",
-    icon: SkillIcon,
-    classSeccion: "",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-    classIcon: "size-8",
-    seccion: AllSkills,
-  },
-  {
-    navitems: navItems[6],
-    name: "Certificados",
-    icon: CertIcon,
-    classSeccion: "",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-    classIcon: "size-7",
-    seccion: Certificados,
-  },
-  {
-    navitems: contactObj,
-    name: "Frase de un ingeniero:",
-    icon: "",
-    classSeccion: "",
-    classTittle:
-      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/50 dark:text-white",
-    classIcon: "",
-    seccion: PreviewFooter,
-  },
-];
-
-//Secciones y titulo de la pag index.astro
-export const pagIndex = {
-  title: titleWeb,
-  description: descriptionWeb,
-  primeraSeccion: seccionItems[0],
-  secciones: seccionItems.slice(1),
-};
-
 // Informacion de hero.astro (sobre mi)
 export const sobreMi = {
   nombre: nombre,
@@ -275,7 +183,7 @@ export const experiencias = [
     link: ""
   },
   {
-    date: "MAR 2022 - Abr 2022",
+    date: "MAR 2022 - ABR 2022",
     title: "Ayudante de investigación (Técnico de desarrollo)",
     company: "Centro de Tecnologías de Información (CTI)",
     description: [
@@ -285,7 +193,7 @@ export const experiencias = [
     //link: "https://twitch.tv/midudev",
   },
   {
-    date: "MAY 2021 - Jul 2021",
+    date: "MAY 2021 - JUL 2021",
     title: "Programador web",
     company: "Edu4lab",
     description: [
@@ -316,6 +224,8 @@ export const gradosCompletados = [
 export const certificados =
 {
   link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
+  titleLink: "Drive con certificados",
+  title: "Cursos realizados",
   items: [
     {
       date: "MAR 2023",
@@ -476,7 +386,7 @@ export const proyectos = [
     ],
     link: "https://www.canva.com/design/DAFX9yXkbVk/DF8M5vSArvJTF0_a-fzVag/watch?utm_content=DAFX9yXkbVk&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/MonitoreoTermico",
-    image: "/Portafolio_Astro/projects/dron.webp",
+    image: rutaProyect + "dron.webp",
     tags: [],
   },
   {
@@ -487,7 +397,7 @@ export const proyectos = [
     link: "https://www.canva.com/design/DAFJCVANN2g/aI2GtYXtZmk-CkhwHaSFEQ/watch?utm_content=DAFJCVANN2g&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github:
       "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
-    image: "/Portafolio_Astro/projects/simulacionOPC.webp",
+    image: rutaProyect + "simulacionOPC.webp",
     tags: [],
   },
   {
@@ -497,7 +407,7 @@ export const proyectos = [
     ],
     link: "https://www.canva.com/design/DAE1pn3Eg34/oXMn2FTiOz5Hzs9sH3YjGQ/watch?utm_content=DAE1pn3Eg34&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Control-de-bombas-Proteus-",
-    image: "/Portafolio_Astro/projects/bombasUbidots.webp",
+    image: rutaProyect + "bombasUbidots.webp",
     tags: [],
   },
   {
@@ -507,7 +417,7 @@ export const proyectos = [
     ],
     link: "",
     github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
-    image: "/Portafolio_Astro/projects/protesisRodilla.webp",
+    image: rutaProyect + "protesisRodilla.webp",
     tags: [],
   },
   {
@@ -517,7 +427,7 @@ export const proyectos = [
     ],
     link: "",
     github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
-    image: "/Portafolio_Astro/projects/bombasLabview.webp",
+    image: rutaProyect + "bombasLabview.webp",
     tags: [],
   },
   {
@@ -527,7 +437,7 @@ export const proyectos = [
     ],
     link: "",
     github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
-    image: "/Portafolio_Astro/projects/ejeMolino.webp",
+    image: rutaProyect + "ejeMolino.webp",
     tags: [],
   },
   {
@@ -538,7 +448,7 @@ export const proyectos = [
     link: "",
     github:
       "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
-    image: "/Portafolio_Astro/projects/apiladoraArroz.webp",
+    image: rutaProyect + "apiladoraArroz.webp",
     tags: [],
   },
   {
@@ -548,7 +458,7 @@ export const proyectos = [
     ],
     link: "https://youtu.be/xK9o9PrH0lI",
     github: "https://github.com/daap213/Alimentador-de-mascotas",
-    image: "/Portafolio_Astro/projects/petFeeder.webp",
+    image: rutaProyect + "petFeeder.webp",
     tags: [],
   },
   {
@@ -558,7 +468,7 @@ export const proyectos = [
     ],
     link: "https://www.canva.com/design/DAFLZCEZKGQ/C2buCKb0bE4fJlOO9KrR9w/watch?utm_content=DAFLZCEZKGQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
     github: "https://github.com/daap213/Flexible-Manufacturing-Process",
-    image: "/Portafolio_Astro/projects/fabricacionFlexible.webp",
+    image: rutaProyect + "fabricacionFlexible.webp",
     tags: [],
   },
   {
@@ -568,7 +478,7 @@ export const proyectos = [
     ],
     link: "https://www.youtube.com/watch?v=AorRajwlaNI",
     github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
-    image: "/Portafolio_Astro/projects/sinfoto.webp",
+    image: rutaProyect + "sinfoto.webp",
     tags: [],
   },
 ];
@@ -589,4 +499,105 @@ export const footerInfor = {
   url: urlLinkedIn,
   mencion: "Plantilla diseñada por Midudev.",
   urlMencion: "https://linkedin.com/in/midudev"
+};
+
+//Las secciones visibles en index.astro
+const seccionItems = [
+  {
+    navitems: navItems[0],
+    name: "Sobre mí",
+    icon: ProfileCheck,
+    classSeccion: "py-16 md:py-32",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white",
+    classIcon: "size-8",
+    seccion: Hero,
+    seccionInfo: sobreMi
+  },
+  {
+    navitems: navItems[1],
+    name: "Experiencia laboral",
+    icon: Briefcase,
+    classSeccion: "",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-8",
+    seccion: Experience,
+    seccionInfo: experiencias
+  },
+  {
+    navitems: navItems[2],
+    name: "Proyectos",
+    icon: CodeIcon,
+    classSeccion: "",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-7",
+    seccion: Projects,
+    seccionInfo: proyectos
+  },
+  {
+    navitems: navItems[3],
+    name: "Publicaciones",
+    icon: PublicationIcon,
+    classSeccion: "",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-8",
+    seccion: Publications,
+    seccionInfo: publicaciones
+  },
+  {
+    navitems: navItems[4],
+    name: "Educación",
+    icon: EducationIcon,
+    classSeccion: "",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-8",
+    seccion: Education,
+    seccionInfo: gradosCompletados
+  },
+  {
+    navitems: navItems[5],
+    name: "Habilidades y herramientas",
+    icon: SkillIcon,
+    classSeccion: "",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-8",
+    seccion: AllSkills,
+    seccionInfo: habilidades
+  },
+  {
+    navitems: navItems[6],
+    name: "Certificados",
+    icon: CertIcon,
+    classSeccion: "",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+    classIcon: "size-7",
+    seccion: Certificados,
+    seccionInfo: certificados
+  },
+  {
+    navitems: contactObj,
+    name: "Frase de un ingeniero:",
+    icon: "",
+    classSeccion: "",
+    classTittle:
+      "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/50 dark:text-white",
+    classIcon: "",
+    seccion: PreviewFooter,
+    seccionInfo: previewFooter
+
+  },
+];
+
+//Secciones y titulo de la pag index.astro
+export const pagIndex = {
+  title: titleWeb,
+  description: descriptionWeb,
+  primeraSeccion: seccionItems[0],
+  secciones: seccionItems.slice(1),
 };

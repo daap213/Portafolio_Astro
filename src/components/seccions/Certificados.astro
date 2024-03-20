@@ -2,15 +2,18 @@
 import LinkInline from "@/components/otros/LinkInline.astro";
 import TimeHist from "@/components/otros/TimeHistItem.astro";
 import DropdownText from "@/components/otros/DropdownText.astro";
-import { certificados } from "@cv";
+interface Props {
+  infoSeccion: any;
+}
+const { infoSeccion } = Astro.props;
 ---
 
-<DropdownText titulo="Cursos realizados:">
+<DropdownText titulo={infoSeccion.title + ":"}>
   <ol class="relative pt-3">
     {
-      certificados.items.map((certificado) => (
+      infoSeccion.items.map((certificado: any) => (
         <li class="">
-          <TimeHist title={certificado.title} extraclass = "md:col-span-3">
+          <TimeHist title={certificado.title} extraclass="md:col-span-3">
             <time class="p-0 m-0 md:col-span-2 text-right text-sm text-gray-600/80 dark:text-white/80">
               {certificado.date}
             </time>
@@ -20,8 +23,8 @@ import { certificados } from "@cv";
     }
   </ol>
 </DropdownText>
-<LinkInline href={certificados.link}>
-  Drive con certificados{" "}
+<LinkInline href={infoSeccion.link}>
+  {infoSeccion.titleLink}{" "}
   <svg
     xmlns="http://www.w3.org/2000/svg"
     class="w-5 icon icon-tabler icon-tabler-chevron-right"
