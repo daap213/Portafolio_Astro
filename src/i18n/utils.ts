@@ -16,6 +16,6 @@ export function useTranslations(lang: keyof typeof ui) {
 
 export function useTranslatedPath(lang: keyof typeof ui) {
     return function translatePath(path: string, l: string = lang) {
-        return !showDefaultLang && l === defaultLang ? path : `/Portafolio_Astro/${l}${path}`
+        return !showDefaultLang && l === defaultLang ? path : `/${l}${path}`
     }
 }
