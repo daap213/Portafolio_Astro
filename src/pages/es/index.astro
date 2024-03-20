@@ -1,0 +1,43 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SectionContainer from "@/components/otros/SectionContainer.astro";
+import { pagIndex } from "@cv/es";
+import { navItems } from "@cv/es";
+import { footerInfor } from "@cv/es";
+
+const primeraSeccion = pagIndex.primeraSeccion;
+const secciones = pagIndex.secciones;
+---
+
+<Layout
+  title={pagIndex.title}
+  description={pagIndex.description}
+  navItems={navItems}
+  footerInfor={footerInfor}
+>
+  <main class="px-4">
+    <SectionContainer
+      id={primeraSeccion.navitems.id}
+      class={primeraSeccion.classSeccion}
+    >
+      <h2 class={primeraSeccion.classTittle}>
+        <primeraSeccion.icon class={primeraSeccion.classIcon} />
+        {primeraSeccion.name}
+      </h2>
+      <primeraSeccion.seccion infoSeccion={primeraSeccion.seccionInfo} />
+    </SectionContainer>
+  </main>
+  <div class="space-y-24 px-4">
+    {
+      secciones.map((bloque) => (
+        <SectionContainer id={bloque.navitems.id} class={bloque.classSeccion}>
+          <h2 class={bloque.classTittle}>
+            {bloque.icon && <bloque.icon class={bloque.classIcon} />}
+            {bloque.name}
+          </h2>
+          <bloque.seccion infoSeccion={bloque.seccionInfo} />
+        </SectionContainer>
+      ))
+    }
+  </div>
+</Layout>
