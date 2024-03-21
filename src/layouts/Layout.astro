@@ -11,9 +11,10 @@ interface Props {
   navItems: any;
   footerInfor: any;
   rutaLeng: string;
+  ui: any;
 }
 
-const { description, title, navItems, footerInfor, rutaLeng } = Astro.props;
+const { description, title, navItems, footerInfor, rutaLeng, ui } = Astro.props;
 ---
 
 <!doctype html>
@@ -39,7 +40,7 @@ const { description, title, navItems, footerInfor, rutaLeng } = Astro.props;
       dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
     >
     </div>
-    <Header navItems={navItems} rutaLeng={rutaLeng} ; />
+    <Header navItems={navItems} rutaLeng={rutaLeng} ui={ui} ; />
     <slot />
     <Footer footerInfor={footerInfor} />
     <style is:global>

@@ -4,6 +4,8 @@ import SectionContainer from "@/components/otros/SectionContainer.astro";
 import { pagIndex } from "@cv/es";
 import { navItems } from "@cv/es";
 import { footerInfor } from "@cv/es";
+import { ui } from "@cv/es";
+
 const rutaLeng = "/Portafolio_Astro/en/";
 
 const primeraSeccion = pagIndex.primeraSeccion;
@@ -16,6 +18,7 @@ const secciones = pagIndex.secciones;
   navItems={navItems}
   footerInfor={footerInfor}
   rutaLeng={rutaLeng}
+  ui={ui}
 >
   <main class="px-4">
     <SectionContainer
@@ -26,7 +29,10 @@ const secciones = pagIndex.secciones;
         <primeraSeccion.icon class={primeraSeccion.classIcon} />
         {primeraSeccion.name}
       </h2>
-      <primeraSeccion.seccion infoSeccion={primeraSeccion.seccionInfo} />
+      <primeraSeccion.seccion
+        infoSeccion={primeraSeccion.seccionInfo}
+        ui={ui}
+      />
     </SectionContainer>
   </main>
   <div class="space-y-24 px-4">
@@ -37,7 +43,7 @@ const secciones = pagIndex.secciones;
             {bloque.icon && <bloque.icon class={bloque.classIcon} />}
             {bloque.name}
           </h2>
-          <bloque.seccion infoSeccion={bloque.seccionInfo} />
+          <bloque.seccion infoSeccion={bloque.seccionInfo} ui={ui} />
         </SectionContainer>
       ))
     }

@@ -2,9 +2,10 @@
 import SunIcon from "@/components/icons/Sun.astro";
 import MoonIcon from "@/components/icons/Moon.astro";
 import SystemIcon from "@/components/icons/System.astro";
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+interface Props {
+  ui: any;
+}
+const { ui } = Astro.props;
 const THEMES = ["Light", "Dark", "System"];
 ---
 
@@ -13,7 +14,7 @@ const THEMES = ["Light", "Dark", "System"];
     id="theme-toggle-btn"
     class="appearance-none border-none flex hover:scale-125 transition"
   >
-    <span class="sr-only">{t("ThemeToggle.span.title")}</span>
+    <span class="sr-only">{ui.ThemeToggle_title}</span>
     <SunIcon id="light" class="theme-toggle-icon size-5 transition-all" />
     <MoonIcon
       id="dark"

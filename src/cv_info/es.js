@@ -601,3 +601,9 @@ export const pagIndex = {
   primeraSeccion: seccionItems[0],
   secciones: seccionItems.slice(1),
 };
+
+export const ui = {
+  project_dropdownText_title: 'Descripción:',
+  experience_dropdownText_title: 'Responsabilidades y actividades:',
+  ThemeToggle_span_title: 'Elige el tema'
+}

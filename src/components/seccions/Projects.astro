@@ -3,13 +3,12 @@ import GitHub from "@/components/icons/GitHub.astro";
 import Link from "@/components/icons/Link.astro";
 import LinkButton from "@/components/otros/LinkButton.astro";
 import DropdownText from "@/components/otros/DropdownText.astro";
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+
 interface Props {
   infoSeccion: any;
+  ui: any;
 }
-const { infoSeccion } = Astro.props;
+const { infoSeccion, ui } = Astro.props;
 ---
 
 <div class="flex flex-col gap-y-16">
@@ -50,7 +49,7 @@ const { infoSeccion } = Astro.props;
                 )}
               </ul>
             </div>
-            <DropdownText titulo={t("project.dropdownText.title")}>
+            <DropdownText titulo={ui.project_dropdownText_title}>
               {description.map((content: any) => (
                 <p
                   class="mt-2 ml-1 text-justify text-gray-700 dark:text-gray-200"
