@@ -1,24 +1,24 @@
 ---
 import ThemeToggle from "@/components/otros/ThemeToggle.astro";
-import LanguagePicker from "./LanguagePicker.astro";
 interface Props {
   navItems: any;
   rutaLeng: string;
   ui: any;
 }
 const { navItems, rutaLeng, ui } = Astro.props;
+const [, , label] = rutaLeng.split("/");
 ---
 
 <header
   class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
 >
   <nav
-    class="menu flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="menu flex flex-wrap px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
   >
     {
       navItems.map((link: Props["navItems"]) => (
         <a
-          class="relative block px-2 py-2 transition hover:text-yellow-500 dark:hover:text-yellow-400"
+          class="relative block px-2 py-2 mb-2 mr-2 md:mb-0 md:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400 sm:px-3 sm:py-1 md:px-4 md:py-2"
           aria-label={link.label}
           href={link.url}
         >
@@ -26,8 +26,16 @@ const { navItems, rutaLeng, ui } = Astro.props;
         </a>
       ))
     }
-    <ThemeToggle ui={ui} />
-    <LanguagePicker rutaLeng={rutaLeng} />
+    <a
+      class="relative block px-2 py-2 mb-2 mr-2 md:mb-0 md:mr-0 sm:px-3 sm:py-1 md:px-4 md:py-2"
+      ><ThemeToggle ui={ui} /></a
+    >
+    <a
+      href={rutaLeng}
+      class="relative block px-2 py-2 mb-2 mr-2 md:mb-0 md:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400 sm:px-3 sm:py-1 md:px-4 md:py-2"
+    >
+      {label}</a
+    >
   </nav>
 </header>
 

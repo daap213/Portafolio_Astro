@@ -1,9 +1,0 @@
----
-interface Props {
-  rutaLeng: string;
-}
-const { rutaLeng } = Astro.props;
-const [, , label] = rutaLeng.split("/");
----
-
-<a href={rutaLeng} class="hover:scale-125 transition">{label}</a>
