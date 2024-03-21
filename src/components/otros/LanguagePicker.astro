@@ -1,19 +1,9 @@
 ---
-import { languages } from "@/i18n/ui";
-import { getLangFromUrl, useTranslatedPath } from "@/i18n/utils";
-const lang = getLangFromUrl(Astro.url);
-const translatePath = useTranslatedPath(lang);
+interface Props {
+  rutaLeng: string;
+}
+const { rutaLeng } = Astro.props;
+const [, , label] = rutaLeng.split("/");
 ---
-<div class="flex flex-row gap-2">
-  {
-    Object.entries(languages).map(([langPrefix, label]) => {     
-      if (langPrefix != lang) return (
-        <a
-         href={"/Portafolio_Astro"+ translatePath("/", langPrefix)}
-         class="hover:scale-125 transition"
-         >{label}</a>)
-      return <></>
-      
-    })
-  }
-</div>
+
+<a href={rutaLeng} class="hover:scale-125 transition">{label}</a>

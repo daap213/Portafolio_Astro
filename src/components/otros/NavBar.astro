@@ -3,8 +3,9 @@ import ThemeToggle from "@/components/otros/ThemeToggle.astro";
 import LanguagePicker from "./LanguagePicker.astro";
 interface Props {
   navItems: any;
+  rutaLeng: string;
 }
-const { navItems } = Astro.props;
+const { navItems, rutaLeng } = Astro.props;
 ---
 
 <header
@@ -25,7 +26,7 @@ const { navItems } = Astro.props;
       ))
     }
     <ThemeToggle />
-    <LanguagePicker />
+    <LanguagePicker rutaLeng={rutaLeng} />
   </nav>
 </header>
 

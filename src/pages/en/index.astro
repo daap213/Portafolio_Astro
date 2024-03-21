@@ -4,6 +4,7 @@ import SectionContainer from "@/components/otros/SectionContainer.astro";
 import { pagIndex } from "@cv/en";
 import { navItems } from "@cv/en";
 import { footerInfor } from "@cv/en";
+const rutaLeng = "/Portafolio_Astro/es/";
 
 const primeraSeccion = pagIndex.primeraSeccion;
 const secciones = pagIndex.secciones;
@@ -14,6 +15,7 @@ const secciones = pagIndex.secciones;
   description={pagIndex.description}
   navItems={navItems}
   footerInfor={footerInfor}
+  rutaLeng={rutaLeng}
 >
   <main class="px-4">
     <SectionContainer
