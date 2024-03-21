@@ -7,12 +7,12 @@ import robotsTxt from "astro-robots-txt"
 export default defineConfig({
   integrations: [tailwind(), robotsTxt()],
   site: 'https://daap213.github.io/Portafolio_Astro', // site: 'https://porfolio.dev/' for local
-  base: '/Portafolio_Astro',
+  base: '/',
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],
     routing: {
-      prefixDefaultLocale: false
+      prefixDefaultLocale: true
     },
     fallback: {
       en: 'en'
