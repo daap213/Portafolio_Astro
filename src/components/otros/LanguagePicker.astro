@@ -11,7 +11,7 @@ const translatePath = useTranslatedPath(lang);
       if (langPrefix == lang) return <></>
       return (
         <a
-         href={ translatePath("/", langPrefix)}
+         href={translatePath("/", langPrefix)}
          class="hover:scale-125 transition"
          >{label}</a>)
     })
