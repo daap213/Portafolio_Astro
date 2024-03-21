@@ -4,11 +4,10 @@ import { getLangFromUrl, useTranslatedPath } from "@/i18n/utils";
 const lang = getLangFromUrl(Astro.url);
 const translatePath = useTranslatedPath(lang);
 ---
-
 <div class="flex flex-row gap-2">
   {
     Object.entries(languages).map(([langPrefix, label]) => {     
-      if (langPrefix == lang) return <></>
+      if (langPrefix !== lang) return <></>
       return (
         <a
          href={"/Portafolio_Astro"+ translatePath("/", langPrefix)}
