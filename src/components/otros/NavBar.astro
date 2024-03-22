@@ -59,6 +59,7 @@ const [, , label] = rutaLeng.split("/");
 </header>
 
 <script>
+function setupNavbar() {
   const navbar = document.getElementById("navbar");
   const toggleButton = document.getElementById("toggleButton");
 
@@ -70,6 +71,7 @@ const [, , label] = rutaLeng.split("/");
 
   // Escuchar el clic en el botón de alternancia
   toggleButton?.addEventListener("click", toggleNavbar);
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -94,6 +96,10 @@ const [, , label] = rutaLeng.split("/");
       observer.observe(target);
     }
   });
+}
+
+// Llamar a la función setupNavbar para configurar el navbar inicialmente
+setupNavbar();
 </script>
 
 <style>
