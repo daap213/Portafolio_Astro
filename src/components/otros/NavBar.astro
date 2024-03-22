@@ -64,7 +64,7 @@ const [, , label] = rutaLeng.split("/");
 
   // Función para alternar la visibilidad del navbar
   function toggleNavbar() {
-    navbar?.classList.toggle("hidden");
+    navbar?.classList.toggle("grid-hidden");
     toggleButton?.classList.toggle("open");
   }
 
@@ -115,11 +115,13 @@ const [, , label] = rutaLeng.split("/");
 
   /* Estilos para pantallas pequeñas */
   @media (max-width: 767px) {
-    #navbar {
+    .menu {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
     }
-
+    .grid-hidden {
+      display: none;
+    }
     /* Estilo adicional para el botón de alternancia abierto en pantallas pequeñas */
     #toggleButton.open svg {
       transform: rotate(90deg);
