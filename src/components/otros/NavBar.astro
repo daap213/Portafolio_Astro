@@ -10,12 +10,37 @@ const [, , label] = rutaLeng.split("/");
 ---
 
 <header
-  class="fixed top-0 z-10 flex items-center justify-between md:justify-center w-full mx-auto mt-2"
+  class="fixed top-0 z-10 flex items-center justify-end sm:justify-center w-full mx-auto mt-2"
 >
+  <!-- Navbar -->
+  <nav
+    id="navbar"
+    class="hidden menu sm:flex sm:flex-wrap px-3 text-sm font-medium sm:rounded-full rounded-lg text-gray-600 dark:text-gray-200 justify-center items-center"
+  >
+    {
+      navItems.map((link: Props["navItems"]) => (
+        <a
+          class="px-1 py-1 mb-2 mr-2 sm:mb-0 sm:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400  sm:py-2 sm:px-3"
+          aria-label={link.label}
+          href={link.url}
+        >
+          {link.title}
+        </a>
+      ))
+    }
+    <a class="px-1 py-1 mb-2 mr-2 sm:mb-0 sm:mr-0 sm:py-2 sm:px-3"
+      ><ThemeToggle ui={ui} /></a
+    >
+    <a
+      href={rutaLeng}
+      class="px-1 py-1 mb-2 mr-2 sm:mb-0 sm:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400 sm:py-2 sm:px-3"
+      >{label}</a
+    >
+  </nav>
   <!-- Botón para mostrar/ocultar el navbar en pantallas pequeñas -->
   <button
     id="toggleButton"
-    class="block md:hidden px-4 py-2 text-gray-600 hover:text-gray-900 transition"
+    class="block sm:hidden px-4 py-2 text-gray-600 hover:text-gray-900 transition"
   >
     <!-- Ícono de menú (puedes cambiarlo según tu preferencia) -->
     <svg
@@ -32,32 +57,6 @@ const [, , label] = rutaLeng.split("/");
         d="M4 6h16M4 12h16m-7 6h7"></path>
     </svg>
   </button>
-
-  <!-- Navbar -->
-  <nav
-    id="navbar"
-    class="hidden menu md:flex md:flex-wrap px-3 text-sm font-medium md:rounded-full rounded-lg text-gray-600 dark:text-gray-200 justify-center items-center"
-  >
-    {
-      navItems.map((link: Props["navItems"]) => (
-        <a
-          class="px-2 py-2 mb-2 mr-2 md:mb-0 md:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400  sm:py-1 md:px-4 md:py-2"
-          aria-label={link.label}
-          href={link.url}
-        >
-          {link.title}
-        </a>
-      ))
-    }
-    <a class="px-2 py-2 mb-2 mr-2 md:mb-0 md:mr-0 sm:py-1 md:px-4 md:py-2"
-      ><ThemeToggle ui={ui} /></a
-    >
-    <a
-      href={rutaLeng}
-      class="px-2 py-2 mb-2 mr-2 md:mb-0 md:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400 sm:py-1 md:px-4 md:py-2"
-      >{label}</a
-    >
-  </nav>
 </header>
 
 <script>
@@ -104,9 +103,11 @@ const [, , label] = rutaLeng.split("/");
     animation-timeline: scroll();
     animation-range: 0 100px;
   }
+
   button {
     animation: nav-shadown 1s linear both;
   }
+
   @keyframes nav-shadown {
     to {
       @apply shadow-lg ring-1 backdrop-blur bg-gray-300/60 dark:bg-gray-800/60 ring-white/10;
