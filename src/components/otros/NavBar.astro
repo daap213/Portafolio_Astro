@@ -10,17 +10,17 @@ const [, , label] = rutaLeng.split("/");
 ---
 
 <header
-  class="fixed top-0 z-10 flex items-center justify-end sm:justify-center w-full mx-auto mt-2"
+  class="fixed top-0 z-10 flex items-center justify-end md:justify-center w-full mx-auto mt-2"
 >
   <!-- Navbar -->
   <nav
     id="navbar"
-    class="hidden menu sm:flex sm:flex-wrap px-3 text-sm font-medium sm:rounded-full rounded-lg text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="hidden menu md:flex md:flex-wrap px-3 text-sm font-medium md:rounded-full rounded-lg text-gray-600 dark:text-gray-200 justify-center items-center"
   >
     {
       navItems.map((link: Props["navItems"]) => (
         <a
-          class="px-1 py-1 mb-2 mr-2 sm:mb-0 sm:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400  sm:py-2 sm:px-3"
+          class={`px-2 py-2 md:px-4 md:py-2  md:ml-0 transition hover:text-yellow-500 dark:hover:text-yellow-400`}
           aria-label={link.label}
           href={link.url}
         >
@@ -28,19 +28,18 @@ const [, , label] = rutaLeng.split("/");
         </a>
       ))
     }
-    <a class="px-1 py-1 mb-2 mr-2 sm:mb-0 sm:mr-0 sm:py-2 sm:px-3"
-      ><ThemeToggle ui={ui} /></a
+    <a class="px-2 py-2 md:px-4 md:py-2 ml-2 md:ml-0"><ThemeToggle ui={ui} /></a
     >
     <a
       href={rutaLeng}
-      class="px-1 py-1 mb-2 mr-2 sm:mb-0 sm:mr-0 transition hover:text-yellow-500 dark:hover:text-yellow-400 sm:py-2 sm:px-3"
+      class="px-2 py-2 md:px-4 md:py-2 ml-2 md:ml-0 transition hover:text-yellow-500 dark:hover:text-yellow-400"
       >{label}</a
     >
   </nav>
   <!-- Botón para mostrar/ocultar el navbar en pantallas pequeñas -->
   <button
     id="toggleButton"
-    class="block sm:hidden px-4 py-2 text-gray-600 hover:text-gray-900 transition"
+    class="block md:hidden px-4 py-2 text-gray-600 hover:text-gray-900 transition"
   >
     <!-- Ícono de menú (puedes cambiarlo según tu preferencia) -->
     <svg
@@ -114,8 +113,16 @@ const [, , label] = rutaLeng.split("/");
     }
   }
 
-  /* Estilo adicional para el botón de alternancia abierto */
-  #toggleButton.open svg {
-    transform: rotate(90deg);
+  /* Estilos para pantallas pequeñas */
+  @media (max-width: 767px) {
+    #navbar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    /* Estilo adicional para el botón de alternancia abierto en pantallas pequeñas */
+    #toggleButton.open svg {
+      transform: rotate(90deg);
+    }
   }
 </style>
