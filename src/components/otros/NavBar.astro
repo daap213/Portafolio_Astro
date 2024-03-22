@@ -97,22 +97,22 @@ const [, , label] = rutaLeng.split("/");
 </script>
 
 <style>
-  nav {
-    animation: nav-shadown 1s linear both;
-    animation-timeline: scroll();
-    animation-range: 0 100px;
-  }
-
-  button {
-    animation: nav-shadown 1s linear both;
-  }
-
   @keyframes nav-shadown {
     to {
       @apply shadow-lg ring-1 backdrop-blur bg-gray-300/60 dark:bg-gray-800/60 ring-white/10;
     }
   }
+  @media () {
+    nav {
+      animation: nav-shadown 1s linear both;
+      animation-timeline: scroll();
+      animation-range: 0 100px;
+    }
 
+    button {
+      animation: nav-shadown 1s linear both;
+    }
+  }
   /* Estilos para pantallas pequeñas */
   @media (max-width: 767px) {
     .menu {
