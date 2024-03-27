@@ -59,6 +59,8 @@ const [, , label] = rutaLeng.split("/");
 </header>
 
 <script>
+  document.addEventListener("astro:page-load", () => {
+
 console.log("Iniciando el script de NavBar");
   const navbar = document.getElementById("navbar");
   console.log("navbar: ", navbar);
@@ -114,6 +116,7 @@ console.log("Iniciando la funcion de NavBar");
 
   // Escuchar el clic en el botón de alternancia
   toggleButton?.addEventListener("click", toggleNavbar);
+  })
 </script>
 
 <style>
