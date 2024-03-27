@@ -39,7 +39,7 @@ const [, , label] = rutaLeng.split("/");
   <!-- Botón para mostrar/ocultar el navbar en pantallas pequeñas -->
   <button
     id="toggleButton"
-    class="block md:hidden px-4 py-2 text-gray-600 hover:text-gray-900 transition"
+    class="block md:hidden rounded-full px-4 py-2 text-gray-600 hover:text-gray-900 transition"
   >
     <!-- Ícono de menú (puedes cambiarlo según tu preferencia) -->
     <svg
@@ -59,64 +59,44 @@ const [, , label] = rutaLeng.split("/");
 </header>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+document.addEventListener("astro:page-load", () => {
 
-console.log("Iniciando el script de NavBar");
   const navbar = document.getElementById("navbar");
-  console.log("navbar: ", navbar);
   const toggleButton = document.getElementById("toggleButton");
-  console.log("toggleButton: ", toggleButton);
-console.log("Iniciando la funcion de NavBar");
 
   const observer = new IntersectionObserver(
     (entries) => {
-      console.log("Iniciando la funcion observer");
-
       entries.forEach((entry) => {
         const id = entry.target.getAttribute("id");
         const link = document.querySelector(`.menu a[href="#${id}"]`);
-        console.log("link: ",link);
         if (entry.isIntersecting) {
           link?.classList.add("text-yellow-500");
-          console.log("added text-yellow-500");
         } else {
           link?.classList.remove("text-yellow-500");
-          console.log("remove text-yellow-500");
-
         }
       });
-
-      console.log("Finalizando la funcion observer");
     },
     { rootMargin: "-30% 0px -70% 0px" }
   );
- console.log("medio la funcion de NavBar");
   const menuLinks = document.querySelectorAll(".menu a[href^='#']");
 
   menuLinks.forEach((menuLink) => {
-    console.log("Iniciando la funcion de menuLinks");
     const hash = menuLink.getAttribute("href") ?? "";
     const target = document.querySelector(hash);
-    console.log("hash: ", hash,target);
     if (target) {
-      console.log("targetttttt: ", target);
       observer.observe(target);
     }
-
-    console.log("Finalizando la funcion de menuLinks");
   });
 
   // Función para alternar la visibilidad del navbar
   function toggleNavbar() {
-    console.log("Iniciando la funcion de toggleButton");
     navbar?.classList.toggle("grid-hidden");
     toggleButton?.classList.toggle("open");
-    console.log("Finalizando la funcion de toggleButton");
   }
 
   // Escuchar el clic en el botón de alternancia
   toggleButton?.addEventListener("click", toggleNavbar);
-  })
+})
 </script>
 
 <style>
@@ -128,6 +108,7 @@ console.log("Iniciando la funcion de NavBar");
 
   button {
     animation: nav-shadown 1s linear both;
+    
   }
 
   @keyframes nav-shadown {
