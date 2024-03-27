@@ -59,18 +59,13 @@ const [, , label] = rutaLeng.split("/");
 </header>
 
 <script>
-function setupNavbar() {
+console.log("Iniciando el script de NavBar");
   const navbar = document.getElementById("navbar");
+  console.log("navbar: ", navbar);
   const toggleButton = document.getElementById("toggleButton");
-
-  // Función para alternar la visibilidad del navbar
-  function toggleNavbar() {
-    navbar?.classList.toggle("grid-hidden");
-    toggleButton?.classList.toggle("open");
-  }
-
-  // Escuchar el clic en el botón de alternancia
-  toggleButton?.addEventListener("click", toggleNavbar);
+  console.log("toggleButton: ", toggleButton);
+function setupNavbar() {
+console.log("Iniciando la funcion de NavBar");
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -100,6 +95,17 @@ function setupNavbar() {
 
 // Llamar a la función setupNavbar para configurar el navbar inicialmente
 setupNavbar();
+
+  // Función para alternar la visibilidad del navbar
+  function toggleNavbar() {
+    console.log("Iniciando la funcion de toggleButton");
+    navbar?.classList.toggle("grid-hidden");
+    toggleButton?.classList.toggle("open");
+    console.log("Finalizando la funcion de toggleButton");
+  }
+
+  // Escuchar el clic en el botón de alternancia
+  toggleButton?.addEventListener("click", toggleNavbar);
 </script>
 
 <style>
