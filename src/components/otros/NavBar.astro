@@ -59,44 +59,43 @@ const [, , label] = rutaLeng.split("/");
 </header>
 
 <script>
-document.addEventListener("astro:page-load", () => {
+  document.addEventListener("astro:page-load", () => {
+    const navbar = document.getElementById("navbar");
+    const toggleButton = document.getElementById("toggleButton");
 
-  const navbar = document.getElementById("navbar");
-  const toggleButton = document.getElementById("toggleButton");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.getAttribute("id");
+          const link = document.querySelector(`.menu a[href="#${id}"]`);
+          if (entry.isIntersecting) {
+            link?.classList.add("text-yellow-500");
+          } else {
+            link?.classList.remove("text-yellow-500");
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -70% 0px" }
+    );
+    const menuLinks = document.querySelectorAll(".menu a[href^='#']");
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const id = entry.target.getAttribute("id");
-        const link = document.querySelector(`.menu a[href="#${id}"]`);
-        if (entry.isIntersecting) {
-          link?.classList.add("text-yellow-500");
-        } else {
-          link?.classList.remove("text-yellow-500");
-        }
-      });
-    },
-    { rootMargin: "-30% 0px -70% 0px" }
-  );
-  const menuLinks = document.querySelectorAll(".menu a[href^='#']");
+    menuLinks.forEach((menuLink) => {
+      const hash = menuLink.getAttribute("href") ?? "";
+      const target = document.querySelector(hash);
+      if (target) {
+        observer.observe(target);
+      }
+    });
 
-  menuLinks.forEach((menuLink) => {
-    const hash = menuLink.getAttribute("href") ?? "";
-    const target = document.querySelector(hash);
-    if (target) {
-      observer.observe(target);
+    // Función para alternar la visibilidad del navbar
+    function toggleNavbar() {
+      navbar?.classList.toggle("grid-hidden");
+      toggleButton?.classList.toggle("open");
     }
+
+    // Escuchar el clic en el botón de alternancia
+    toggleButton?.addEventListener("click", toggleNavbar);
   });
-
-  // Función para alternar la visibilidad del navbar
-  function toggleNavbar() {
-    navbar?.classList.toggle("grid-hidden");
-    toggleButton?.classList.toggle("open");
-  }
-
-  // Escuchar el clic en el botón de alternancia
-  toggleButton?.addEventListener("click", toggleNavbar);
-})
 </script>
 
 <style>
@@ -108,7 +107,6 @@ document.addEventListener("astro:page-load", () => {
 
   button {
     animation: nav-shadown 1s linear both;
-    
   }
 
   @keyframes nav-shadown {
