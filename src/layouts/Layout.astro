@@ -3,6 +3,8 @@ import "@fontsource-variable/onest";
 import Header from "@/components/otros/NavBar.astro";
 import Footer from "@/components/seccions/Footer.astro";
 import { ViewTransitions } from "astro:transitions";
+import { raizApp } from "@cv/cv";
+
 const { currentLocale } = Astro;
 
 interface Props {
@@ -23,11 +25,7 @@ const { description, title, navItems, footerInfor, rutaLeng, ui } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/Portafolio_Astro/img/logo.webp"
-    />
+    <link rel="icon" type="image/svg+xml" href={raizApp + "img/logo.webp"} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ViewTransitions />

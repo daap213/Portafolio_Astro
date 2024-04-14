@@ -6,7 +6,8 @@ interface Props {
   ui: any;
 }
 const { navItems, rutaLeng, ui } = Astro.props;
-const [, , label] = rutaLeng.split("/");
+let [label, label2, label3] = rutaLeng.split("/");
+label3 = label3 || label2 || label;
 ---
 
 <header
@@ -33,7 +34,7 @@ const [, , label] = rutaLeng.split("/");
     <a
       href={rutaLeng}
       class="px-2 py-2 md:px-4 md:py-2 ml-2 md:ml-0 transition hover:text-yellow-500 dark:hover:text-yellow-400"
-      >{label}</a
+      >{label3}</a
     >
   </nav>
   <!-- Botón para mostrar/ocultar el navbar en pantallas pequeñas -->
