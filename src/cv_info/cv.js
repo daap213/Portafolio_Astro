@@ -3,6 +3,7 @@
 
 export const raizApp = "/"
 const rutaProyect = raizApp + "img/projects/"
+const rutaQR = raizApp + "img/qr/"
 const nombre = "Daniel Alvarado Peláez"
 const siglasNombre = "DAAP"
 const git_user = "daap213"
@@ -17,6 +18,7 @@ export const es = {
     raizApp: raizApp,
     nombre: nombre,
     siglasNombre: siglasNombre,
+    mi_web: "daap213.github.io/Portafolio_Astro/",
     tituloUniversidad: "Ingeniero Mecatrónico",
     nombreTitulo: "Ing. " + nombre,
     titleWeb: "Portafolio: " + nombre + " - Ingeniero Mecatrónico, Desarrollador y Programador",
@@ -84,6 +86,7 @@ export const es = {
     certificados:
     {
         link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
+        qr: rutaQR + "",
         titleLink: "Drive con certificados",
         title: "Cursos realizados",
         items: [
@@ -163,6 +166,7 @@ export const es = {
             link: "https://ieeexplore.ieee.org/document/10056675",
             codigo: "doi: 10.1109/FNWF55208.2022.00048.",
             image: "",
+            qr: rutaQR + "",
         }
     ],
     habilidades: [
@@ -219,10 +223,6 @@ export const es = {
             ],
         },
         {
-            name: "Idiomas",
-            skills: ["Español - Nativo", "Ingles - C1"],
-        },
-        {
             name: "Habilidades personales",
             skills: [
                 "Trabajo en equipo",
@@ -230,6 +230,10 @@ export const es = {
                 "Capacidad de aprendizaje",
                 "Orientación a resultados",
             ],
+        },
+        {
+            name: "Idiomas",
+            skills: ["Español - Nativo", "Ingles - C1"],
         },
     ],
     proyectos: [
@@ -242,6 +246,7 @@ export const es = {
             github: "https://github.com/daap213/MonitoreoTermico",
             image: rutaProyect + "dron.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Simulación OPC en tiempo real",
@@ -253,6 +258,7 @@ export const es = {
                 "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
             image: rutaProyect + "simulacionOPC.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Control de bombas Proteus/Ubidots",
@@ -263,6 +269,7 @@ export const es = {
             github: "https://github.com/daap213/Control-de-bombas-Proteus-",
             image: rutaProyect + "bombasUbidots.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Adaptación de prótesis para rodilla",
@@ -273,6 +280,7 @@ export const es = {
             github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
             image: rutaProyect + "protesisRodilla.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Control de bombeo LABVIEW",
@@ -283,6 +291,7 @@ export const es = {
             github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
             image: rutaProyect + "bombasLabview.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Simulación Dinámica de Mecanismo",
@@ -293,6 +302,7 @@ export const es = {
             github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
             image: rutaProyect + "ejeMolino.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Diseño de una apiladora de arroz",
@@ -304,6 +314,7 @@ export const es = {
                 "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
             image: rutaProyect + "apiladoraArroz.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Alimentador de mascotas automático",
@@ -314,6 +325,7 @@ export const es = {
             github: "https://github.com/daap213/Alimentador-de-mascotas",
             image: rutaProyect + "petFeeder.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Proceso de fabricación flexible",
@@ -324,6 +336,7 @@ export const es = {
             github: "https://github.com/daap213/Flexible-Manufacturing-Process",
             image: rutaProyect + "fabricacionFlexible.webp",
             tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Calidad de Producción de Azúcar",
@@ -334,6 +347,7 @@ export const es = {
             github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
             image: rutaProyect + "sinfoto.webp",
             tags: [],
+            qr: rutaQR + ""
         },
     ],
     previewFooter: {
@@ -352,6 +366,7 @@ export const en = {
     raizApp: raizApp,
     nombre: nombre,
     siglasNombre: siglasNombre,
+    mi_web: "daap213.github.io/Portafolio_Astro/",
     tituloUniversidad: "Mechatronic Engineer",
     nombreTitulo: "Ing. " + nombre,
     titleWeb: "Portafolio: " + nombre + " - Mechatronic Engineer, Developer and Programmer",
@@ -419,6 +434,7 @@ export const en = {
     certificados:
     {
         link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
+        qr: rutaQR + "",
         titleLink: "Drive with certificates",
         title: "Courses taken",
         items: [
@@ -498,6 +514,7 @@ export const en = {
             link: "https://ieeexplore.ieee.org/document/10056675",
             codigo: "doi: 10.1109/FNWF55208.2022.00048.",
             image: "",
+            qr: rutaQR + "",
         }
     ],
     habilidades: [
@@ -554,10 +571,6 @@ export const en = {
             ],
         },
         {
-            name: "Languages",
-            skills: ["Spanish - Native", "English - C1"],
-        },
-        {
             name: "Personal skills",
             skills: [
                 "Teamwork",
@@ -565,6 +578,10 @@ export const en = {
                 "Learning capacity",
                 "Orientation to results",
             ],
+        },
+        {
+            name: "Languages",
+            skills: ["Spanish - Native", "English - C1"],
         },
     ],
     proyectos: [
@@ -576,7 +593,8 @@ export const en = {
             link: "https://www.canva.com/design/DAFX9yXkbVk/DF8M5vSArvJTF0_a-fzVag/watch?utm_content=DAFX9yXkbVk&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
             github: "https://github.com/daap213/MonitoreoTermico",
             image: rutaProyect + "dron.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Real-time OPC Simulation",
@@ -586,7 +604,8 @@ export const en = {
             link: "https://www.canva.com/design/DAFJCVANN2g/aI2GtYXtZmk-CkhwHaSFEQ/watch?utm_content=DAFJCVANN2g&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
             github: "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
             image: rutaProyect + "simulacionOPC.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Proteus/Ubidots Pump Control",
@@ -596,7 +615,8 @@ export const en = {
             link: "https://www.canva.com/design/DAE1pn3Eg34/oXMn2FTiOz5Hzs9sH3YjGQ/watch?utm_content=DAE1pn3Eg34&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
             github: "https://github.com/daap213/Control-de-bombas-Proteus-",
             image: rutaProyect + "bombasUbidots.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Knee Prosthesis Adaptation",
@@ -606,7 +626,8 @@ export const en = {
             link: "",
             github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
             image: rutaProyect + "protesisRodilla.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "LABVIEW Pump Control",
@@ -616,7 +637,8 @@ export const en = {
             link: "",
             github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
             image: rutaProyect + "bombasLabview.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Dynamic Mechanism Simulation",
@@ -626,7 +648,8 @@ export const en = {
             link: "",
             github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
             image: rutaProyect + "ejeMolino.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Rice Stacker Design",
@@ -636,7 +659,8 @@ export const en = {
             link: "",
             github: "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
             image: rutaProyect + "apiladoraArroz.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Automatic Pet Feeder",
@@ -646,7 +670,8 @@ export const en = {
             link: "https://youtu.be/xK9o9PrH0lI",
             github: "https://github.com/daap213/Alimentador-de-mascotas",
             image: rutaProyect + "petFeeder.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Flexible Manufacturing Process",
@@ -656,7 +681,8 @@ export const en = {
             link: "https://www.canva.com/design/DAFLZCEZKGQ/C2buCKb0bE4fJlOO9KrR9w/watch?utm_content=DAFLZCEZKGQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
             github: "https://github.com/daap213/Flexible-Manufacturing-Process",
             image: rutaProyect + "fabricacionFlexible.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         },
         {
             title: "Sugar Production Quality",
@@ -666,7 +692,8 @@ export const en = {
             link: "https://www.youtube.com/watch?v=AorRajwlaNI",
             github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
             image: rutaProyect + "sinfoto.webp",
-            tags: []
+            tags: [],
+            qr: rutaQR + ""
         }
     ],
     previewFooter: {
