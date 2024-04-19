@@ -3,7 +3,7 @@
 
 export const raizApp = "/"
 const rutaProyect = raizApp + "img/projects/"
-const rutaQR = raizApp + "img/qr/"
+export const rutaQR = raizApp + "img/qr/"
 const nombre = "Daniel Alvarado Peláez"
 const siglasNombre = "DAAP"
 const git_user = "daap213"
@@ -86,7 +86,7 @@ export const es = {
     certificados:
     {
         link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
-        qr: rutaQR + "",
+        qr: rutaQR + "qr_certificados_link.png",
         titleLink: "Drive con certificados",
         title: "Cursos realizados",
         items: [
@@ -166,7 +166,7 @@ export const es = {
             link: "https://ieeexplore.ieee.org/document/10056675",
             codigo: "doi: 10.1109/FNWF55208.2022.00048.",
             image: "",
-            qr: rutaQR + "",
+            qr: rutaQR + "qr_publicaciones_link.png",
         }
     ],
     habilidades: [
@@ -177,7 +177,7 @@ export const es = {
         },
         {
             name: "Bases de datos",
-            skills: ["MySQL", "Postgresql", "MongoDB"],
+            skills: ["MySQL", "Postgresql", "MongoDB", "Redis"],
             related: [
                 "MongoDBCompass",
                 "MongoDB Atlas",
@@ -246,7 +246,7 @@ export const es = {
             github: "https://github.com/daap213/MonitoreoTermico",
             image: rutaProyect + "dron.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Dron_para_monitoreo_Térmico.png"
         },
         {
             title: "Simulación OPC en tiempo real",
@@ -258,7 +258,7 @@ export const es = {
                 "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
             image: rutaProyect + "simulacionOPC.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Simulación_OPC_en_tiempo_real.png"
         },
         {
             title: "Control de bombas Proteus/Ubidots",
@@ -269,7 +269,7 @@ export const es = {
             github: "https://github.com/daap213/Control-de-bombas-Proteus-",
             image: rutaProyect + "bombasUbidots.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Control_de_bombas_Proteus_Ubidots.png"
         },
         {
             title: "Adaptación de prótesis para rodilla",
@@ -280,7 +280,7 @@ export const es = {
             github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
             image: rutaProyect + "protesisRodilla.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Adaptación_de_prótesis_para_rodilla.png"
         },
         {
             title: "Control de bombeo LABVIEW",
@@ -291,7 +291,7 @@ export const es = {
             github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
             image: rutaProyect + "bombasLabview.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Control_de_bombeo_LABVIEW.png"
         },
         {
             title: "Simulación Dinámica de Mecanismo",
@@ -302,7 +302,7 @@ export const es = {
             github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
             image: rutaProyect + "ejeMolino.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Simulación_Dinámica_de_Mecanismo.png"
         },
         {
             title: "Diseño de una apiladora de arroz",
@@ -314,7 +314,7 @@ export const es = {
                 "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
             image: rutaProyect + "apiladoraArroz.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Diseño_de_una_apiladora_de_arroz.png"
         },
         {
             title: "Alimentador de mascotas automático",
@@ -325,7 +325,7 @@ export const es = {
             github: "https://github.com/daap213/Alimentador-de-mascotas",
             image: rutaProyect + "petFeeder.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Alimentador_de_mascotas_automático.png"
         },
         {
             title: "Proceso de fabricación flexible",
@@ -336,7 +336,7 @@ export const es = {
             github: "https://github.com/daap213/Flexible-Manufacturing-Process",
             image: rutaProyect + "fabricacionFlexible.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Proceso_de_fabricación_flexible.png"
         },
         {
             title: "Calidad de Producción de Azúcar",
@@ -347,7 +347,7 @@ export const es = {
             github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
             image: rutaProyect + "sinfoto.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Calidad_de_Producción_de_Azúcar.png"
         },
     ],
     previewFooter: {
@@ -434,7 +434,7 @@ export const en = {
     certificados:
     {
         link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
-        qr: rutaQR + "",
+        qr: rutaQR + "qr_certificados_link.png",
         titleLink: "Drive with certificates",
         title: "Courses taken",
         items: [
@@ -514,7 +514,7 @@ export const en = {
             link: "https://ieeexplore.ieee.org/document/10056675",
             codigo: "doi: 10.1109/FNWF55208.2022.00048.",
             image: "",
-            qr: rutaQR + "",
+            qr: rutaQR + "qr_publicaciones_link.png",
         }
     ],
     habilidades: [
@@ -525,7 +525,7 @@ export const en = {
         },
         {
             name: "Databases",
-            skills: ["MySQL", "Postgresql", "MongoDB"],
+            skills: ["MySQL", "Postgresql", "MongoDB", "Redis"],
             related: [
                 "MongoDBCompass",
                 "MongoDB Atlas",
