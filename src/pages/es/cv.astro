@@ -38,8 +38,7 @@ const { currentLocale } = Astro;
       }
 
       h1,
-      h2,
-      h3 {
+      h2 {
         margin-bottom: 0.5em;
       }
 
@@ -72,34 +71,6 @@ const { currentLocale } = Astro;
         margin-bottom: 0.2em;
       }
 
-      .project-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1em;
-      }
-
-      .project-details {
-        flex-grow: 1;
-      }
-
-      .project-image {
-        width: 100px;
-        height: 100px;
-        margin-left: 1em;
-      }
-
-      .project-image a {
-        display: block;
-        margin-top: 0.5em;
-        text-align: right;
-      }
-
-      .certificate-image {
-        width: 100px;
-        height: 100px;
-        margin-right: 1em;
-      }
-
       .certificate-link {
         display: flex;
         align-items: center;
@@ -114,6 +85,8 @@ const { currentLocale } = Astro;
           <img
             src={raizApp + "img/me.webp"}
             alt="Mi_Perfil"
+            loading="eager"
+            decoding="async"
             class="object-cover h-full bg-black/20"
             style="width: 130px; height: 160px; object-position: 100% 40%"
           />
@@ -160,7 +133,7 @@ const { currentLocale } = Astro;
         {
           es.experiencias.map((experiencia) => (
             <>
-              <h3 class="mt-4 font-semibold ">{experiencia.title}</h3>
+              <h3 class="mt-4 mb-2 font-semibold ">{experiencia.title}</h3>
               <h4 class="text-end font-semibold">
                 <small>{experiencia.company + " / " + experiencia.date}</small>
               </h4>
@@ -180,8 +153,8 @@ const { currentLocale } = Astro;
         <h2 class="text-lg font-extrabold">Plublicaciones</h2>
         {
           es.publicaciones.map((publicacion) => (
-            <div class="project-container">
-              <div class="project-details">
+            <div class="project-container  flex items-center">
+              <div class="w-full">
                 <h3 class="mt-4 font-semibold ">{publicacion.title}</h3>
                 <p class="border-t text-sm px-3 py-2  border-gray-400 rounded text-justify">
                   {publicacion.description + " " + publicacion.authors}
@@ -191,9 +164,9 @@ const { currentLocale } = Astro;
                   set:html={publicacion.codigo}
                 />
               </div>
-              <a href={publicacion.link}>
+              <a href={publicacion.link} target="_blank">
                 <img
-                  class="project-image"
+                  class="w-40"
                   src={publicacion.qr}
                   loading="eager"
                   decoding="async"
@@ -209,17 +182,17 @@ const { currentLocale } = Astro;
         <h2 class="text-lg font-extrabold">Proyectos</h2>
         {
           es.proyectos.map((proyecto) => (
-            <div class="project-container">
-              <div class="project-details">
+            <div class="flex items-center flex-col-2">
+              <div class="w-full">
                 <h3 class="mt-4 font-semibold ">{proyecto.title}</h3>
                 <p
                   class="border-t text-sm px-3 py-2  border-gray-400 rounded text-justify"
                   set:html={proyecto.description}
                 />
               </div>
-              <a href="enlace-a-imagen1">
+              <a href={proyecto.github} target="_blank">
                 <img
-                  class="project-image"
+                  class="w-40"
                   src={proyecto.qr}
                   loading="eager"
                   decoding="async"
@@ -233,25 +206,21 @@ const { currentLocale } = Astro;
 
       <section id="habilidades">
         <h2 class="text-lg font-extrabold">Habilidades</h2>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-4 text-center gap-4">
           {
             es.habilidades.map((habilidad) => (
               <>
-                <div class="grid pl-2 border-l border-gray-300">
+                <div class="grid pl-2 border-l border-b border-gray-300">
                   <h3 class="mt-1 font-semibold">{habilidad.name}</h3>
                   {habilidad.skills.map((hab) => (
-                    <div class="h-auto max-w-full my-auto text-center border-b border-gray-400">
-                      {hab}
-                    </div>
+                    <p>{hab}</p>
                   ))}
                 </div>
                 {habilidad.related && (
-                  <div class="grid gap-1">
-                    <h3 class="mt-1 font-semibold ">Relacionado</h3>
+                  <div class="grid gap-1  border-b">
+                    <h3 class="mt-1 font-semibold ">Relacionados</h3>
                     {habilidad.related.map((hab) => (
-                      <div class="h-auto max-w-full my-auto  text-center border-b border-gray-400">
-                        {hab}
-                      </div>
+                      <p>{hab}</p>
                     ))}
                   </div>
                 )}
@@ -266,20 +235,25 @@ const { currentLocale } = Astro;
         {
           es.certificados.items.map((certificado) => (
             <>
-              <h3 class="mt-4 font-semibold ">{certificado.title}</h3>
+              <h3 class="mt-2 font-semibold ">{certificado.title}</h3>
               <h4 class="text-end border-b border-gray-400">
                 <small>{certificado.date}</small>
               </h4>
             </>
           ))
         }
-        <div class="mt-5 certificate-link">
+        <div class="mt-4 certificate-link">
           <img
             class="certificate-image"
             src={es.certificados.qr}
+            loading="eager"
+            decoding="async"
+            style="width: 130px; height: 130px;"
             alt="Imagen de certificado"
           />
-          <a href={es.certificados.link}>Enlace a los certificados</a>
+          <a href={es.certificados.link} target="_blank"
+            >Enlace a los certificados</a
+          >
         </div>
       </section>
 
@@ -288,7 +262,7 @@ const { currentLocale } = Astro;
         {
           es.gradosCompletados.map((grado) => (
             <>
-              <h3 class="mt-4 font-semibold ">{grado.title}</h3>
+              <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
               <h4 class="text-end border-b border-gray-400">
                 <small>{grado.institution + " / " + grado.date}</small>
               </h4>
