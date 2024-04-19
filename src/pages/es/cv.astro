@@ -213,14 +213,14 @@ const { currentLocale } = Astro;
                 <div class="grid pl-2 border-l border-b border-gray-300">
                   <h3 class="mt-1 font-semibold">{habilidad.name}</h3>
                   {habilidad.skills.map((hab) => (
-                    <p>{hab}</p>
+                    <p>• {hab}</p>
                   ))}
                 </div>
                 {habilidad.related && (
                   <div class="grid gap-1  border-b">
                     <h3 class="mt-1 font-semibold ">Relacionados</h3>
                     {habilidad.related.map((hab) => (
-                      <p>{hab}</p>
+                      <p>• {hab}</p>
                     ))}
                   </div>
                 )}
