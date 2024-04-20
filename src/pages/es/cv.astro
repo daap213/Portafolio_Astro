@@ -18,6 +18,16 @@ const { currentLocale } = Astro;
     />
 
     <style>
+      /* Agregar estilos para evitar saltos de página no deseados */
+      /*   #experiencia,
+      #publicaciones,
+      #proyectos,
+      #habilidades,
+      #certificados,
+      #educacion {
+        page-break-inside: avoid;
+      } */
+
       body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -76,202 +86,225 @@ const { currentLocale } = Astro;
         align-items: center;
       }
     </style>
+    <script>
+      window.addEventListener("load", () => {
+        const titles = document.querySelectorAll("h2, h3, p");
+
+        titles.forEach((title) => {
+          const section = title.closest("div");
+          //console.log("Titulo: ", title);
+
+          if (section) {
+            const sectionBottom = section.getBoundingClientRect().bottom;
+            const titleBottom = title.getBoundingClientRect().bottom;
+
+            if (titleBottom < sectionBottom) {
+              console.log("Seccion: ", section);
+              section.style.breakInside = "avoid-page";
+            }
+          }
+        });
+      });
+    </script>
   </head>
+</html>
 
-  <body>
-    <div class="container">
-      <section id="informacion-general">
-        <div class="contact-info">
-          <img
-            src={raizApp + "img/me.webp"}
-            alt="Mi_Perfil"
-            loading="eager"
-            decoding="async"
-            class="object-cover h-full bg-black/20"
-            style="width: 130px; height: 160px; object-position: 100% 40%"
-          />
+<body>
+  <div class="container">
+    <section id="informacion-general">
+      <div class="contact-info">
+        <img
+          src={raizApp + "img/me.webp"}
+          alt="Mi_Perfil"
+          loading="eager"
+          decoding="async"
+          class="object-cover h-full bg-black/20"
+          style="width: 130px; height: 160px; object-position: 100% 40%"
+        />
+        <div>
+          <p><strong>Nombre:</strong> {es.nombre}</p>
+          <p><strong>Título:</strong> {es.tituloUniversidad}</p>
+          <p><strong>Fecha de Nacimiento:</strong> {es.cumpleaños}</p>
+          <p><strong>Dirección:</strong> {es.ubicacion}</p>
+          <p><strong>Email:</strong> {es.correo}</p>
+        </div>
+      </div>
+      <div class="contact-info mt-3">
+        <a
+          href={"https://www.linkedin.com/in/" + es.linkedin_user}
+          target="_blank"
+          ><i class="fab fa-linkedin fa-lg"></i>
+          <span class="text-sm"> {es.linkedin_user}</span>
+        </a>
+        <a href={"https://github.com/" + es.git_user} target="_blank"
+          ><i class="fab fa-github fa-lg"></i>
+          <span class="text-sm"> {es.git_user}</span>
+        </a>
+        <a href="https://daap213.github.io/Portafolio_Astro/" target="_blank"
+          ><i class="fas fa-globe fa-lg"></i>
+          <span class="text-sm"> {es.mi_web}</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="sobre-mi">
+      <h2 class="text-lg font-extrabold">Sobre Mí</h2>
+      {
+        es.sobremi.map((content: any) => (
           <div>
-            <p><strong>Nombre:</strong> {es.nombre}</p>
-            <p><strong>Título:</strong> {es.tituloUniversidad}</p>
-            <p><strong>Fecha de Nacimiento:</strong> {es.cumpleaños}</p>
-            <p><strong>Dirección:</strong> {es.ubicacion}</p>
-            <p><strong>Email:</strong> {es.correo}</p>
-          </div>
-        </div>
-        <div class="contact-info mt-3">
-          <a
-            href={"https://www.linkedin.com/in/" + es.linkedin_user}
-            target="_blank"
-            ><i class="fab fa-linkedin fa-lg"></i>
-            <span class="text-sm"> {es.linkedin_user}</span>
-          </a>
-          <a href={"https://github.com/" + es.git_user} target="_blank"
-            ><i class="fab fa-github fa-lg"></i>
-            <span class="text-sm"> {es.git_user}</span>
-          </a>
-          <a href="https://daap213.github.io/Portafolio_Astro/" target="_blank"
-            ><i class="fas fa-globe fa-lg"></i>
-            <span class="text-sm"> {es.mi_web}</span>
-          </a>
-        </div>
-      </section>
-
-      <section id="sobre-mi">
-        <h2 class="text-lg font-extrabold">Sobre Mí</h2>
-        {
-          es.sobremi.map((content: any) => (
             <p
-              class="text-sm text-justify text-gray-800 dark:[&>strong]:text-black-200 [&>strong]:text-black-500 [&>strong]:font-semibold dark:text-gray-300"
+              class="check_y text-sm text-justify text-gray-800 dark:[&>strong]:text-black-200 [&>strong]:text-black-500 [&>strong]:font-semibold dark:text-gray-300"
               set:html={content}
             />
-          ))
-        }
-      </section>
+          </div>
+        ))
+      }
+    </section>
 
-      <section id="experiencia">
-        <h2 class="text-lg font-extrabold">Experiencia</h2>
+    <section id="experiencia">
+      <h2 class="text-lg font-extrabold">Experiencia</h2>
+      {
+        es.experiencias.map((experiencia) => (
+          <div>
+            <h3 class="mt-4 mb-2 font-semibold ">{experiencia.title}</h3>
+            <h4 class="text-end font-semibold">
+              <small>{experiencia.company + " / " + experiencia.date}</small>
+            </h4>
+            <ul class="border-t text-sm border-gray-400">
+              {experiencia.description.map((activity: any) => (
+                <li class="check_y w-full px-3 py-2 border-b text-justify border-gray-400 ">
+                  {activity}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </section>
+
+    <section id="publicaciones">
+      <h2 class="text-lg font-extrabold">Plublicaciones</h2>
+      {
+        es.publicaciones.map((publicacion) => (
+          <div class="flex items-center">
+            <div class="w-full check_y">
+              <h3 class="mt-4 font-semibold ">{publicacion.title}</h3>
+              <p class="border-t text-sm px-3 py-2  border-gray-400 text-justify">
+                {publicacion.description + " " + publicacion.authors}
+              </p>
+              <p
+                class="text-sm px-3 text-justify font-bold"
+                set:html={publicacion.codigo}
+              />
+            </div>
+            <a href={publicacion.link} target="_blank">
+              <img
+                class="w-40"
+                src={publicacion.qr}
+                loading="eager"
+                decoding="async"
+                alt={publicacion.title}
+              />
+            </a>
+          </div>
+        ))
+      }
+    </section>
+
+    <section id="proyectos">
+      <h2 class="text-lg font-extrabold">Proyectos</h2>
+      {
+        es.proyectos.map((proyecto) => (
+          <div class="flex items-center flex-col-2 check_y">
+            <div class="w-full">
+              <h3 class="mt-4 font-semibold ">{proyecto.title}</h3>
+              <p
+                class="border-t text-sm px-3 py-2  border-gray-400 text-justify"
+                set:html={proyecto.description}
+              />
+            </div>
+            <a href={proyecto.github} target="_blank">
+              <img
+                class="w-40"
+                src={proyecto.qr}
+                loading="eager"
+                decoding="async"
+                alt={proyecto.title}
+              />
+            </a>
+          </div>
+        ))
+      }
+    </section>
+
+    <section id="habilidades">
+      <h2 class="text-lg font-extrabold">Habilidades</h2>
+      <div class="grid grid-cols-1 gap-4">
         {
-          es.experiencias.map((experiencia) => (
+          es.habilidades.map((habilidad) => (
             <>
-              <h3 class="mt-4 mb-2 font-semibold ">{experiencia.title}</h3>
-              <h4 class="text-end font-semibold">
-                <small>{experiencia.company + " / " + experiencia.date}</small>
-              </h4>
-              <ul class="border-t text-sm border-gray-400 rounded">
-                {experiencia.description.map((activity: any) => (
-                  <li class="w-full px-3 py-2 border-b text-justify border-gray-400 ">
-                    {activity}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ))
-        }
-      </section>
-
-      <section id="publicaciones">
-        <h2 class="text-lg font-extrabold">Plublicaciones</h2>
-        {
-          es.publicaciones.map((publicacion) => (
-            <div class="project-container  flex items-center">
-              <div class="w-full">
-                <h3 class="mt-4 font-semibold ">{publicacion.title}</h3>
-                <p class="border-t text-sm px-3 py-2  border-gray-400 rounded text-justify">
-                  {publicacion.description + " " + publicacion.authors}
-                </p>
-                <p
-                  class="text-sm px-3 text-justify font-bold"
-                  set:html={publicacion.codigo}
-                />
-              </div>
-              <a href={publicacion.link} target="_blank">
-                <img
-                  class="w-40"
-                  src={publicacion.qr}
-                  loading="eager"
-                  decoding="async"
-                  alt={publicacion.title}
-                />
-              </a>
-            </div>
-          ))
-        }
-      </section>
-
-      <section id="proyectos">
-        <h2 class="text-lg font-extrabold">Proyectos</h2>
-        {
-          es.proyectos.map((proyecto) => (
-            <div class="flex items-center flex-col-2">
-              <div class="w-full">
-                <h3 class="mt-4 font-semibold ">{proyecto.title}</h3>
-                <p
-                  class="border-t text-sm px-3 py-2  border-gray-400 rounded text-justify"
-                  set:html={proyecto.description}
-                />
-              </div>
-              <a href={proyecto.github} target="_blank">
-                <img
-                  class="w-40"
-                  src={proyecto.qr}
-                  loading="eager"
-                  decoding="async"
-                  alt={proyecto.title}
-                />
-              </a>
-            </div>
-          ))
-        }
-      </section>
-
-      <section id="habilidades">
-        <h2 class="text-lg font-extrabold">Habilidades</h2>
-        <div class="grid grid-cols-4 text-center gap-4">
-          {
-            es.habilidades.map((habilidad) => (
-              <>
-                <div class="grid pl-2 border-l border-b border-gray-300">
-                  <h3 class="mt-1 font-semibold">{habilidad.name}</h3>
-                  {habilidad.skills.map((hab) => (
-                    <p>• {hab}</p>
-                  ))}
+              <div class="check_y grid  border-t border-gray-300">
+                <h3 class="mt-1 font-semibold">{habilidad.name}</h3>
+                <div class="h-auto max-w-full my-auto border-gray-400">
+                  {habilidad.skills.join(" ; ")}
                 </div>
-                {habilidad.related && (
-                  <div class="grid gap-1  border-b">
-                    <h3 class="mt-1 font-semibold ">Relacionados</h3>
-                    {habilidad.related.map((hab) => (
-                      <p>• {hab}</p>
-                    ))}
+              </div>
+              {habilidad.related && (
+                <div class="check_y grid pl-2 border-l border-gray-400">
+                  <h3 class=" font-semibold">Relacionado</h3>
+                  <div class="h-auto  max-w-full my-auto">
+                    {habilidad.related.join(" ; ")}
                   </div>
-                )}
-              </>
-            ))
-          }
-        </div>
-      </section>
-
-      <section id="certificados">
-        <h2 class="text-lg font-extrabold">Certificados</h2>
-        {
-          es.certificados.items.map((certificado) => (
-            <>
-              <h3 class="mt-2 font-semibold ">{certificado.title}</h3>
-              <h4 class="text-end border-b border-gray-400">
-                <small>{certificado.date}</small>
-              </h4>
+                </div>
+              )}
             </>
           ))
         }
-        <div class="mt-4 certificate-link">
-          <img
-            class="certificate-image"
-            src={es.certificados.qr}
-            loading="eager"
-            decoding="async"
-            style="width: 130px; height: 130px;"
-            alt="Imagen de certificado"
-          />
-          <a href={es.certificados.link} target="_blank"
-            >Enlace a los certificados</a
-          >
-        </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="educacion">
-        <h2 class="text-lg font-extrabold">Educación</h2>
-        {
-          es.gradosCompletados.map((grado) => (
-            <>
-              <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
-              <h4 class="text-end border-b border-gray-400">
-                <small>{grado.institution + " / " + grado.date}</small>
-              </h4>
-            </>
-          ))
-        }
-      </section>
+    <section id="certificados">
+      <h2 class="text-lg font-extrabold">Certificados</h2>
+      {
+        es.certificados.items.map((certificado) => (
+          <div class="check_y">
+            <h3 class="mt-2 font-semibold ">{certificado.title}</h3>
+            <h4 class=" text-end border-b border-gray-400">
+              <small>{certificado.date}</small>
+            </h4>
+          </div>
+        ))
+      }
+      <div class="mt-4 certificate-link">
+        <img
+          class="certificate-image"
+          src={es.certificados.qr}
+          loading="eager"
+          decoding="async"
+          style="width: 130px; height: 130px;"
+          alt="Imagen de certificado"
+        />
+        <a href={es.certificados.link} target="_blank"
+          >Enlace a los certificados</a
+        >
+      </div>
+    </section>
 
-      <!--       <section id="referencias">
+    <section id="educacion">
+      <h2 class="text-lg font-extrabold">Educación</h2>
+      {
+        es.gradosCompletados.map((grado) => (
+          <div class="check_y">
+            <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
+            <h4 class="text-end border-b border-gray-400">
+              <small>{grado.institution + " / " + grado.date}</small>
+            </h4>
+          </div>
+        ))
+      }
+    </section>
+
+    <!--       <section id="referencias">
         <h2>Referencias</h2>
         <div class="reference">
           <p>Nombre de la referencia - Cargo - Empresa</p>
@@ -279,6 +312,5 @@ const { currentLocale } = Astro;
           <p>Email: correo@example.com</p>
         </div>
       </section> -->
-    </div>
-  </body>
-</html>
+  </div>
+</body>
