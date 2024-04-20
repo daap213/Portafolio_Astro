@@ -1,7 +1,7 @@
 //   raizApp = "/" para local
 //   raizApp = "/Portafolio_Astro/"  para servidor
 
-export const raizApp = "/"
+export const raizApp = "/Portafolio_Astro/"
 const rutaProyect = raizApp + "img/projects/"
 export const rutaQR = raizApp + "img/qr/"
 const nombre = "Daniel Alvarado Peláez"
