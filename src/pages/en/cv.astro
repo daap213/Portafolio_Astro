@@ -1,5 +1,5 @@
 ---
-import { raizApp, es } from "@cv/cv";
+import { raizApp, en } from "@cv/cv";
 const { currentLocale } = Astro;
 ---
 
@@ -8,8 +8,8 @@ const { currentLocale } = Astro;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{"Currículum Vitae - " + es.nombre}</title>
-    <meta name="description" content={es.descriptionWeb} />
+    <title>{"Currículum Vitae - " + en.nombre}</title>
+    <meta name="description" content={en.descriptionWeb} />
     <link rel="icon" type="image/svg+xml" href={raizApp + "img/me.webp"} />
     <meta name="generator" content={Astro.generator} />
     <link
@@ -110,35 +110,35 @@ const { currentLocale } = Astro;
           style="width: 130px; height: 160px; object-position: 100% 40%"
         />
         <div>
-          <p><strong>Nombre:</strong> {es.nombre}</p>
-          <p><strong>Título:</strong> {es.tituloUniversidad}</p>
-          <p><strong>Fecha de Nacimiento:</strong> {es.cumpleaños}</p>
-          <p><strong>Dirección:</strong> {es.ubicacion}</p>
-          <p><strong>Email:</strong> {es.correo}</p>
+          <p><strong>Name:</strong> {en.nombre}</p>
+          <p><strong>Degree:</strong> {en.tituloUniversidad}</p>
+          <p><strong>Birthdate:</strong> {en.cumpleaños}</p>
+          <p><strong>Address:</strong> {en.ubicacion}</p>
+          <p><strong>E-mail:</strong> {en.correo}</p>
         </div>
       </div>
       <div class="contact-info mt-3">
         <a
-          href={"https://www.linkedin.com/in/" + es.linkedin_user}
+          href={"https://www.linkedin.com/in/" + en.linkedin_user}
           target="_blank"
           ><i class="fab fa-linkedin fa-lg"></i>
-          <span class="text-sm"> {es.linkedin_user}</span>
+          <span class="text-sm"> {en.linkedin_user}</span>
         </a>
-        <a href={"https://github.com/" + es.git_user} target="_blank"
+        <a href={"https://github.com/" + en.git_user} target="_blank"
           ><i class="fab fa-github fa-lg"></i>
-          <span class="text-sm"> {es.git_user}</span>
+          <span class="text-sm"> {en.git_user}</span>
         </a>
         <a href="https://daap213.github.io/Portafolio_Astro/" target="_blank"
           ><i class="fas fa-globe fa-lg"></i>
-          <span class="text-sm"> {es.mi_web}</span>
+          <span class="text-sm"> {en.mi_web}</span>
         </a>
       </div>
     </section>
 
     <section id="sobre-mi">
-      <h2 class="text-lg font-extrabold">Sobre Mí</h2>
+      <h2 class="text-lg font-extrabold">About me</h2>
       {
-        es.sobremi.map((content: any) => (
+        en.sobremi.map((content: any) => (
           <div>
             <p
               class="check_y text-sm text-justify text-gray-800 dark:[&>strong]:text-black-200 [&>strong]:text-black-500 [&>strong]:font-semibold dark:text-gray-300"
@@ -150,9 +150,9 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="experiencia">
-      <h2 class="text-lg font-extrabold">Experiencia</h2>
+      <h2 class="text-lg font-extrabold">Experience</h2>
       {
-        es.experiencias.map((experiencia) => (
+        en.experiencias.map((experiencia) => (
           <div>
             <h3 class="mt-4 mb-2 font-semibold ">{experiencia.title}</h3>
             <h4 class="text-end font-semibold">
@@ -171,9 +171,9 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="publicaciones">
-      <h2 class="text-lg font-extrabold">Plublicaciones</h2>
+      <h2 class="text-lg font-extrabold">Publications</h2>
       {
-        es.publicaciones.map((publicacion) => (
+        en.publicaciones.map((publicacion) => (
           <div class="flex items-center">
             <div class="w-full check_y">
               <h3 class="mt-4 font-semibold ">{publicacion.title}</h3>
@@ -200,9 +200,9 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="proyectos">
-      <h2 class="text-lg font-extrabold">Proyectos</h2>
+      <h2 class="text-lg font-extrabold">Projects</h2>
       {
-        es.proyectos.map((proyecto) => (
+        en.proyectos.map((proyecto) => (
           <div class="flex items-center flex-col-2 check_y">
             <div class="w-full">
               <h3 class="mt-4 font-semibold ">{proyecto.title}</h3>
@@ -226,10 +226,10 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="habilidades">
-      <h2 class="text-lg font-extrabold">Habilidades</h2>
+      <h2 class="text-lg font-extrabold">Skills</h2>
       <div class="grid grid-cols-1 gap-4">
         {
-          es.habilidades.map((habilidad) => (
+          en.habilidades.map((habilidad) => (
             <>
               <div class="check_y grid  border-t border-gray-300">
                 <h3 class="mt-1 font-semibold">{habilidad.name}</h3>
@@ -239,7 +239,7 @@ const { currentLocale } = Astro;
               </div>
               {habilidad.related && (
                 <div class="check_y grid pl-2 border-l border-gray-400">
-                  <h3 class=" font-semibold">Relacionado</h3>
+                  <h3 class=" font-semibold">Related</h3>
                   <div class="h-auto  max-w-full my-auto">
                     {habilidad.related.join(" ; ")}
                   </div>
@@ -252,9 +252,9 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="certificados">
-      <h2 class="text-lg font-extrabold">Certificados</h2>
+      <h2 class="text-lg font-extrabold">Certificates</h2>
       {
-        es.certificados.items.map((certificado) => (
+        en.certificados.items.map((certificado) => (
           <div class="check_y">
             <h3 class="mt-2 font-semibold ">{certificado.title}</h3>
             <h4 class=" text-end border-b border-gray-400">
@@ -266,22 +266,20 @@ const { currentLocale } = Astro;
       <div class="mt-4 certificate-link">
         <img
           class="certificate-image"
-          src={es.certificados.qr}
+          src={en.certificados.qr}
           loading="eager"
           decoding="async"
           style="width: 130px; height: 130px;"
           alt="Imagen de certificado"
         />
-        <a href={es.certificados.link} target="_blank"
-          >Enlace a los certificados</a
-        >
+        <a href={en.certificados.link} target="_blank">Link to certificates</a>
       </div>
     </section>
 
     <section id="educacion">
-      <h2 class="text-lg font-extrabold">Educación</h2>
+      <h2 class="text-lg font-extrabold">Education</h2>
       {
-        es.gradosCompletados.map((grado) => (
+        en.gradosCompletados.map((grado) => (
           <div class="check_y">
             <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
             <h4 class="text-end border-b border-gray-400">
