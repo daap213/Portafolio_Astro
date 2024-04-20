@@ -594,7 +594,7 @@ export const en = {
             github: "https://github.com/daap213/MonitoreoTermico",
             image: rutaProyect + "dron.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Dron_para_monitoreo_Térmico.png"
         },
         {
             title: "Real-time OPC Simulation",
@@ -605,7 +605,7 @@ export const en = {
             github: "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
             image: rutaProyect + "simulacionOPC.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Simulación_OPC_en_tiempo_real.png"
         },
         {
             title: "Proteus/Ubidots Pump Control",
@@ -616,7 +616,7 @@ export const en = {
             github: "https://github.com/daap213/Control-de-bombas-Proteus-",
             image: rutaProyect + "bombasUbidots.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Control_de_bombas_Proteus_Ubidots.png"
         },
         {
             title: "Knee Prosthesis Adaptation",
@@ -627,7 +627,7 @@ export const en = {
             github: "https://github.com/daap213/adaptation-of-knee-prosthesis",
             image: rutaProyect + "protesisRodilla.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Adaptación_de_prótesis_para_rodilla.png"
         },
         {
             title: "LABVIEW Pump Control",
@@ -638,7 +638,7 @@ export const en = {
             github: "https://github.com/daap213/Control-de-bombeo-LABVIEW",
             image: rutaProyect + "bombasLabview.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Control_de_bombeo_LABVIEW.png"
         },
         {
             title: "Dynamic Mechanism Simulation",
@@ -649,7 +649,7 @@ export const en = {
             github: "https://github.com/daap213/SimulacionDinamicaMecanismo",
             image: rutaProyect + "ejeMolino.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Simulación_Dinámica_de_Mecanismo.png"
         },
         {
             title: "Rice Stacker Design",
@@ -660,7 +660,7 @@ export const en = {
             github: "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
             image: rutaProyect + "apiladoraArroz.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Diseño_de_una_apiladora_de_arroz.png"
         },
         {
             title: "Automatic Pet Feeder",
@@ -671,7 +671,7 @@ export const en = {
             github: "https://github.com/daap213/Alimentador-de-mascotas",
             image: rutaProyect + "petFeeder.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Alimentador_de_mascotas_automático.png"
         },
         {
             title: "Flexible Manufacturing Process",
@@ -682,7 +682,7 @@ export const en = {
             github: "https://github.com/daap213/Flexible-Manufacturing-Process",
             image: rutaProyect + "fabricacionFlexible.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Proceso_de_fabricación_flexible.png"
         },
         {
             title: "Sugar Production Quality",
@@ -693,7 +693,7 @@ export const en = {
             github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
             image: rutaProyect + "sinfoto.webp",
             tags: [],
-            qr: rutaQR + ""
+            qr: rutaQR + "qr_Calidad_de_Producción_de_Azúcar.png"
         }
     ],
     previewFooter: {
