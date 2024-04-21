@@ -32,4 +32,10 @@ Adaptación un temple de desarrollado por Midudev, para realizar un portafolio q
 
 </div>
 
-<p></p>
+### Comando para generar QR de proyectos
+
+```http
+  npm run GQR
+```
+
+Las imagenes Qr se guardan en public/img/qr
