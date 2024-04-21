@@ -39,3 +39,11 @@ Adaptación un temple de desarrollado por Midudev, para realizar un portafolio q
 ```
 
 Las imagenes Qr se guardan en public/img/qr
+
+### Comando para generar pdf del CV
+
+```http
+  npm run GPDF
+```
+
+Los pdf Qr se guardan en public/docs
