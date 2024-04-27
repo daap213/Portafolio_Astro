@@ -27,8 +27,25 @@ jobs:
           node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
           package-manager: npm@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
 
-  deploy:
+  generate-pdf:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Generate PDFs
+        run: npm run GPDF
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update PDFs"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    needs: [build, generate-pdf]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
