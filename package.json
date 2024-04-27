@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "GQR": "node ./src/scripts/url_to_qr.js",
-    "GPDF": "node ./src/scripts/pdf_cv.js"
+    "GPDF": "node --env-file=.env.development ./src/scripts/pdf_cv.js"
   },
   "dependencies": {
     "@astrojs/check": "0.5.10",

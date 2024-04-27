@@ -1,5 +1,6 @@
 import { launch } from 'puppeteer';
-console.log("Ejecutando pdf-cv")
+const urlweb = process.env.URLWEB;
+console.log("Ejecutando pdf-cv", urlweb)
 const generatePDF = async (pageURL, pdfFilePath) => {
     console.log("pdf-cv", pageURL, pdfFilePath)
 
@@ -36,8 +37,11 @@ const generatePDF = async (pageURL, pdfFilePath) => {
     await browser.close();
 };
 
+const urlEn = urlweb + "en/cv"
+const urlEs = urlweb + "es/cv"
+
 // Generar el PDF para la versión en inglés
-generatePDF('http://localhost:4321/en/cv', 'public/docs/test/CV_EN.pdf');
+generatePDF(urlEn, "public/docs/test/CV_EN.pdf");
 
 // Generar el PDF para la versión en español
-generatePDF('http://localhost:4321/es/cv', 'public/docs/test/CV_ESP.pdf');
+generatePDF(urlEs, "public/docs/test/CV_ESP.pdf");

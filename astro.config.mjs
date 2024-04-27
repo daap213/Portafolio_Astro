@@ -1,13 +1,12 @@
 import { defineConfig } from 'astro/config'
 import tailwind from "@astrojs/tailwind"
-
 import robotsTxt from "astro-robots-txt"
-
+const raizapp = import.meta.env.RAIZAPP
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), robotsTxt()],
   site: 'https://daap213.github.io', // site: 'https://porfolio.dev/' for local
-  base: '/Portafolio_Astro',
+  base: raizapp,
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],
@@ -16,7 +15,7 @@ export default defineConfig({
       redirectToDefaultLocale: false
     },
     fallback: {
-      en: 'es'
+      en: 'en'
     }
   }
 })

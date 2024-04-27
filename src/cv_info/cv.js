@@ -1,11 +1,11 @@
 //   raizApp = "/" para local
 //   raizApp = "/Portafolio_Astro/"  para servidor
 
-export const raizApp = "/Portafolio_Astro/"
+export const raizApp = import.meta.env.RAIZAPP + "/"
 const rutaProyect = raizApp + "img/projects/"
 export const rutaQR = raizApp + "img/qr/"
 const nombre = "Daniel Alvarado Peláez"
-const siglasNombre = "PEPE"
+const siglasNombre = "DAAP"
 const git_user = "daap213"
 const linkedin_user = "daniel-alvarado-peláez"
 const correo = "daap21.3@gmail.com"
