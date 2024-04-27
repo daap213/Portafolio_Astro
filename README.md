@@ -46,4 +46,4 @@ Las imagenes Qr se guardan en public/img/qr
   npm run GPDF
 ```
 
-Los pdf Qr se guardan en public/docs
+Los pdf de las vistas se guardan en public/docs
