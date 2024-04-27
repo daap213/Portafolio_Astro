@@ -1,5 +1,5 @@
 import { launch } from 'puppeteer';
-const urlweb = process.env.URLWEB;
+const urlweb = 'https://daap213.github.io/Portafolio_Astro/'
 console.log("Ejecutando pdf-cv", urlweb)
 const generatePDF = async (pageURL, pdfFilePath) => {
     console.log("pdf-cv", pageURL, pdfFilePath)
