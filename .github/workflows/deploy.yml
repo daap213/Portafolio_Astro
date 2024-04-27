@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Generate PDFs
-        run: node .\src\scripts\pdf_cv.js
+        run: npm run GPDF
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
