@@ -39,20 +39,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  generate-pdf:
-    needs: [build, deploy]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Install dependencies
-        run: npm install
-      - name: Generate PDFs
-        run: npm run GPDF
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update PDFs"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
