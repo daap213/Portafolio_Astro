@@ -1,6 +1,8 @@
 import { launch } from 'puppeteer';
-
+console.log("Ejecutando pdf-cv")
 const generatePDF = async (pageURL, pdfFilePath) => {
+    console.log("pdf-cv", pageURL, pdfFilePath)
+
     const browser = await launch();
     const page = await browser.newPage();
 

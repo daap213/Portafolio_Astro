@@ -35,6 +35,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: npm install
+      - name: Install dependencies
+        run: npm run dev
       - name: Generate PDFs
         run: npm run GPDF
       - name: Commit and push changes
