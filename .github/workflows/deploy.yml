@@ -49,9 +49,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Generate PDFs
-        run: |
-          URLWEB="${{ needs.deploy.outputs.page_url }}"
-          node ./src/scripts/pdf_cv.js "${URLWEB}"
+        run: node ./src/scripts/pdf_cv.js URLWEB="${{ needs.deploy.outputs.page_url }}"
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
