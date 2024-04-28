@@ -4,7 +4,7 @@ export const config = {
         URLWEB: 'https://daap213.github.io/Portafolio_Astro/'
     },
     dev: {
-        RAIZAPP: '',
+        RAIZAPP: '/',
         URLWEB: 'http://localhost:4321/'
     }
 }

@@ -1,7 +1,9 @@
 //   raizApp = "/" para local
 //   raizApp = "/Portafolio_Astro/"  para servidor
+import { config } from "./config"
 
-export const raizApp = import.meta.env.RAIZAPP + "/"
+const isPROD = import.meta.env.PROD
+export const raizApp = (isPROD) ? config.prod.RAIZAPP + '/' : config.dev.RAIZAPP
 const rutaProyect = raizApp + "img/projects/"
 export const rutaQR = raizApp + "img/qr/"
 const nombre = "Daniel Alvarado Peláez"
