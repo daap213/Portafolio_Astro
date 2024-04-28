@@ -6,7 +6,7 @@ const raizapp = import.meta.env.RAIZAPP
 export default defineConfig({
   integrations: [tailwind(), robotsTxt()],
   site: 'https://daap213.github.io', // site: 'https://porfolio.dev/' for local
-  base: '/Portafolio_Astro',
+  base: raizapp,
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],
