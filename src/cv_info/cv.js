@@ -1,6 +1,6 @@
 //   raizApp = "/" para local
 //   raizApp = "/Portafolio_Astro/"  para servidor
-import { config } from "./config"
+import { config } from "./../../config.js"
 
 const isPROD = import.meta.env.PROD
 export const raizApp = (isPROD) ? config.prod.RAIZAPP + '/' : config.dev.RAIZAPP
