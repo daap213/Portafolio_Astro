@@ -56,7 +56,7 @@ jobs:
 
   generate-pdf:
     if: ${{ needs.changes.outputs.src == 'true' }}
-    needs: [build, deploy]
+    needs: [build, deploy, changes]
     runs-on: ubuntu-latest
     env:
       PROD: ${{ vars.PROD }}
