@@ -41,7 +41,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   generate-pdf:
-    if: github.event_name == 'push' && github.event_path == '.github/workflows/main.yml' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.modified, 'src/cv_info/cv.js')
+    if: github.event_name == 'push' && contains(github.event.compare, 'src/cv_info/cv.js')
     needs: [build, deploy]
     runs-on: ubuntu-latest
     env:
