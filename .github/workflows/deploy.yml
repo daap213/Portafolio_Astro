@@ -15,6 +15,20 @@ permissions:
   id-token: write
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+      infra: ${{ steps.changes.outputs.infra }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'src/cv_info/cv.js'
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +55,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   generate-pdf:
-    if: github.event.type == 'push' && contains(github.event.commits.*.changed_files, 'src/cv_info/cv.js')
+    if: ${{ needs.changes.outputs.src == 'true' }}
     needs: [build, deploy]
     runs-on: ubuntu-latest
     env:
