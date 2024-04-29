@@ -1,11 +1,8 @@
 import { launch } from 'puppeteer';
 import { config } from './../../config.js'
 
-let isPROD = true
-try {
-    isPROD = import.meta.env.PROD
-} catch (error) {
-}
+let isPROD = process.env.PROD
+console.log(isPROD)
 const urlweb = (isPROD) ? config.prod.URLWEB : config.dev.URLWEB
 const generatePDF = async (pageURL, pdfFilePath) => {
     console.log("pdf-cv", pageURL, pdfFilePath)

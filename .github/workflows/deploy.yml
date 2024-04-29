@@ -51,8 +51,6 @@ jobs:
         run: npm install
       - name: Generate PDFs
         run: npm run GPDF
-      - name: logs
-        run: echo "my ya sabes ${{ secrets.MY_TOKEN }}"
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
