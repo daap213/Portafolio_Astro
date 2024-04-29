@@ -43,10 +43,14 @@ jobs:
   generate-pdf:
     needs: [build, deploy]
     runs-on: ubuntu-latest
+    env:
+      PROD: ${{ vars.PROD }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
+      - name: logs
+        run: echo "my ya sabes ${{ vars.PROD }}"
       - name: Install dependencies
         run: npm install
       - name: Generate PDFs
