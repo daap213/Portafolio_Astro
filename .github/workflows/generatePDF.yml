@@ -1,0 +1,33 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Trigger the workflow every time you push to the `main` branch
+  # Using a different branch name? Replace `main` with your branch’s name
+  push:
+    branches: [main]
+    paths:
+      - "src/cv_info/cv.js"
+  # Allows you to run this workflow manually from the Actions tab on GitHub.
+  workflow_dispatch:
+
+# Allow this job to clone the repo and create a page deployment
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  generate-pdf:
+    runs-on: ubuntu-latest
+    env:
+      PROD: ${{ vars.PROD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Generate PDFs
+        run: npm run GPDF
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update PDFs
