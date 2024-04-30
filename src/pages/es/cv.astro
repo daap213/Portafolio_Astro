@@ -137,7 +137,11 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="sobre-mi">
-      <h2 class="text-lg font-extrabold">Sobre Mí</h2>
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Sobre Mí
+      </h2>
       {
         es.sobremi.map((content: any) => (
           <div>
@@ -151,7 +155,11 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="experiencia">
-      <h2 class="text-lg font-extrabold">Experiencia</h2>
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Experiencia
+      </h2>
       {
         es.experiencias.map((experiencia) => (
           <div>
@@ -161,7 +169,7 @@ const { currentLocale } = Astro;
             </h4>
             <ul class="border-t text-sm border-gray-400">
               {experiencia.description.map((activity: any) => (
-                <li class="check_y w-full px-3 py-2 border-b text-justify border-gray-400 ">
+                <li class="check_y w-full px-3 py-2 border-b-2 border-dashed text-justify border-gray-300 ">
                   {activity}
                 </li>
               ))}
@@ -172,13 +180,17 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="publicaciones">
-      <h2 class="text-lg font-extrabold">Plublicaciones</h2>
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Plublicaciones
+      </h2>
       {
         es.publicaciones.map((publicacion) => (
-          <div class="flex items-center">
+          <div class="flex items-center border-b-2 border-dashed  border-gray-300">
             <div class="w-full check_y">
               <h3 class="mt-4 font-semibold ">{publicacion.title}</h3>
-              <p class="border-t text-sm px-3 py-2  border-gray-400 text-justify">
+              <p class=" text-sm px-3 py-2  text-justify">
                 {publicacion.description + " " + publicacion.authors}
               </p>
               <p
@@ -201,14 +213,18 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="proyectos">
-      <h2 class="text-lg font-extrabold">Proyectos</h2>
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Proyectos
+      </h2>
       {
         es.proyectos.map((proyecto) => (
-          <div class="flex items-center flex-col-2 check_y">
+          <div class="flex items-center flex-col-2 check_y border-b-2 border-dashed border-gray-300">
             <div class="w-full">
               <h3 class="mt-4 font-semibold ">{proyecto.title}</h3>
               <p
-                class="border-t text-sm px-3 py-2  border-gray-400 text-justify"
+                class=" text-sm px-3 py-2 text-justify"
                 set:html={proyecto.description}
               />
             </div>
@@ -227,38 +243,46 @@ const { currentLocale } = Astro;
     </section>
 
     <section id="habilidades">
-      <h2 class="text-lg font-extrabold">Habilidades</h2>
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Habilidades
+      </h2>
       <div class="grid grid-cols-1 gap-4">
         {
           es.habilidades.map((habilidad) => (
-            <>
-              <div class="check_y grid  border-t border-gray-300">
+            <div class=" border-b-2 border-dashed border-gray-300">
+              <div class="check_y grid m-1">
                 <h3 class="mt-1 font-semibold">{habilidad.name}</h3>
                 <div class="h-auto max-w-full my-auto border-gray-400">
-                  {habilidad.skills.join(" ; ")}
+                  {habilidad.skills.join(" / ")}
                 </div>
               </div>
               {habilidad.related && (
-                <div class="check_y grid pl-2 border-l border-gray-400">
+                <div class="check_y grid pl-2 border-l-2 border-dashed border-gray-300">
                   <h3 class=" font-semibold">Relacionado</h3>
                   <div class="h-auto  max-w-full my-auto">
-                    {habilidad.related.join(" ; ")}
+                    {habilidad.related.join(" / ")}
                   </div>
                 </div>
               )}
-            </>
+            </div>
           ))
         }
       </div>
     </section>
 
     <section id="certificados">
-      <h2 class="text-lg font-extrabold">Certificados</h2>
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Certificados
+      </h2>
       {
         es.certificados.items.map((certificado) => (
           <div class="check_y">
             <h3 class="mt-2 font-semibold ">{certificado.title}</h3>
-            <h4 class=" text-end border-b border-gray-400">
+            <h4 class="text-end border-b-2 border-dashed border-gray-300">
               <small>{certificado.date}</small>
             </h4>
           </div>
@@ -279,13 +303,13 @@ const { currentLocale } = Astro;
       </div>
     </section>
 
-    <section id="educacion">
+    <section id="educacion border-b-4 border-double border-gray-400">
       <h2 class="text-lg font-extrabold">Educación</h2>
       {
         es.gradosCompletados.map((grado) => (
           <div class="check_y">
             <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
-            <h4 class="text-end border-b border-gray-400">
+            <h4 class="text-end border-b-2 border-dashed border-gray-300">
               <small>{grado.institution + " / " + grado.date}</small>
             </h4>
           </div>
