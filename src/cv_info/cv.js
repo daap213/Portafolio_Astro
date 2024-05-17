@@ -10,7 +10,7 @@ const nombre = "Daniel Alvarado Peláez"
 const siglasNombre = "DAAP"
 const git_user = "daap213"
 const linkedin_user = "daniel-alvarado-peláez"
-const correo = "daap21.3@gmail.com"
+const correo = "daniel.alvardo.1999@gmail.com"
 
 //////////////////////////////////////////
 //////////////// Español ////////////////
