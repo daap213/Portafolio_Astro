@@ -43,7 +43,7 @@ export const es = {
             description: [
                 "Programación 'frontend' y 'backend', añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
                 "Resolución de problemas, inquietudes y bugs, para los clientes relacionados con los servicios ofrecidos.",
-                "Chequeo de servicios, servidores, para su óptimo funcionamiento.",
+                "Chequeo y monitoreo de servicios y servidores, para su óptimo funcionamiento.",
                 "Desarrollo de servicios locales para uso propio de la compañía.",
                 "Actualización de versiones de los servicios ofrecidos a diferentes clientes.",
                 "Ensamblar y realizar pruebas de funcionamiento de sistemas embebidos de la empresa.",
