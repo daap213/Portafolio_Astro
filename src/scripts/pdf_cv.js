@@ -44,7 +44,7 @@ const urlEn = urlweb + "en/cv"
 const urlEs = urlweb + "es/cv"
 
 // Generar el PDF para la versión en inglés
-generatePDF(urlEn, "public/docs/test/CV_EN.pdf");
+generatePDF(urlEn, "public/docs/CV_EN.pdf");
 
 // Generar el PDF para la versión en español
-generatePDF(urlEs, "public/docs/test/CV_ESP.pdf");
+generatePDF(urlEs, "public/docs/CV_ESP.pdf");
