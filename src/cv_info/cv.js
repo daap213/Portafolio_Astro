@@ -41,7 +41,7 @@ export const es = {
             title: "Especialista general",
             company: "Information Tecnology XOA S. A.",
             description: [
-                "Programación 'frontend' y 'backend' para añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
+                "Programación 'frontend' y 'backend', añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
                 "Resolución de problemas, inquietudes y bugs, para los clientes relacionados con los servicios ofrecidos.",
                 "Chequeo de servicios, servidores, para su óptimo funcionamiento.",
                 "Desarrollo de servicios locales para uso propio de la compañía.",
