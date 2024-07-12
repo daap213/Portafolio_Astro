@@ -117,45 +117,5 @@ const { description, title, navItems, footerInfor, rutaLeng, ui } = Astro.props;
         }
       }
     </style>
-
-    <script>
-      (function (d, t) {
-        var BASE_URL = "https://chat.dev.daaptech.org/";
-        var g = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-        g.src = BASE_URL + "/packs/js/sdk.js";
-        g.defer = true;
-        g.async = true;
-        s.parentNode.insertBefore(g, s);
-        g.onload = function () {
-          window.chatwootSDK.run({
-            websiteToken: "d3fMJt3cwXXmWtCgn6vf4KnN",
-            baseUrl: BASE_URL,
-          });
-        };
-      })(document, "script");
-    </script>
-    <script>
-      window.chatwootSettings = {
-        position: "right",
-        type: "standard",
-        launcherTitle: "Chatea con nosotros",
-      };
-      (function (d, t) {
-        var BASE_URL = "chat.dev.daaptech.org";
-        var g = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-        g.src = BASE_URL + "/packs/js/sdk.js";
-        g.defer = true;
-        g.async = true;
-        s.parentNode.insertBefore(g, s);
-        g.onload = function () {
-          window.chatwootSDK.run({
-            websiteToken: "d3fMJt3cwXXmWtCgn6vf4KnN",
-            baseUrl: BASE_URL,
-          });
-        };
-      })(document, "script");
-    </script>
   </body>
 </html>
