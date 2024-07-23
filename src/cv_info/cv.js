@@ -76,19 +76,19 @@ export const es = {
   ],
   gradosCompletados: [
     {
-      date: "Guayaquil- Ecuador / JUL 2024 - Actualidad",
+      date: "Guayaquil, Ecuador / JUL 2024 - Cursando",
       title: "Posgrado, Maestría en ciberseguridad",
       institution: "Universidad Casa Grande",
       description: [],
     },
     {
-      date: "Guayaquil- Ecuador / OCT 2017- FEBR 2023",
+      date: "Guayaquil, Ecuador / OCT 2017- FEBR 2023",
       title: "Educación Superior, Ingeniería Mecatrónica",
       institution: "Escuela Superior Politécnica del Litoral (ESPOL)",
       description: [],
     },
     {
-      date: "Guayaquil- Ecuador  / MAY 2005- FEBR 2017",
+      date: "Guayaquil, Ecuador  / MAY 2005- FEBR 2017",
       title: "Primaria - Secundaria",
       institution: "Unidad Educativa FAE Nº2",
       description: [],
@@ -433,7 +433,7 @@ export const en = {
   ],
   gradosCompletados: [
     {
-      date: "Guayaquil- Ecuador / JUL 2024 - Present",
+      date: "Guayaquil, Ecuador / JUL 2024 - Present",
       title: "Postgraduate, Master in Cybersecurity",
       institution: "Universidad Casa Grande",
       description: [],
