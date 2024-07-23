@@ -80,10 +80,14 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4 # Clona el repositorio
-      - name: Install, build, and upload your site pdf
-        uses: withastro/action@v2 # Usa Astro para construir y subir el sitio
+      - name: Build the site
+        uses: withastro/action@v2 # Usa Astro para construir el sitio
         with:
           node-version: 20 # Versión de Node.js a usar
           package-manager: npm@latest # Administrador de paquetes a usar (npm en su versión más reciente)
       - name: Deploy to GitHub Pages
+        id: deploy-pages
         uses: actions/deploy-pages@v4 # Despliega el sitio en GitHub Pages
+        with:
+          # Usa un nombre único para el artefacto para evitar conflictos
+          artifact_name: "site-deployment-${{ github.run_id }}"
