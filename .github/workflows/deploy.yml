@@ -28,6 +28,8 @@ jobs:
           filters: |
             src:
               - 'src/cv_info/cv.js'
+              - 'src/pages/en/cv.astro'
+              - 'src/pages/es/cv.astro'
 
   build:
     runs-on: ubuntu-latest

@@ -179,6 +179,20 @@ const { currentLocale } = Astro;
       }
     </section>
 
+    <section id="educacion border-b-4 border-double border-gray-400">
+      <h2 class="text-lg font-extrabold">Educación</h2>
+      {
+        es.gradosCompletados.map((grado) => (
+          <div class="check_y">
+            <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
+            <h4 class="text-end border-b-2 border-dashed border-gray-300">
+              <small>{grado.institution + " / " + grado.date}</small>
+            </h4>
+          </div>
+        ))
+      }
+    </section>
+    
     <section id="publicaciones">
       <h2
         class="text-lg font-extrabold border-b-4 border-double border-gray-400"
@@ -303,19 +317,6 @@ const { currentLocale } = Astro;
       </div>
     </section>
 
-    <section id="educacion border-b-4 border-double border-gray-400">
-      <h2 class="text-lg font-extrabold">Educación</h2>
-      {
-        es.gradosCompletados.map((grado) => (
-          <div class="check_y">
-            <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
-            <h4 class="text-end border-b-2 border-dashed border-gray-300">
-              <small>{grado.institution + " / " + grado.date}</small>
-            </h4>
-          </div>
-        ))
-      }
-    </section>
 
     <!--       <section id="referencias">
         <h2>Referencias</h2>
