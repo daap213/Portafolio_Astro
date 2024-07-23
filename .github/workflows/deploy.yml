@@ -1,87 +1,88 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
   push:
-    branches: [main]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
-  workflow_dispatch:
+    branches: [main] # Desencadena el flujo de trabajo cada vez que se hace push a la rama 'main'
+  workflow_dispatch: # Permite ejecutar el flujo de trabajo manualmente desde la pestaña de Actions en GitHub
 
-# Allow this job to clone the repo and create a page deployment
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: write # Permite escribir contenidos en el repositorio
+  pages: write # Permite escribir páginas en GitHub Pages
+  id-token: write # Permite escribir tokens de identificación
 
 jobs:
   changes:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     outputs:
-      src: ${{ steps.changes.outputs.src }}
-      infra: ${{ steps.changes.outputs.infra }}
+      src: ${{ steps.changes.outputs.src }} # Salida para cambios en archivos fuente
+      infra: ${{ steps.changes.outputs.infra }} # Salida para cambios en la infraestructura
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: actions/checkout@v4 # Clona el repositorio
+      - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
         id: changes
         with:
           filters: |
             src:
-              - 'src/cv_info/cv.js'
+              - 'src/cv_info/cv.js' # Archivos que se monitorizan para cambios
               - 'src/pages/en/cv.astro'
               - 'src/pages/es/cv.astro'
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # Clona el repositorio
       - name: Install, build, and upload your site
-        uses: withastro/action@v2
+        uses: withastro/action@v2 # Usa Astro para construir y subir el sitio
         with:
-          # path: . # The root location of your Astro project inside the repository. (optional)
-          node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
-          package-manager: npm@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
+          node-version: 20 # Versión de Node.js a usar
+          package-manager: npm@latest # Administrador de paquetes a usar (npm en su versión más reciente)
 
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
+    needs: build # Este trabajo depende del trabajo 'build'
+    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: github-pages # Nombre del entorno de despliegue
+      url: ${{ steps.deployment.outputs.page_url }} # URL de la página desplegada
     outputs:
-      page_url: ${{ steps.deployment.outputs.page_url }}
+      page_url: ${{ steps.deployment.outputs.page_url }} # Salida con la URL de la página desplegada
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4 # Despliega el sitio en GitHub Pages
 
   generate-pdf:
-    if: ${{ needs.changes.outputs.src == 'true' }}
-    needs: [build, deploy, changes]
-    runs-on: ubuntu-latest
+    if: ${{ needs.changes.outputs.src == 'true' }} # Este trabajo se ejecuta solo si hay cambios en los archivos fuente especificados
+    needs: [build, deploy, changes] # Este trabajo depende de los trabajos 'build', 'deploy' y 'changes'
+    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     env:
-      PROD: ${{ vars.PROD }}
+      PROD: ${{ vars.PROD }} # Define la variable de entorno PROD
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.head_ref }} # Clona el repositorio en la rama actual
       - name: Install dependencies
-        run: npm install
+        run: npm install # Instala las dependencias necesarias
       - name: Generate PDFs
-        run: npm run GPDF
+        run: npm run GPDF # Genera archivos PDF
       - name: Commit and push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-        uses: stefanzweifel/git-auto-commit-action@v5
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }} # Utiliza el token de GitHub para autenticarse
+        uses: stefanzweifel/git-auto-commit-action@v5 # Realiza commit y push de los cambios
         with:
-          commit_message: Update PDFs
+          commit_message: Update PDFs # Mensaje del commit
 
-  deploy-pdf:
-    needs: generate-pdf
-    runs-on: ubuntu-latest
+  build-and-deploy-pdf:
+    if: ${{ needs.generate-pdf.result == 'success' }} # Este trabajo se ejecuta solo si 'generate-pdf' fue exitoso
+    needs: generate-pdf # Este trabajo depende del trabajo 'generate-pdf'
+    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     steps:
-      - name: Checkout the latest commit
-        uses: actions/checkout@v4
-      - name: Deploy updated PDFs to GitHub Pages
-        uses: actions/deploy-pages@v4
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4 # Clona el repositorio
+      - name: Install, build, and upload your site
+        uses: withastro/action@v2 # Usa Astro para construir y subir el sitio
+        with:
+          node-version: 20 # Versión de Node.js a usar
+          package-manager: npm@latest # Administrador de paquetes a usar (npm en su versión más reciente)
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4 # Despliega el sitio en GitHub Pages
