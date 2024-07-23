@@ -80,7 +80,7 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4 # Clona el repositorio
-      - name: Install, build, and upload your site
+      - name: Install, build, and upload your site pdf
         uses: withastro/action@v2 # Usa Astro para construir y subir el sitio
         with:
           node-version: 20 # Versión de Node.js a usar
