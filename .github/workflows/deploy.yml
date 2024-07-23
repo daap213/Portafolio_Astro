@@ -73,7 +73,8 @@ jobs:
           commit_message: Update PDFs # Mensaje del commit
 
   build-and-deploy-pdf:
-    if: ${{ needs.generate-pdf.result == 'success' }} # Este trabajo se ejecuta solo si 'generate-pdf' fue exitoso
+    # Este trabajo se ejecuta solo si 'generate-pdf' fue exitoso
+    if: ${{ needs.generate-pdf.result == 'success' }} 
     needs: generate-pdf # Este trabajo depende del trabajo 'generate-pdf'
     runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     steps:
