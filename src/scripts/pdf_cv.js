@@ -28,7 +28,7 @@ const generatePDF = async (pageURL, pdfFilePath) => {
         `,
         margin: {
             bottom: 50, // minimum required for footer msg to display
-            top: 5,
+            top: 35,
         },
     };
 
