@@ -2,7 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main] # Desencadena el flujo de trabajo cada vez que se hace push a la rama 'main'
+    branches:
+      - main # Desencadena el flujo de trabajo cada vez que se hace push a la rama 'main'
   workflow_dispatch: # Permite ejecutar el flujo de trabajo manualmente desde la pestaña de Actions en GitHub
 
 permissions:
@@ -71,25 +72,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5 # Realiza commit y push de los cambios
         with:
           commit_message: Update PDFs # Mensaje del commit
-
-  build-and-deploy-pdf:
-    # Este trabajo se ejecuta solo si 'generate-pdf' fue exitoso
-    if: ${{ needs.generate-pdf.result == 'success' }}
-    needs: generate-pdf # Este trabajo depende del trabajo 'generate-pdf'
-    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
-    environment:
-      name: github-pages # Nombre del entorno de despliegue
-      url: ${{ steps.deployment.outputs.page_url }} # URL de la página desplegada
-    outputs:
-      page_url: ${{ steps.deployment.outputs.page_url }} # Salida con la URL de la página desplegada
-    steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v4 # Clona el repositorio
-      - name: Install, build, and upload your site
-        uses: withastro/action@v2 # Usa Astro para construir y subir el sitio
-        with:
-          node-version: 20 # Versión de Node.js a usar
-          package-manager: npm@latest # Administrador de paquetes a usar (npm en su versión más reciente)
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 # Despliega el sitio en GitHub Pages
