@@ -370,7 +370,7 @@ export const es = {
       correo: "",
     },
     {
-      nombre: "Tamara García",
+      nombre: "Ing. Tamara García",
       cargo: "Supervisor",
       empresa: "Delta Delfini",
       telefono: "+593 98 459 1065",
@@ -757,7 +757,7 @@ export const en = {
       correo: "",
     },
     {
-      nombre: "Tamara García",
+      nombre: "Ing. Tamara García",
       cargo: "Supervisor",
       empresa: "Delta Delfini",
       telefono: "+593 98 459 1065",
