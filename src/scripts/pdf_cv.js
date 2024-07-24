@@ -20,7 +20,6 @@ const generatePDF = async (pageURL, pdfFilePath) => {
     const pdfOptions = {
         path: pdfFilePath,
         displayHeaderFooter: true,
-        headerTemplate: `<div style='width:100%;text-align: right; border-bottom: 1pt solid #eeeeee;'><span class="title"></span></div>`,
         footerTemplate: `
         <div style="color: lightgray; border-top: solid lightgray 1px; font-size: 14px; padding-top: 5px; text-align: center; width: 100%;">
         Act: <span class="date"></span> - <span>Pag:</span> <span class="pageNumber"></span> / <span class="totalPages"></span>
