@@ -13,7 +13,7 @@ const generatePDF = async (pageURL, pdfFilePath) => {
     // Cambiar el modo de visualización a modo de impresión
     await page.emulateMediaType('print');
 
-    await page.goto(pageURL, { waitUntil: 'networkidle2' });
+    await page.goto(pageURL, { waitUntil: 'networkidle2', timeout: 60000 });
     await page.waitForSelector('body'); // Esperar a que el cuerpo de la página esté presente
 
     // Definir las opciones del PDF, incluyendo displayHeaderFooter, headerTemplate y footerTemplate

@@ -361,6 +361,36 @@ export const es = {
       qr: rutaQR + "qr_Calidad_de_Producción_de_Azúcar.png",
     },
   ],
+  referencias: [
+    {
+      nombre: "Ph.D. Víctor Manuel Asanza",
+      cargo: "Docente de la facultad de FIEC",
+      empresa: "Universidad ESPOL",
+      telefono: "+593 98 265 9680",
+      correo: "",
+    },
+    {
+      nombre: "Tamara García",
+      cargo: "Supervisor",
+      empresa: "Delta Delfini",
+      telefono: "+593 98 459 1065",
+      correo: "tamikgr@outlook.con",
+    },
+    {
+      nombre: "Mgs. Alexandra Pérez Rivera",
+      cargo: "Docente de la Carrera de Turismo",
+      empresa: "Universidad ECOTEC",
+      telefono: "+593 99 457 8095",
+      correo: "",
+    },
+    {
+      nombre: "Darwin León",
+      cargo: "Gerente",
+      empresa: "Edu4lat",
+      telefono: "+593 98 480 5355",
+      correo: "",
+    },
+  ],
   previewFooter: {
     name: nombre,
     logo: raizApp + "img/me_panoramico.webp",
@@ -716,6 +746,36 @@ export const en = {
       image: rutaProyect + "sinfoto.webp",
       tags: [],
       qr: rutaQR + "qr_Calidad_de_Producción_de_Azúcar.png",
+    },
+  ],
+  referencias: [
+    {
+      nombre: "Ph.D. Víctor Manuel Asanza",
+      cargo: "Professor of the FIEC faculty",
+      empresa: "ESPOL University",
+      telefono: "+593 98 265 9680",
+      correo: "",
+    },
+    {
+      nombre: "Tamara García",
+      cargo: "Supervisor",
+      empresa: "Delta Delfini",
+      telefono: "+593 98 459 1065",
+      correo: "tamikgr@outlook.con",
+    },
+    {
+      nombre: "Mgs. Alexandra Pérez Rivera",
+      cargo: "Tourism Course Teacher",
+      empresa: "ECOTEC University",
+      telefono: "+593 99 457 8095",
+      correo: "",
+    },
+    {
+      nombre: "Darwin León",
+      cargo: "Manager",
+      empresa: "Edu4lat",
+      telefono: "+593 98 480 5355",
+      correo: "",
     },
   ],
   previewFooter: {

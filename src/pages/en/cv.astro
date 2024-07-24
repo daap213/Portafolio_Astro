@@ -321,13 +321,35 @@ const { currentLocale } = Astro;
       </div>
     </section>
 
-    <!--       <section id="referencias">
-        <h2>Referencias</h2>
-        <div class="reference">
-          <p>Nombre de la referencia - Cargo - Empresa</p>
-          <p>Teléfono: 123-456-7890</p>
-          <p>Email: correo@example.com</p>
-        </div>
-      </section> -->
+    <section id="referencias">
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Referencias
+      </h2>
+      {
+        en.referencias.map((referencia) => (
+          <div class="check_y  border-b-2 border-dashed border-gray-300">
+            <h3 class="mt-4 mb-2 font-semibold ">
+              {referencia.nombre + " - " + referencia.cargo}
+            </h3>
+            <h4 class="text-start ml-5">
+              <strong>Empresa:</strong>
+              {referencia.empresa}
+            </h4>
+            <h4 class="text-start ml-5">
+              <strong>Teléfono:</strong>
+              {referencia.telefono}
+            </h4>
+            {referencia.correo && (
+              <h4 class="text-start ml-5">
+                <strong>Email:</strong>
+                {referencia.correo}
+              </h4>
+            )}
+          </div>
+        ))
+      }
+    </section>
   </div>
 </body>
