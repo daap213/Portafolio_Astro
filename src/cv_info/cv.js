@@ -200,7 +200,7 @@ export const es = {
     },
     {
       name: "Otras herramientas de desarrollo",
-      skills: ["Paquete Office", "Git & GitHub", "Docker", "MATLAB & Simulink"],
+      skills: ["Git & GitHub", "Docker", "MATLAB & Simulink"],
     },
     {
       name: "Herramientas de hardware",
@@ -211,6 +211,10 @@ export const es = {
         "PLC Siemens",
         "PLC Logo",
       ],
+    },
+    {
+      name: "Otras herramientas",
+      skills: ["Paquete Office", "Notion", "Odoo"],
     },
     {
       name: "Habilidades técnicas",
@@ -587,7 +591,7 @@ export const en = {
     },
     {
       name: "Other development tools",
-      skills: ["Paquete Office", "Git & GitHub", "Docker", "MATLAB & Simulink"],
+      skills: ["Git & GitHub", "Docker", "MATLAB & Simulink"],
     },
     {
       name: "hardware tools",
@@ -598,6 +602,10 @@ export const en = {
         "PLC Siemens",
         "PLC Logo",
       ],
+    },
+    {
+      name: "Other tools",
+      skills: ["Paquete Office", "Notion", "Odoo"],
     },
     {
       name: "Technical skills",
