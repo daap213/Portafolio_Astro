@@ -72,10 +72,21 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5 # Realiza commit y push de los cambios
         with:
           commit_message: Update PDFs # Mensaje del commit
-
-  redeploy:
+  rebuild:
     if: ${{ needs.changes.outputs.src == 'true' }} # Solo se ejecuta si hubo cambios en los archivos fuente
     needs: generate-pdf # Este trabajo depende de que 'generate-pdf' termine exitosamente
+    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4 # Clona el repositorio
+      - name: Install, build, and upload your site
+        uses: withastro/action@v2 # Usa Astro para construir y subir el sitio
+        with:
+          node-version: 20 # Versión de Node.js a usar
+          package-manager: npm@latest # Administrador de paquetes a usar (npm en su versión más reciente)
+  redeploy:
+    if: ${{ needs.changes.outputs.src == 'true' }} # Solo se ejecuta si hubo cambios en los archivos fuente
+    needs: [rebuild, generate-pdf] # Este trabajo depende de que 'generate-pdf' termine exitosamente
     runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     environment:
       name: github-pages # Nombre del entorno de despliegue
