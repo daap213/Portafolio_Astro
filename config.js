@@ -1,7 +1,7 @@
 export const config = {
     prod: {
-        RAIZAPP: '/Portafolio_Astro',
-        URLWEB: 'https://daap213.github.io/Portafolio_Astro/'
+        RAIZAPP: '/',
+        URLWEB: 'https://portafolio.daaptech.org/'
     },
     dev: {
         RAIZAPP: '/',
