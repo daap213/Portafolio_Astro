@@ -20,7 +20,7 @@ export const es = {
   raizApp: raizApp,
   nombre: nombre,
   siglasNombre: siglasNombre,
-  mi_web: "daap213.github.io/Portafolio_Astro/",
+  mi_web: "portafolio.daaptech.org/",
   tituloUniversidad: "Ingeniero Mecatrónico",
   nombreTitulo: "Ing. " + nombre,
   titleWeb:
@@ -411,7 +411,7 @@ export const en = {
   raizApp: raizApp,
   nombre: nombre,
   siglasNombre: siglasNombre,
-  mi_web: "daap213.github.io/Portafolio_Astro/",
+  mi_web: "portafolio.daaptech.org/",
   tituloUniversidad: "Mechatronic Engineer",
   nombreTitulo: "Ing. " + nombre,
   titleWeb:
