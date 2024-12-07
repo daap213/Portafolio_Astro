@@ -28,29 +28,20 @@ jobs:
               - 'src/pages/en/cv.astro'
               - 'src/pages/es/cv.astro'
 
-  build:
-    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
-    steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v4 # Clona el repositorio
-      - name: Install, build, and upload your site
-        uses: withastro/action@v2 # Usa Astro para construir y subir el sitio
-        with:
-          node-version: 20 # Versión de Node.js a usar
-          package-manager: npm@latest # Administrador de paquetes a usar (npm en su versión más reciente)
-
   generate-pdf:
     if: ${{ needs.changes.outputs.src == 'true' }} # Este trabajo se ejecuta solo si hay cambios en los archivos fuente especificados
-    needs: [build, changes] # Este trabajo depende de los trabajos 'build', 'deploy' y 'changes'
+    needs: [changes] # Este trabajo depende de los trabajos 'build', 'deploy' y 'changes'
     runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     env:
-      PROD: ${{ vars.PROD }} # Define la variable de entorno PROD
+      PROD: ${{ false }} # Define la variable de entorno PROD
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }} # Clona el repositorio en la rama actual
       - name: Install dependencies
         run: npm install # Instala las dependencias necesarias
+      - name: view preview
+        run: npm run preview # Instala las dependencias necesarias
       - name: Generate PDFs
         run: npm run GPDF # Genera archivos PDF
       - name: Commit and push changes
