@@ -19,6 +19,9 @@ jobs:
       infra: ${{ steps.changes.outputs.infra }} # Salida para cambios en la infraestructura
     steps:
       - uses: actions/checkout@v4 # Clona el repositorio
+        with:
+          ref: ${{ github.head_ref || github.ref_name }} # Asegura que se trabaje en la rama actual
+          fetch-depth: 0 # Clona todo el historial para comparar cambios correctamente
       - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
         id: changes
         with:
@@ -27,7 +30,6 @@ jobs:
               - 'src/cv_info/cv.js' # Archivos que se monitorizan para cambios
               - 'src/pages/en/cv.astro'
               - 'src/pages/es/cv.astro'
-
   generate-pdf:
     if: ${{ needs.changes.outputs.src == 'true' }} # Este trabajo se ejecuta solo si hay cambios en los archivos fuente especificados
     needs: [changes] # Este trabajo depende de los trabajos 'build', 'deploy' y 'changes'
@@ -40,6 +42,8 @@ jobs:
           ref: ${{ github.head_ref }} # Clona el repositorio en la rama actual
       - name: Install dependencies
         run: npm install # Instala las dependencias necesarias
+      - name: Astro build
+        run: npm run build # Instala las dependencias necesarias
       - name: view preview
         run: npm run preview # Instala las dependencias necesarias
       - name: Generate PDFs
