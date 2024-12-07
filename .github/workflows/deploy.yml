@@ -32,7 +32,7 @@ jobs:
               - 'src/pages/es/cv.astro'
   generate-pdf:
     if: ${{ needs.changes.outputs.src == 'true' }} # Este trabajo se ejecuta solo si hay cambios en los archivos fuente especificados
-    needs: [changes] # Este trabajo depende de los trabajos 'build', 'deploy' y 'changes'
+    needs: [changes] # Este trabajo depende del trabajo 'changes'
     runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     env:
       PROD: ${{ false }} # Define la variable de entorno PROD
@@ -42,12 +42,16 @@ jobs:
           ref: ${{ github.head_ref }} # Clona el repositorio en la rama actual
       - name: Install dependencies
         run: npm install # Instala las dependencias necesarias
-      - name: Astro build
-        run: npm run build # Instala las dependencias necesarias
-      - name: view preview
-        run: npm run preview # Instala las dependencias necesarias
+      - name: Build site with Astro
+        run: npm run build # Construye el sitio
+      - name: Start Astro preview server in the background
+        run: nohup npm run preview & # Levanta el servidor en segundo plano
+      - name: Wait for the preview server to start
+        run: sleep 5 # Espera unos segundos para que el servidor se inicie correctamente
       - name: Generate PDFs
-        run: npm run GPDF # Genera archivos PDF
+        run: npm run GPDF # Genera los PDFs usando la vista del servidor
+      - name: Stop Astro preview server
+        run: kill $(lsof -t -i:4321) # Detiene el servidor en el puerto predeterminado de Astro (3000)
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }} # Utiliza el token de GitHub para autenticarse
