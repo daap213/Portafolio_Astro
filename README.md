@@ -15,12 +15,12 @@ Adaptación un temple de desarrollado por Midudev, para realizar un portafolio q
 
 <div align="center">
 
-[Mi portafolio](https://daap213.github.io/Portafolio_Astro/)
+[Mi portafolio](https://portafolio.daaptech.org/)
 
 </div>
 
 <div align="center">
-<a href="https://daap213.github.io/Portafolio_Astro/">
+<a href="https://portafolio.daaptech.org/">
 <img src="./public/img/Miporfolio.webp">
 </a>
 </div>
