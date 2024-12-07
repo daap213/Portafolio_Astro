@@ -19,9 +19,6 @@ jobs:
       infra: ${{ steps.changes.outputs.infra }} # Salida para cambios en la infraestructura
     steps:
       - uses: actions/checkout@v4 # Clona el repositorio
-        with:
-          ref: ${{ github.head_ref || github.ref_name }} # Asegura que se trabaje en la rama actual
-          fetch-depth: 0 # Clona todo el historial para comparar cambios correctamente
       - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
         id: changes
         with:
