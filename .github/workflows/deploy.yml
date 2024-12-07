@@ -25,6 +25,7 @@ jobs:
       - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
         id: changes
         with:
+          base: origin/cloud-test # Comparar con el último estado de cloud-test
           filters: |
             src:
               - 'src/cv_info/cv.js' # Archivos que se monitorizan para cambios
