@@ -1,6 +1,6 @@
 export const config = {
     prod: {
-        RAIZAPP: '/',
+        RAIZAPP: '',
         URLWEB: 'https://portafolio.daaptech.org/'
     },
     dev: {
