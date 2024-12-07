@@ -9,7 +9,7 @@ const base = (isPROD) ? config.prod.RAIZAPP : config.dev.RAIZAPP
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), robotsTxt()],
-  site: 'https://daap213.github.io', // site: 'https://porfolio.dev/' for local
+  site: 'https://portafolio.daaptech.org', // site: 'https://porfolio.dev/' for local
   base: base,
   i18n: {
     defaultLocale: 'es',
