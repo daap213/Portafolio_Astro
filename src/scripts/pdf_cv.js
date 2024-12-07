@@ -1,9 +1,9 @@
 import { launch } from 'puppeteer';
 import { config } from './../../config.js'
 
-let isPROD = new Boolean(process.env.PROD)
-console.log(isPROD)
-const urlweb = (isPROD) ? config.prod.URLWEB : config.dev.URLWEB
+let isPROD = process.env.PROD
+console.log(isPROD, isPROD == 'true')
+const urlweb = (isPROD == 'true') ? config.prod.URLWEB : config.dev.URLWEB
 const generatePDF = async (pageURL, pdfFilePath) => {
     console.log("pdf-cv", pageURL, pdfFilePath)
 
