@@ -57,15 +57,23 @@ jobs:
     needs: [build, deploy, changes] # Este trabajo depende de los trabajos 'build', 'deploy' y 'changes'
     runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     env:
-      PROD: ${{ vars.PROD }} # Define la variable de entorno PROD
+      PROD: ${{ false }} # Define la variable de entorno PROD
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }} # Clona el repositorio en la rama actual
       - name: Install dependencies
         run: npm install # Instala las dependencias necesarias
+      - name: Build site with Astro
+        run: npm run build # Construye el sitio
+      - name: Start Astro preview server in the background
+        run: nohup npm run preview & # Levanta el servidor en segundo plano
+      - name: Wait for the preview server to start
+        run: sleep 5 # Espera unos segundos para que el servidor se inicie correctamente
       - name: Generate PDFs
-        run: npm run GPDF # Genera archivos PDF
+        run: npm run GPDF # Genera los PDFs usando la vista del servidor
+      - name: Stop Astro preview server
+        run: kill $(lsof -t -i:4321) # Detiene el servidor en el puerto predeterminado de Astro (3000)
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }} # Utiliza el token de GitHub para autenticarse
