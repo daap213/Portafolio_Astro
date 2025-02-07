@@ -35,7 +35,7 @@ const { currentLocale } = Astro;
       }
 
       section {
-        margin-bottom: 0.75cm;
+        margin-bottom: 0.45cm;
       }
 
       h1,
@@ -112,9 +112,9 @@ const { currentLocale } = Astro;
           loading="eager"
           decoding="async"
           class="object-cover h-full bg-black/20"
-          style="width: 130px; height: 160px; object-position: 100% 40%"
+          style="width: 125px; height: 155px; object-position: 100% 40%"
         />
-        <div>
+        <div class="text-base">
           <p><strong>Name:</strong> {en.nombre}</p>
           <p><strong>Degree:</strong> {en.tituloUniversidad}</p>
           <p><strong>Birthdate:</strong> {en.cumpleaños}</p>
@@ -122,20 +122,20 @@ const { currentLocale } = Astro;
           <p><strong>E-mail:</strong> {en.correo}</p>
         </div>
       </div>
-      <div class="contact-info mt-3">
+      <div class="contact-info mt-2">
         <a
           href={"https://www.linkedin.com/in/" + en.linkedin_user}
           target="_blank"
           ><i class="fab fa-linkedin fa-lg"></i>
-          <span class="text-sm"> {en.linkedin_user}</span>
+          <span class="text-xs"> {en.linkedin_user}</span>
         </a>
         <a href={"https://github.com/" + en.git_user} target="_blank"
           ><i class="fab fa-github fa-lg"></i>
-          <span class="text-sm"> {en.git_user}</span>
+          <span class="text-xs"> {en.git_user}</span>
         </a>
         <a href="https://portafolio.daaptech.org/" target="_blank"
           ><i class="fas fa-globe fa-lg"></i>
-          <span class="text-sm"> {en.mi_web}</span>
+          <span class="text-xs"> {en.mi_web}</span>
         </a>
       </div>
     </section>
@@ -160,20 +160,20 @@ const { currentLocale } = Astro;
 
     <section id="experiencia">
       <h2
-        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+        class="text-lg font-extrabold border-b-2 border-double border-gray-400"
       >
         Experience
       </h2>
       {
         en.experiencias.map((experiencia) => (
           <div>
-            <h3 class="mt-4 mb-2 font-semibold ">{experiencia.title}</h3>
+            <h3 class="mt-3 font-semibold ">{experiencia.title}</h3>
             <h4 class="text-end font-semibold">
               <small>{experiencia.company + " / " + experiencia.date}</small>
             </h4>
             <ul class="border-t text-sm border-gray-400">
               {experiencia.description.map((activity: any) => (
-                <li class="check_y w-full px-3 py-2 border-b-2 border-dashed text-justify border-gray-300 ">
+                <li class="check_y w-full px-3 py-1.5 border-b-2 border-dashed text-justify border-gray-300 ">
                   {activity}
                 </li>
               ))}
@@ -191,7 +191,7 @@ const { currentLocale } = Astro;
       {
         en.gradosCompletados.map((grado) => (
           <div class="check_y">
-            <h3 class="mt-4 mb-2 font-semibold ">{grado.title}</h3>
+            <h3 class="mt-4 font-semibold ">{grado.title}</h3>
             <h4 class="text-end border-b-2 border-dashed border-gray-300">
               <small>{grado.institution + " / " + grado.date}</small>
             </h4>
@@ -210,8 +210,8 @@ const { currentLocale } = Astro;
         en.publicaciones.map((publicacion) => (
           <div class="flex items-center border-b-2 border-dashed  border-gray-300">
             <div class="w-full check_y">
-              <h3 class="mt-4 font-semibold ">{publicacion.title}</h3>
-              <p class=" text-sm px-3 py-2  text-justify">
+              <h3 class="mt-2 font-semibold ">{publicacion.title}</h3>
+              <p class=" text-sm px-3 py-1  text-justify">
                 {publicacion.description + " " + publicacion.authors}
               </p>
               <p
@@ -221,7 +221,7 @@ const { currentLocale } = Astro;
             </div>
             <a href={publicacion.link} target="_blank">
               <img
-                class="w-40"
+                style="width: 160px; height: 130px;"
                 src={publicacion.qr}
                 loading="eager"
                 decoding="async"
@@ -243,19 +243,19 @@ const { currentLocale } = Astro;
         en.proyectos.map((proyecto) => (
           <div class="flex items-center flex-col-2 check_y border-b-2 border-dashed border-gray-300">
             <div class="w-full">
-              <h3 class="mt-4 font-semibold ">{proyecto.title}</h3>
+              <h3 class="mt-1 font-semibold ">{proyecto.title}</h3>
               <p
-                class=" text-sm px-3 py-2 text-justify"
+                class=" text-sm px-3 py-1.5 text-justify"
                 set:html={proyecto.description}
               />
             </div>
             <a href={proyecto.github} target="_blank">
               <img
-                class="w-40"
                 src={proyecto.qr}
                 loading="eager"
                 decoding="async"
                 alt={proyecto.title}
+                style="width: 160px; height: 130px;"
               />
             </a>
           </div>
@@ -269,20 +269,20 @@ const { currentLocale } = Astro;
       >
         Skills
       </h2>
-      <div class="grid grid-cols-1 gap-4">
+      <div class="grid grid-cols-1 gap-1">
         {
           en.habilidades.map((habilidad) => (
             <div class=" border-b-2 border-dashed border-gray-300">
               <div class="check_y grid m-1">
-                <h3 class="mt-1 font-semibold">{habilidad.name}</h3>
-                <div class="h-auto max-w-full my-auto border-gray-400">
+                <h3 class="mt-1 mb-1 font-semibold">{habilidad.name}</h3>
+                <div class="text-sm px-1 h-auto max-w-full my-auto border-gray-400">
                   {habilidad.skills.join(" / ")}
                 </div>
               </div>
               {habilidad.related && (
                 <div class="check_y grid pl-2 border-l-2 border-dashed border-gray-300">
                   <h3 class=" font-semibold">Related</h3>
-                  <div class="h-auto  max-w-full my-auto">
+                  <div class="text-sm px-1 h-auto  max-w-full my-auto">
                     {habilidad.related.join(" / ")}
                   </div>
                 </div>
@@ -302,22 +302,25 @@ const { currentLocale } = Astro;
       {
         en.certificados.items.map((certificado) => (
           <div class="check_y">
-            <h3 class="mt-2 font-semibold ">{certificado.title}</h3>
+            <h3 class="test-sm mt-2 font-semibold ">{certificado.title}</h3>
             <h4 class="text-end border-b-2 border-dashed border-gray-300">
               <small>{certificado.date}</small>
             </h4>
           </div>
         ))
       }
-      <div class="mt-4 certificate-link">
-        <img
-          class="certificate-image"
-          src={en.certificados.qr}
-          loading="eager"
-          decoding="async"
-          style="width: 130px; height: 130px;"
-          alt="Imagen de certificado"
-        />
+      <div class="mt-1 certificate-link">
+        <a href={en.certificados.link} target="_blank">
+          <img
+            class="certificate-image"
+            src={en.certificados.qr}
+            loading="eager"
+            decoding="async"
+            style="width: 130px; height: 130px;"
+            alt="Imagen de certificado"
+          />
+        </a>
+
         <a href={en.certificados.link} target="_blank">Link to certificates</a>
       </div>
     </section>
@@ -331,7 +334,7 @@ const { currentLocale } = Astro;
       {
         en.referencias.map((referencia) => (
           <div class="check_y  border-b-2 border-dashed border-gray-300">
-            <h3 class="mt-4 mb-2 font-semibold ">
+            <h3 class="mt-2 mb-2 font-semibold ">
               {referencia.nombre + " - " + referencia.cargo}
             </h3>
             <h4 class="text-start ml-5">
