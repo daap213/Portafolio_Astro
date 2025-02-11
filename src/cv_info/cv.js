@@ -45,6 +45,8 @@ export const es = {
       title: "Especialista general",
       company: "Information Tecnology XOA S. A.",
       description: [
+        "Desarrollo de plan para adquisición, limpieza, preprocesado y procesamiento de datos.",
+        "Desarrollo de web para la graficación, análisis y manipulación de datos, para el entrenamiento de un modelo de machine learning.",
         "Programación 'frontend' y 'backend', desarrollar, añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
         "Resolución de problemas, inquietudes y bugs, para los clientes relacionados con los servicios ofrecidos.",
         "Chequeo y monitoreo de servicios y servidores, para su óptimo funcionamiento.",
@@ -436,6 +438,8 @@ export const en = {
       title: "General Specialist",
       company: "Information Tecnology XOA S. A.",
       description: [
+        "Development of a plan for the acquisition, cleaning, preprocessing, and processing of data.",
+        "Development of web for graphing, analysis and manipulation of data, for the training of a machine learning model.",
         "Frontend and backend programming, developing, adding or improving new functionalities to the services offered by the company.",
         "Troubleshooting, addressing concerns, and fixing bugs for clients related to the offered services.",
         "Checking services and servers for optimal performance.",
