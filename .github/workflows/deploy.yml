@@ -57,7 +57,7 @@ jobs:
     needs: [build, deploy, changes] # Este trabajo depende de los trabajos 'build', 'deploy' y 'changes'
     runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     env:
-      PROD: ${{ true }} # Define la variable de entorno PROD
+      PROD: ${{ false }} # Define la variable de entorno PROD
     steps:
       - uses: actions/checkout@v4
         with:

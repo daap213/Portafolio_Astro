@@ -40,8 +40,8 @@ const generatePDF = async (pageURL, pdfFilePath) => {
     await browser.close();
 };
 
-const urlEn = urlweb + "en/cv"
-const urlEs = urlweb + "es/cv"
+const urlEn = urlweb + "Portafolio_Astro/en/cv"
+const urlEs = urlweb + "Portafolio_Astro/es/cv"
 
 // Generar el PDF para la versión en inglés
 generatePDF(urlEn, "public/docs/CV_EN.pdf");
