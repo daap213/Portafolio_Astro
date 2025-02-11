@@ -438,6 +438,7 @@ export const en = {
       title: "General Specialist",
       company: "Information Tecnology XOA S. A.",
       description: [
+
         "Development of a plan for the acquisition, cleaning, preprocessing, and processing of data.",
         "Development of web for graphing, analysis and manipulation of data, for the training of a machine learning model.",
         "Frontend and backend programming, developing, adding or improving new functionalities to the services offered by the company.",
