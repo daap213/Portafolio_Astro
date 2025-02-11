@@ -7,7 +7,7 @@ const urlweb = (isPROD == 'true') ? config.prod.URLWEB : config.dev.URLWEB
 const generatePDF = async (pageURL, pdfFilePath) => {
     console.log("pdf-cv", pageURL, pdfFilePath)
 
-    const browser = await launch();
+    const browser = await launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
 
     // Cambiar el modo de visualización a modo de impresión
