@@ -45,8 +45,9 @@ export const es = {
       title: "Especialista general",
       company: "Information Tecnology XOA S. A.",
       description: [
-        "Desarrollo de plan para adquisición, limpieza, preprocesado y procesamiento de datos.",
+        "Desarrollo de modelos de ML e integración con servicios de la compañia",
         "Desarrollo de web para la graficación, análisis y manipulación de datos, para el entrenamiento de un modelo de machine learning.",
+        "Desarrollo de plan para adquisición, limpieza, preprocesado y procesamiento de datos.",
         "Programación 'frontend' y 'backend', desarrollar, añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
         "Resolución de problemas, inquietudes y bugs, para los clientes relacionados con los servicios ofrecidos.",
         "Chequeo y monitoreo de servicios y servidores, para su óptimo funcionamiento.",
@@ -186,11 +187,11 @@ export const es = {
     {
       name: "Lenguajes de programación",
       skills: ["JAVA", "Python", "C/C++", "HTML", "JavaScript", "PHP"],
-      related: ["Node.js", "Laravel", "Jupyter Notebook"],
+      related: ["Node.js", "Laravel", "Jupyter Notebook", "Dataiku"],
     },
     {
       name: "Bases de datos",
-      skills: ["MySQL", "Postgresql", "MongoDB", "Redis"],
+      skills: ["MySQL", "Postgresql", "MongoDB", "Redis", "Meilisearch"],
       related: [
         "MongoDBCompass",
         "MongoDB Atlas",
@@ -198,6 +199,7 @@ export const es = {
         "XAMPP",
         "HeidiSQL",
         "PGAdmin4",
+        "DBeaver"
       ],
     },
     {
@@ -438,8 +440,9 @@ export const en = {
       title: "General Specialist",
       company: "Information Tecnology XOA S. A.",
       description: [
-        "Development of a plan for the acquisition, cleaning, preprocessing, and processing of data.",
+        "ML model development and integration with company services",
         "Development of web for graphing, analysis and manipulation of data, for the training of a machine learning model.",
+        "Development of a plan for the acquisition, cleaning, preprocessing, and processing of data.",
         "Frontend and backend programming, developing, adding or improving new functionalities to the services offered by the company.",
         "Troubleshooting, addressing concerns, and fixing bugs for clients related to the offered services.",
         "Checking services and servers for optimal performance.",
@@ -579,11 +582,11 @@ export const en = {
     {
       name: "Programming languages",
       skills: ["JAVA", "Python", "C/C++", "HTML", "JavaScript", "PHP"],
-      related: ["Node.js", "Laravel", "Jupyter Notebook"],
+      related: ["Node.js", "Laravel", "Jupyter Notebook", "Dataiku"],
     },
     {
       name: "Databases",
-      skills: ["MySQL", "Postgresql", "MongoDB", "Redis"],
+      skills: ["MySQL", "Postgresql", "MongoDB", "Redis", "Meilisearch"],
       related: [
         "MongoDBCompass",
         "MongoDB Atlas",
@@ -591,6 +594,7 @@ export const en = {
         "XAMPP",
         "HeidiSQL",
         "PGAdmin4",
+        "DBeaver"
       ],
     },
     {
