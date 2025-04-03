@@ -31,7 +31,6 @@ const generatePDF = async (pageURL, pdfFilePath) => {
             top: 35,
         },
     };
-
     // Generar el PDF con las opciones definidas
     await page.pdf(pdfOptions);
 
