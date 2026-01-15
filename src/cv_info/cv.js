@@ -436,7 +436,7 @@ export const en = {
   tituloUniversidad: "Mechatronic Engineer",
   nombreTitulo: "Ing. " + nombre,
   titleWeb:
-    "Portafolio: " +
+    "Portfolio: " +
     nombre +
     " - Mechatronic Engineer, Developer and Programmer",
   descriptionWeb:
