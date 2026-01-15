@@ -36,8 +36,8 @@ export const es = {
   linkedin_user: linkedin_user,
   work_state: "Trabajo remoto",
   sobremi: [
-    "Soy ecuatoriano, <strong>Ingeniero Mecatrónico</strong> apasionado por el mundo tecnológico y con ello la posibilidad de ser parte de él creando mis propios proyectos.",
-    "Cuento con habilidades y experiencia relacionada a <strong>diseño 3D, programación web y aplicaciones, análisis de datos, ciencia de datos, y desarrollo de sistemas embebidos</strong>. Capaz de trabajar y aprender de forma autónoma, predispuesto a trabajar en equipos multidisciplinarios para compartir, mejorar o aprender conocimientos varios.",
+    "Soy ecuatoriano, <strong>Ingeniero Mecatrónico</strong> con pasión por la tecnología, especializado en <strong>desarrollo y programación de software</strong>. Cuento con sólida experiencia en la implementación de soluciones innovadoras y actualmente profundizando mi expertise en <strong>ciberseguridad</strong> como línea estratégica de crecimiento profesional.",
+    "Mi perfil combina habilidades técnicas avanzadas en <strong>desarrollo full-stack, análisis y ciencia de datos, seguridad informática y sistemas embebidos</strong>. Con capacidad comprobada para diseñar arquitecturas seguras, implementar medidas de protección, realizar auditorías de seguridad y proponer soluciones integrales que minimicen riesgos. Autodidacta, comprometido con la excelencia técnica y la mejora continua, capaz de trabajar en equipos multidisciplinarios y de impacto en organizaciones de cualquier tamaño.",
   ],
   experiencias: [
     {
@@ -45,15 +45,16 @@ export const es = {
       title: "Especialista general",
       company: "Information Tecnology XOA S. A.",
       description: [
-        "Desarrollo de modelos de ML e integración con servicios de la compañia",
-        "Desarrollo de web para la graficación, análisis y manipulación de datos, para el entrenamiento de un modelo de machine learning.",
-        "Desarrollo de plan para adquisición, limpieza, preprocesado y procesamiento de datos.",
-        "Programación 'frontend' y 'backend', desarrollar, añadir o mejorar nuevas funcionalidades a los servicios que ofrece la empresa.",
-        "Resolución de problemas, inquietudes y bugs, para los clientes relacionados con los servicios ofrecidos.",
-        "Chequeo y monitoreo de servicios y servidores, para su óptimo funcionamiento.",
-        "Desarrollo de servicios locales para uso propio de la compañía.",
-        "Actualización y migración de versiones de los servicios ofrecidos a diferentes clientes.",
-        "Ensamblar y realizar pruebas de funcionamiento de sistemas embebidos de la empresa.",
+        "Desarrollo full-stack: diseño e implementación de aplicaciones web con arquitecturas seguras, utilizando tecnologías modernas y buenas prácticas de codificación.",
+        "Desarrollo de modelos de Machine Learning e integración con APIs y servicios empresariales, incluyendo pipelines de ML en producción.",
+        "Análisis y procesamiento de datos: definición de estrategias de adquisición, limpieza, preprocesado y procesamiento de grandes volúmenes de datos con herramientas especializadas.",
+        "Seguridad informática: implementación de medidas de protección, auditorías de código, validación de entrada, gestión segura de información, y monitoreo de servicios.",
+        "Propuestas y mejoras de seguridad: identificación de vulnerabilidades, evaluación de riesgos, diseño de soluciones de mitigación.",
+        "Soporte técnico: trabajo de campo para diagnóstico, detección y resolución de problemas críticos en producto y servicios de clientes.",
+        "Monitoreo proactivo: supervisión continua de servicios, servidores y aplicaciones en producción para garantizar disponibilidad, rendimiento y seguridad.",
+        "Actualización y migración de versiones: planificación e implementación de actualizaciones seguras con minimización de impacto y validación exhaustiva.",
+        "Desarrollo de herramientas internas: creación de servicios y utilidades propias de la empresa para optimizar procesos operacionales.",
+        "Control de calidad: pruebas funcionales, de seguridad y de rendimiento en sistemas embebidos y aplicaciones antes de su liberación.",
       ],
       link: "",
     },
@@ -187,12 +188,13 @@ export const es = {
     {
       name: "Lenguajes de programación",
       skills: ["JAVA", "Python", "C/C++", "HTML", "JavaScript", "PHP"],
-      related: ["Node.js", "Laravel", "Jupyter Notebook", "Dataiku"],
+      related: ["Node.js", "Laravel", "Jupyter Notebook", "Dataiku", "Astro", "Vue.js"],
     },
     {
       name: "Bases de datos",
-      skills: ["MySQL", "Postgresql", "MongoDB", "Redis","Meilisearch"],
+      skills: ["MySQL", "Postgresql", "MongoDB", "Redis", "Meilisearch"],
       related: [
+        "Supabase",
         "MongoDBCompass",
         "MongoDB Atlas",
         "Laragon",
@@ -204,7 +206,22 @@ export const es = {
     },
     {
       name: "Otras herramientas de desarrollo",
-      skills: ["Git & GitHub", "Docker", "MATLAB & Simulink"],
+      skills: ["Git & GitHub", "Docker", "Cloudflare", "Copilot", "MATLAB & Simulink"],
+    },
+    {
+      name: "Ciberseguridad",
+      skills: [
+        "ISO 27001",
+        "OWASP Top 10",
+        "Ley Orgánica de Protección de Datos Personales (Ecuador)",
+        "Herramientas OSINT",
+        "Shodan",
+      ],
+      related: [
+        "Análisis de vulnerabilidades",
+        "Gestión de riesgos",
+        "Auditorías de seguridad",
+      ],
     },
     {
       name: "Herramientas de hardware",
@@ -431,8 +448,8 @@ export const en = {
   linkedin_user: linkedin_user,
   work_state: "Remote work",
   sobremi: [
-    "I am Ecuadorian, <strong>Mechatronic Engineer</strong> passionate about the technological world and with it the possibility of being part of it creating my own projects.",
-    "I have skills and experience related to <strong>3D design, web and application programming, data analysis, data science, and embedded systems development</strong>. Able to work and learn autonomously, predisposed to work in multidisciplinary teams to share, improve or learn various knowledge.",
+    "I am Ecuadorian, <strong>Mechatronic Engineer</strong> with a passion for technology and a specialization in <strong>software development and programming</strong>. I have extensive experience implementing innovative solutions, and I'm currently deepening my expertise in <strong>cybersecurity</strong> as a strategic line of professional growth.",
+    "My profile combines advanced technical skills in <strong>full-stack development, data analysis and science, information security, and embedded systems</strong>. With proven ability to design secure architectures, implement protection measures, conduct security audits, and propose comprehensive solutions that minimize risks. Self-taught, committed to technical excellence and continuous improvement, capable of working in multidisciplinary teams and delivering impact in organizations of any size.",
   ],
   experiencias: [
     {
@@ -440,15 +457,16 @@ export const en = {
       title: "General Specialist",
       company: "Information Tecnology XOA S. A.",
       description: [
-        "ML model development and integration with company services",
-        "Development of web for graphing, analysis and manipulation of data, for the training of a machine learning model.",
-        "Development of a plan for the acquisition, cleaning, preprocessing, and processing of data.",
-        "Frontend and backend programming, developing, adding or improving new functionalities to the services offered by the company.",
-        "Troubleshooting, addressing concerns, and fixing bugs for clients related to the offered services.",
-        "Checking services and servers for optimal performance.",
-        "Updating and migrating versions of the services offered to different clients.",
-        "Developing local services for the company's internal use.",
-        "Assembling and testing embedded systems for the company.",
+        "Full-stack development: design and implementation of secure web applications using modern technologies and coding best practices.",
+        "Machine Learning model development and integration with company APIs and enterprise services, including production ML pipelines.",
+        "Data analysis and processing: defining strategies for acquisition, cleaning, preprocessing, and handling large-scale data volumes with specialized tools.",
+        "Information security: implementing protection measures, code audits, input validation, secure credential management, and service hardening.",
+        "Security improvements: identifying vulnerabilities, assessing risks, designing mitigation solutions, and ensuring regulatory compliance.",
+        "Technical support: field work for diagnostics, problem detection, and critical infrastructure issue resolution at client sites.",
+        "Proactive monitoring: continuous supervision of services, servers, and production applications to ensure availability, performance, and security.",
+        "Version updates and migrations: planning and implementing secure updates with minimal downtime and comprehensive validation.",
+        "Internal tool development: creating company-specific services and utilities to optimize operational processes.",
+        "Quality control: functional, security, and performance testing for embedded systems and web applications before release.",
       ],
       link: "",
     },
@@ -582,12 +600,13 @@ export const en = {
     {
       name: "Programming languages",
       skills: ["JAVA", "Python", "C/C++", "HTML", "JavaScript", "PHP"],
-      related: ["Node.js", "Laravel", "Jupyter Notebook", "Dataiku"],
+      related: ["Node.js", "Laravel", "Jupyter Notebook", "Dataiku", "Astro", "Vue.js"],
     },
     {
       name: "Databases",
-      skills: ["MySQL", "Postgresql", "MongoDB", "Redis","Meilisearch"],
+      skills: ["MySQL", "Postgresql", "MongoDB", "Redis", "Meilisearch"],
       related: [
+        "Supabase",
         "MongoDBCompass",
         "MongoDB Atlas",
         "Laragon",
@@ -599,7 +618,22 @@ export const en = {
     },
     {
       name: "Other development tools",
-      skills: ["Git & GitHub", "Docker", "MATLAB & Simulink"],
+      skills: ["Git & GitHub", "Docker", "Cloudflare", "Copilot", "MATLAB & Simulink"],
+    },
+    {
+      name: "Cybersecurity",
+      skills: [
+        "ISO 27001",
+        "OWASP Top 10",
+        "Personal Data Protection Law (Ecuador)",
+        "OSINT Tools",
+        "Shodan",
+      ],
+      related: [
+        "Vulnerability analysis",
+        "Risk management",
+        "Security audits",
+      ],
     },
     {
       name: "hardware tools",
