@@ -76,23 +76,64 @@ const { currentLocale } = Astro;
         display: flex;
         align-items: center;
       }
+
+      /* Estilos de impresión para evitar espacios en blanco */
+      @media print {
+        /* Permitir que las secciones grandes se dividan */
+        section {
+          break-inside: auto;
+        }
+
+        /* Evitar que los títulos queden huérfanos */
+        h2,
+        h3 {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+
+        /* Cada item de lista no se corta */
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        /* Los bloques pequeños como educación, certificados no se cortan */
+        .check_y {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        /* Bloques de experiencia pueden dividirse, pero cada item no */
+        #experiencia > div {
+          break-inside: auto;
+          page-break-inside: auto;
+        }
+
+        /* El encabezado de experiencia (título + empresa) no se separa */
+        #experiencia h3,
+        #experiencia h4 {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+
+        /* Proyectos con QR no se cortan */
+        #proyectos > div {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        /* Referencias no se cortan */
+        #referencias > div {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+      }
     </style>
     <script>
+      // Script para ajustes adicionales de impresión si es necesario
       window.addEventListener("load", () => {
-        const titles = document.querySelectorAll("h2, h3, p");
-
-        titles.forEach((title) => {
-          const section = title.closest("div");
-
-          if (section) {
-            const sectionBottom = section.getBoundingClientRect().bottom;
-            const titleBottom = title.getBoundingClientRect().bottom;
-
-            if (titleBottom < sectionBottom) {
-              section.style.breakInside = "avoid-page";
-            }
-          }
-        });
+        // El manejo de page breaks ahora se hace principalmente con CSS
+        // Este script queda disponible para ajustes dinámicos futuros
       });
     </script>
   </head>
@@ -233,36 +274,6 @@ const { currentLocale } = Astro;
       }
     </section>
 
-    <section id="proyectos">
-      <h2
-        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
-      >
-        Projects
-      </h2>
-      {
-        en.proyectos.map((proyecto) => (
-          <div class="flex items-center flex-col-2 check_y border-b-2 border-dashed border-gray-300">
-            <div class="w-full">
-              <h3 class="mt-1 font-semibold ">{proyecto.title}</h3>
-              <p
-                class=" text-sm px-3 py-1.5 text-justify"
-                set:html={proyecto.description}
-              />
-            </div>
-            <a href={proyecto.github} target="_blank">
-              <img
-                src={proyecto.qr}
-                loading="eager"
-                decoding="async"
-                alt={proyecto.title}
-                style="width: 160px; height: 130px;"
-              />
-            </a>
-          </div>
-        ))
-      }
-    </section>
-
     <section id="habilidades">
       <h2
         class="text-lg font-extrabold border-b-4 border-double border-gray-400"
@@ -291,6 +302,36 @@ const { currentLocale } = Astro;
           ))
         }
       </div>
+    </section>
+
+    <section id="proyectos">
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Projects
+      </h2>
+      {
+        en.proyectos.map((proyecto) => (
+          <div class="flex items-center flex-col-2 check_y border-b-2 border-dashed border-gray-300">
+            <div class="w-full">
+              <h3 class="mt-1 font-semibold ">{proyecto.title}</h3>
+              <p
+                class=" text-sm px-3 py-1.5 text-justify"
+                set:html={proyecto.description}
+              />
+            </div>
+            <a href={proyecto.github} target="_blank">
+              <img
+                src={proyecto.qr}
+                loading="eager"
+                decoding="async"
+                alt={proyecto.title}
+                style="width: 160px; height: 130px;"
+              />
+            </a>
+          </div>
+        ))
+      }
     </section>
 
     <section id="certificados">

@@ -76,23 +76,64 @@ const { currentLocale } = Astro;
         display: flex;
         align-items: center;
       }
+
+      /* Estilos de impresión para evitar espacios en blanco */
+      @media print {
+        /* Permitir que las secciones grandes se dividan */
+        section {
+          break-inside: auto;
+        }
+
+        /* Evitar que los títulos queden huérfanos */
+        h2,
+        h3 {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+
+        /* Cada item de lista no se corta */
+        li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        /* Los bloques pequeños como educación, certificados no se cortan */
+        .check_y {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        /* Bloques de experiencia pueden dividirse, pero cada item no */
+        #experiencia > div {
+          break-inside: auto;
+          page-break-inside: auto;
+        }
+
+        /* El encabezado de experiencia (título + empresa) no se separa */
+        #experiencia h3,
+        #experiencia h4 {
+          break-after: avoid;
+          page-break-after: avoid;
+        }
+
+        /* Proyectos con QR no se cortan */
+        #proyectos > div {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        /* Referencias no se cortan */
+        #referencias > div {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+      }
     </style>
     <script>
+      // Script para ajustes adicionales de impresión si es necesario
       window.addEventListener("load", () => {
-        const titles = document.querySelectorAll("h2, h3, p");
-
-        titles.forEach((title) => {
-          const section = title.closest("div");
-
-          if (section) {
-            const sectionBottom = section.getBoundingClientRect().bottom;
-            const titleBottom = title.getBoundingClientRect().bottom;
-
-            if (titleBottom < sectionBottom) {
-              section.style.breakInside = "avoid-page";
-            }
-          }
-        });
+        // El manejo de page breaks ahora se hace principalmente con CSS
+        // Este script queda disponible para ajustes dinámicos futuros
       });
     </script>
   </head>
@@ -232,6 +273,36 @@ const { currentLocale } = Astro;
       }
     </section>
 
+    <section id="habilidades">
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        Habilidades
+      </h2>
+      <div class="grid grid-cols-1 gap-1">
+        {
+          es.habilidades.map((habilidad) => (
+            <div class=" border-b-2 border-dashed border-gray-300">
+              <div class="check_y grid m-1">
+                <h3 class="mt-1 mb-1 font-semibold">{habilidad.name}</h3>
+                <div class="text-sm px-1 h-auto max-w-full my-auto border-gray-400">
+                  {habilidad.skills.join(" / ")}
+                </div>
+              </div>
+              {habilidad.related && (
+                <div class="check_y grid pl-2 border-l-2 border-dashed border-gray-300">
+                  <h3 class=" font-semibold">Relacionado</h3>
+                  <div class="text-sm px-1 h-auto  max-w-full my-auto">
+                    {habilidad.related.join(" / ")}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
     <section id="proyectos">
       <h2
         class="text-lg font-extrabold border-b-4 border-double border-gray-400"
@@ -261,36 +332,6 @@ const { currentLocale } = Astro;
           </div>
         ))
       }
-    </section>
-
-    <section id="habilidades">
-      <h2
-        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
-      >
-        Habilidades
-      </h2>
-      <div class="grid grid-cols-1 gap-1">
-        {
-          es.habilidades.map((habilidad) => (
-            <div class=" border-b-2 border-dashed border-gray-300">
-              <div class="check_y grid m-1">
-                <h3 class="mt-1 mb-1 font-semibold">{habilidad.name}</h3>
-                <div class="text-sm px-1 h-auto max-w-full my-auto border-gray-400">
-                  {habilidad.skills.join(" / ")}
-                </div>
-              </div>
-              {habilidad.related && (
-                <div class="check_y grid pl-2 border-l-2 border-dashed border-gray-300">
-                  <h3 class=" font-semibold">Relacionado</h3>
-                  <div class="text-sm px-1 h-auto  max-w-full my-auto">
-                    {habilidad.related.join(" / ")}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))
-        }
-      </div>
     </section>
 
     <section id="certificados">
