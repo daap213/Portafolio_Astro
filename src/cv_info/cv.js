@@ -80,7 +80,7 @@ export const es = {
   ],
   gradosCompletados: [
     {
-      date: "Guayaquil, Ecuador / JUL 2024 - Cursando",
+      date: "Guayaquil, Ecuador / JUL 2024 - ENE 2026",
       title: "Posgrado, Maestría en ciberseguridad",
       institution: "Universidad Casa Grande",
       description: [],
@@ -492,7 +492,7 @@ export const en = {
   ],
   gradosCompletados: [
     {
-      date: "Guayaquil, Ecuador / JUL 2024 - Present",
+      date: "Guayaquil, Ecuador / JUL 2024 - JAN 2026",
       title: "Postgraduate, Master in Cybersecurity",
       institution: "Universidad Casa Grande",
       description: [],
