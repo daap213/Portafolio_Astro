@@ -15,7 +15,7 @@
     "@astrojs/check": "0.9.4",
     "@astrojs/tailwind": "6.0.2",
     "@fontsource-variable/onest": "5.2.9",
-    "astro": "5.15.9",
+    "astro": "5.18.1",
     "astro-robots-txt": "^1.0.0",
     "puppeteer": "^24.18.0",
     "qrcode": "^1.5.4",
