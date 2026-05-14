@@ -35,7 +35,7 @@ jobs:
     env:
       PROD: ${{ false }} # Define la variable de entorno PROD
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }} # Clona el repositorio en la rama actual
       - name: Install dependencies
@@ -49,11 +49,11 @@ jobs:
       - name: Generate PDFs
         run: npm run GPDF # Genera los PDFs usando la vista del servidor
       - name: Stop Astro preview server
-        run: kill $(lsof -t -i:4321) # Detiene el servidor en el puerto predeterminado de Astro (3000)
+        run: kill $(lsof -t -i:4321) # Detiene el servidor en el puerto predeterminado de Astro (4321)
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }} # Utiliza el token de GitHub para autenticarse
-        uses: stefanzweifel/git-auto-commit-action@v5 # Realiza commit y push de los cambios
+        uses: stefanzweifel/git-auto-commit-action@v7 # Realiza commit y push de los cambios
         with:
           branch: cloud_version
           commit_message: Update PDFs # Mensaje del commit
