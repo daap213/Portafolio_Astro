@@ -16,7 +16,7 @@ label3 = label3 || label2 || label;
   <!-- Navbar -->
   <nav
     id="navbar"
-    class="hidden menu md:flex md:flex-wrap px-3 text-sm font-medium md:rounded-full rounded-lg text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="hidden menu grid-hidden md:flex md:flex-wrap px-3 text-sm font-medium md:rounded-full rounded-lg text-gray-600 dark:text-gray-200 justify-center items-center"
   >
     {
       navItems.map((link: Props["navItems"]) => (
@@ -60,33 +60,71 @@ label3 = label3 || label2 || label;
 </header>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  const initializeNavbar = () => {
     const navbar = document.getElementById("navbar");
     const toggleButton = document.getElementById("toggleButton");
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const id = entry.target.getAttribute("id");
-          const link = document.querySelector(`.menu a[href="#${id}"]`);
-          if (entry.isIntersecting) {
-            link?.classList.add("text-yellow-500");
-          } else {
-            link?.classList.remove("text-yellow-500");
-          }
-        });
-      },
-      { rootMargin: "-30% 0px -70% 0px" }
-    );
-    const menuLinks = document.querySelectorAll(".menu a[href^='#']");
+    if (!navbar || !toggleButton || navbar.dataset.navReady === "true") {
+      return;
+    }
 
-    menuLinks.forEach((menuLink) => {
-      const hash = menuLink.getAttribute("href") ?? "";
-      const target = document.querySelector(hash);
-      if (target) {
-        observer.observe(target);
+    navbar.dataset.navReady = "true";
+
+    const menuLinks = document.querySelectorAll(".menu a[href^='#']");
+    const sections = Array.from(menuLinks)
+      .map((menuLink) => {
+        const hash = menuLink.getAttribute("href") ?? "";
+        const section = hash ? document.querySelector(hash) : null;
+        return {
+          link: menuLink,
+          section,
+        };
+      })
+      .filter(({ section }) => section != null);
+
+    const clearActiveLinks = () => {
+      menuLinks.forEach((menuLink) => {
+        menuLink.classList.remove("text-yellow-500", "dark:text-yellow-400");
+      });
+    };
+
+    const updateActiveLink = () => {
+      if (sections.length === 0) {
+        return;
       }
-    });
+
+      const activationLine = window.innerHeight * 0.35;
+      let activeItem = sections[0];
+
+      sections.forEach((item) => {
+        if (!item.section) {
+          return;
+        }
+        const top = item.section.getBoundingClientRect().top;
+        if (top <= activationLine) {
+          activeItem = item;
+        }
+      });
+
+      clearActiveLinks();
+      activeItem.link.classList.add("text-yellow-500", "dark:text-yellow-400");
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) {
+        return;
+      }
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateActiveLink();
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    updateActiveLink();
 
     // Función para alternar la visibilidad del navbar
     function toggleNavbar() {
@@ -96,7 +134,24 @@ label3 = label3 || label2 || label;
 
     // Escuchar el clic en el botón de alternancia
     toggleButton?.addEventListener("click", toggleNavbar);
-  });
+
+    menuLinks.forEach((menuLink) => {
+      menuLink.addEventListener("click", () => {
+        navbar.classList.add("grid-hidden");
+        toggleButton.classList.remove("open");
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeNavbar, {
+      once: true,
+    });
+  } else {
+    initializeNavbar();
+  }
+
+  document.addEventListener("astro:page-load", initializeNavbar);
 </script>
 
 <style>
