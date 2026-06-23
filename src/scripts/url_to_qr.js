@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs'; // Importar módulo 'fs'
 import { toBuffer } from 'qrcode'; // Importar biblioteca 'qrcode'
-import { es } from "@cv/cv.js";
+import { es } from "../cv_info//cv.js";
 
 // Leer el archivo JSON
 let ulrs = []

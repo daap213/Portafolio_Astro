@@ -3,9 +3,16 @@ interface Props {
   title: string;
   company?: string;
   date?: string;
+  appreciation?: string;
   extraclass?: string;
 }
-const { title, company, date, extraclass = "md:col-span-2" } = Astro.props;
+const {
+  title,
+  company,
+  date,
+  appreciation,
+  extraclass = "md:col-span-2",
+} = Astro.props;
 ---
 
 <div
@@ -21,6 +28,13 @@ const { title, company, date, extraclass = "md:col-span-2" } = Astro.props;
           <h4 class="font-semibold text-lg text-gray-600 dark:text-white">
             {company}
           </h4>
+        )
+      }
+      {
+        appreciation && (
+          <span class="inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-300/50 dark:border-amber-600/30">
+            {appreciation}
+          </span>
         )
       }
       {

@@ -2,7 +2,7 @@
 //   raizApp = "/Portafolio_Astro/"  para servidor
 import { config } from "./../../config.js";
 
-const isPROD = import.meta.env.PROD;
+const isPROD = import.meta.env?.PROD ?? false;
 export const raizApp = isPROD ? config.prod.RAIZAPP + "/" : config.dev.RAIZAPP;
 const rutaProyect = raizApp + "img/projects/";
 export const rutaQR = raizApp + "img/qr/";
@@ -83,6 +83,7 @@ export const es = {
       date: "Guayaquil, Ecuador / JUL 2024 - ENE 2026",
       title: "Posgrado, Maestría en ciberseguridad",
       institution: "Universidad Casa Grande",
+      appreciation: "Aprobado con honores; Cum laude",
       description: [],
     },
     {
@@ -495,6 +496,7 @@ export const en = {
       date: "Guayaquil, Ecuador / JUL 2024 - JAN 2026",
       title: "Postgraduate, Master in Cybersecurity",
       institution: "Universidad Casa Grande",
+      appreciation: "Passed with honors; Cum laude",
       description: [],
     },
     {

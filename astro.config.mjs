@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config'
-import tailwind from "@astrojs/tailwind"
 import robotsTxt from "astro-robots-txt"
 import { config } from "./config"
 
@@ -8,7 +7,7 @@ const base = (isPROD) ? config.prod.RAIZAPP : config.dev.RAIZAPP
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), robotsTxt()],
+  integrations: [robotsTxt()],
   site: 'https://portafolio.daaptech.org', // site: 'https://porfolio.dev/' for local
   base: base,
   i18n: {

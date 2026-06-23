@@ -167,7 +167,17 @@ label3 = label3 || label2 || label;
 
   @keyframes nav-shadown {
     to {
-      @apply shadow-lg ring-1 backdrop-blur bg-gray-300/60 dark:bg-gray-800/60 ring-white/10;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      backdrop-filter: blur(8px);
+      background-color: rgb(209 213 219 / 0.6);
+      outline: 1px solid rgb(255 255 255 / 0.1);
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    @keyframes nav-shadown {
+      to {
+        background-color: rgb(31 41 55 / 0.6);
+      }
     }
   }
 

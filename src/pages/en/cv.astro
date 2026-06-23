@@ -233,6 +233,11 @@ const { currentLocale } = Astro;
         en.gradosCompletados.map((grado) => (
           <div class="check_y">
             <h3 class="mt-4 font-semibold ">{grado.title}</h3>
+            {grado.appreciation && (
+              <p class="text-xs italic text-amber-700 dark:text-amber-400 mt-0.5 font-medium">
+                - {grado.appreciation}
+              </p>
+            )}
             <h4 class="text-end border-b-2 border-dashed border-gray-300">
               <small>{grado.institution + " / " + grado.date}</small>
             </h4>
