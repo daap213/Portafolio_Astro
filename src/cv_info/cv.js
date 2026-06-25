@@ -35,11 +35,13 @@ export const es = {
   git_user: git_user,
   linkedin_user: linkedin_user,
   work_state: "Trabajo remoto",
-  sobremi: [
-    "Soy ecuatoriano, <strong>Ingeniero Mecatrónico y Máster en Ciberseguridad</strong>, apasionado por la tecnología y la innovación. Cuento con experiencia en el diseño, desarrollo e implementación de soluciones tecnológicas de alto impacto, integrando <strong>desarrollo de software, análisis de datos, inteligencia artificial y ciberseguridad</strong> para resolver desafíos complejos en entornos empresariales e industriales.",
+ sobremi: [
+"Soy ecuatoriano, <strong>Ingeniero Mecatrónico y Máster en Ciberseguridad</strong>, apasionado por la tecnología, la innovación y la resolución de problemas complejos. Cuento con experiencia en el diseño, desarrollo e implementación de soluciones tecnológicas de alto impacto, integrando <strong>desarrollo de software, análisis de datos, inteligencia artificial y ciberseguridad</strong> para generar valor en entornos empresariales e industriales.",
 
-    "Mi perfil combina una sólida formación técnica con una visión integral de negocio, permitiéndome participar en todo el ciclo de vida de las soluciones tecnológicas: desde la adquisición y procesamiento de datos hasta el desarrollo de aplicaciones, automatización de procesos y protección de activos digitales. Poseo experiencia en <strong>desarrollo full-stack, machine learning, arquitectura de sistemas, seguridad de la información, gestión de riesgos, auditorías de seguridad y sistemas IoT</strong>. Me caracterizo por mi capacidad de aprendizaje continuo, pensamiento analítico, orientación a resultados, liderazgo técnico, trabajo colaborativo y compromiso con la excelencia profesional."
-  ],
+"Mi perfil combina una sólida formación técnica con una visión integral de negocio, permitiéndome participar en todo el ciclo de vida de las soluciones tecnológicas: desde la adquisición y procesamiento de datos hasta el desarrollo de aplicaciones, automatización de procesos y protección de activos digitales. Poseo experiencia en <strong>desarrollo full-stack, machine learning, arquitectura de sistemas, seguridad de la información, gestión de riesgos, auditorías de seguridad y sistemas IoT</strong>. Asimismo, he liderado iniciativas técnicas y coordinado proyectos multidisciplinarios, promoviendo la colaboración entre equipos y la entrega de soluciones alineadas con los objetivos organizacionales.",
+
+"Complemento mi perfil con una comunicación efectiva en entornos internacionales gracias a mi dominio profesional del inglés (C1), facilitando la interacción con equipos, documentación y tecnologías globales. Mantengo un enfoque de aprendizaje continuo y una visión responsable de la inteligencia artificial, impulsando su adopción tanto desde una perspectiva ética como práctica para mejorar la productividad, optimizar procesos y apoyar la toma de decisiones basada en datos. Me caracterizo por mi pensamiento analítico, liderazgo técnico, orientación a resultados y compromiso con la excelencia profesional."
+] ,
   experiencias: [
     {
       date: "MAY 2023 - Actualidad",
@@ -454,11 +456,13 @@ export const en = {
   git_user: git_user,
   linkedin_user: linkedin_user,
   work_state: "Remote work",
-  sobremi: [
-    "I am Ecuadorian, <strong>Mechatronics Engineer and Master’s in Cybersecurity</strong>, passionate about technology and innovation. I have experience in the design, development, and implementation of high-impact technological solutions, integrating <strong>software development, data analysis, artificial intelligence, and cybersecurity</strong> to solve complex challenges in business and industrial environments.",
+     sobremi: [
+"I am Ecuadorian, a <strong>Mechatronics Engineer and Master's Graduate in Cybersecurity</strong>, passionate about technology, innovation, and solving complex challenges. I have experience in the design, development, and implementation of high-impact technological solutions, integrating <strong>software development, data analytics, artificial intelligence, and cybersecurity</strong> to deliver value in both business and industrial environments.",
 
-    "My profile combines a strong technical background with a comprehensive business perspective, allowing me to participate in the entire lifecycle of technological solutions: from data acquisition and processing to application development, process automation, and digital asset protection. I have experience in <strong>full-stack development, machine learning, system architecture, information security, risk management, security auditing, and IoT systems</strong>. I am characterized by continuous learning ability, analytical thinking, results orientation, technical leadership, collaborative work, and commitment to professional excellence."
-  ],
+"My profile combines a strong technical foundation with a business-oriented perspective, enabling me to contribute throughout the entire lifecycle of technology solutions: from data acquisition and processing to application development, process automation, and digital asset protection. I have experience in <strong>full-stack development, machine learning, systems architecture, information security, risk management, security auditing, and IoT systems</strong>. In addition, I have led technical initiatives and coordinated multidisciplinary projects, fostering collaboration across teams and delivering solutions aligned with organizational objectives.",
+
+"I complement my technical expertise with effective communication in international environments, supported by professional English proficiency (C1), allowing me to collaborate with global teams, technologies, and documentation. I maintain a continuous learning mindset and promote the responsible adoption of artificial intelligence, balancing ethical considerations with practical applications to enhance productivity, optimize processes, and support data-driven decision-making. I am recognized for my analytical thinking, technical leadership, results-oriented approach, collaborative mindset, and commitment to professional excellence."
+],
   experiencias: [
     {
       date: "MAY 2023 - Present",
