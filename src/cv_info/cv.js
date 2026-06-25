@@ -21,12 +21,12 @@ export const es = {
   nombre: nombre,
   siglasNombre: siglasNombre,
   mi_web: "portafolio.daaptech.org/",
-  tituloUniversidad: "Ingeniero Mecatrónico",
+  tituloUniversidad: "Magíster en Ciberseguridad | Ingeniero Mecatrónico",
   nombreTitulo: "Ing. " + nombre,
   titleWeb:
     "Portafolio: " +
     nombre +
-    " - Ingeniero Mecatrónico, Desarrollador y Programador",
+    " - Magíster en Ciberseguridad | Ingeniero Mecatrónico, Desarrollador y Programador",
   descriptionWeb:
     "Graduado de la carrera Mecatrónica en la universidad ESPOL, en Ecuador.",
   ubicacion: "Ecuador - Guayaquil",
@@ -36,8 +36,9 @@ export const es = {
   linkedin_user: linkedin_user,
   work_state: "Trabajo remoto",
   sobremi: [
-    "Soy ecuatoriano, <strong>Ingeniero Mecatrónico</strong> con pasión por la tecnología, especializado en <strong>desarrollo y programación de software</strong>. Cuento con sólida experiencia en la implementación de soluciones innovadoras y actualmente profundizando mi expertise en <strong>ciberseguridad</strong> como línea estratégica de crecimiento profesional.",
-    "Mi perfil combina habilidades técnicas avanzadas en <strong>desarrollo full-stack, análisis y ciencia de datos, seguridad informática y sistemas embebidos</strong>. Con capacidad comprobada para diseñar arquitecturas seguras, implementar medidas de protección, realizar auditorías de seguridad y proponer soluciones integrales que minimicen riesgos. Autodidacta, comprometido con la excelencia técnica y la mejora continua, capaz de trabajar en equipos multidisciplinarios y de impacto en organizaciones de cualquier tamaño.",
+    "Soy ecuatoriano, <strong>Ingeniero Mecatrónico y Máster en Ciberseguridad</strong>, apasionado por la tecnología y la innovación. Cuento con experiencia en el diseño, desarrollo e implementación de soluciones tecnológicas de alto impacto, integrando <strong>desarrollo de software, análisis de datos, inteligencia artificial y ciberseguridad</strong> para resolver desafíos complejos en entornos empresariales e industriales.",
+
+    "Mi perfil combina una sólida formación técnica con una visión integral de negocio, permitiéndome participar en todo el ciclo de vida de las soluciones tecnológicas: desde la adquisición y procesamiento de datos hasta el desarrollo de aplicaciones, automatización de procesos y protección de activos digitales. Poseo experiencia en <strong>desarrollo full-stack, machine learning, arquitectura de sistemas, seguridad de la información, gestión de riesgos, auditorías de seguridad y sistemas IoT</strong>. Me caracterizo por mi capacidad de aprendizaje continuo, pensamiento analítico, orientación a resultados, liderazgo técnico, trabajo colaborativo y compromiso con la excelencia profesional."
   ],
   experiencias: [
     {
@@ -60,23 +61,28 @@ export const es = {
     },
     {
       date: "MAR 2022 - ABR 2022",
-      title: "Ayudante de investigación (Técnico de desarrollo)",
+      title: "Ayudante de Investigación (Técnico de Desarrollo)",
       company: "Centro de Tecnologías de Información (CTI)",
       description: [
-        "Desarrollo de modelos de predicción para el consumo energético de la infraestructura de un Data Center, desarrollando Jupyter notebooks para el preprocesado, procesado de datos, ejecución de los diferentes modelos de ML y comparación de los resultados.",
-        "Revisión y mejoramiento de aplicación para la obtención de datos de los equipos.",
-      ],
-      //link: "https://twitch.tv/midudev",
+        "Participación en un proyecto de investigación orientado a la predicción del consumo energético de la infraestructura de un Data Center mediante técnicas de Machine Learning.",
+        "Diseño y desarrollo de notebooks en Jupyter para la adquisición, limpieza, preprocesamiento y análisis exploratorio de datos provenientes de sistemas de monitoreo.",
+        "Implementación, entrenamiento y evaluación comparativa de distintos modelos predictivos, utilizando métricas de desempeño para determinar la solución más eficiente.",
+        "Optimización y mejora de una aplicación de recolección de datos, fortaleciendo la calidad, consistencia y disponibilidad de la información utilizada en los modelos analíticos.",
+        "Colaboración en actividades de investigación que contribuyeron a la publicación científica presentada en IEEE Future Networks World Forum (FNWF 2022)."
+      ]
     },
     {
       date: "MAY 2021 - JUL 2021",
-      title: "Programador web",
-      company: "Edu4lab",
+      title: "Programador Web",
+      company: "Edu4Lab",
       description: [
-        "Diseño con el framework Laravel, Se desarrolló una  plataforma web educativa, con las funcionalidades de crear, perfiles y roles, y pruebas online, asociadas a libros, cursos y encargados.",
-      ],
-      link: "",
-    },
+        "Desarrollo de una plataforma web educativa utilizando Laravel bajo una arquitectura orientada a la escalabilidad y mantenimiento del sistema.",
+        "Implementación de módulos de gestión de usuarios, perfiles y roles, garantizando un control de acceso adecuado según las responsabilidades de cada tipo de usuario.",
+        "Desarrollo de funcionalidades para la administración de cursos, libros, evaluaciones en línea y responsables académicos.",
+        "Diseño e integración de la lógica de negocio y base de datos para la gestión centralizada de contenidos educativos.",
+        "Participación en pruebas funcionales y validación de requerimientos para asegurar la correcta operación de la plataforma."
+      ]
+    }
   ],
   gradosCompletados: [
     {
@@ -236,7 +242,7 @@ export const es = {
     },
     {
       name: "Otras herramientas",
-      skills: ["Paquete Office", "Notion", "Odoo"],
+      skills: ["Paquete Office", "Notion", "Odoo", "Claude", "Copilot", "Canva"],
     },
     {
       name: "Habilidades técnicas",
@@ -434,12 +440,12 @@ export const en = {
   nombre: nombre,
   siglasNombre: siglasNombre,
   mi_web: "portafolio.daaptech.org/",
-  tituloUniversidad: "Mechatronic Engineer",
+  tituloUniversidad: "Master in Cybersecurity | Mechatronic Engineer",
   nombreTitulo: "Ing. " + nombre,
   titleWeb:
     "Portfolio: " +
     nombre +
-    " - Mechatronic Engineer, Developer and Programmer",
+    " - Master in Cybersecurity | Mechatronic Engineer, Developer and Programmer",
   descriptionWeb:
     "Graduated from the Mechatronics degree at ESPOL University, in Ecuador.",
   ubicacion: "Ecuador - Guayaquil",
@@ -449,8 +455,9 @@ export const en = {
   linkedin_user: linkedin_user,
   work_state: "Remote work",
   sobremi: [
-    "I am Ecuadorian, <strong>Mechatronic Engineer</strong> with a passion for technology and a specialization in <strong>software development and programming</strong>. I have extensive experience implementing innovative solutions, and I'm currently deepening my expertise in <strong>cybersecurity</strong> as a strategic line of professional growth.",
-    "My profile combines advanced technical skills in <strong>full-stack development, data analysis and science, information security, and embedded systems</strong>. With proven ability to design secure architectures, implement protection measures, conduct security audits, and propose comprehensive solutions that minimize risks. Self-taught, committed to technical excellence and continuous improvement, capable of working in multidisciplinary teams and delivering impact in organizations of any size.",
+    "I am Ecuadorian, <strong>Mechatronics Engineer and Master’s in Cybersecurity</strong>, passionate about technology and innovation. I have experience in the design, development, and implementation of high-impact technological solutions, integrating <strong>software development, data analysis, artificial intelligence, and cybersecurity</strong> to solve complex challenges in business and industrial environments.",
+
+    "My profile combines a strong technical background with a comprehensive business perspective, allowing me to participate in the entire lifecycle of technological solutions: from data acquisition and processing to application development, process automation, and digital asset protection. I have experience in <strong>full-stack development, machine learning, system architecture, information security, risk management, security auditing, and IoT systems</strong>. I am characterized by continuous learning ability, analytical thinking, results orientation, technical leadership, collaborative work, and commitment to professional excellence."
   ],
   experiencias: [
     {
@@ -476,20 +483,25 @@ export const en = {
       title: "Research Assistant (Development Technician)",
       company: "Center for Information Technologies (CTI)",
       description: [
-        "Developing prediction models for the energy consumption of Data Center infrastructure, using Jupyter notebooks for data preprocessing, processing, executing various ML models, and comparing results.",
-        "Reviewing and improving an application for obtaining equipment data.",
-      ],
-      //link: "https://twitch.tv/midudev",
+        "Participation in a research project focused on predicting the energy consumption of Data Center infrastructure using Machine Learning techniques.",
+        "Design and development of Jupyter notebooks for data acquisition, cleaning, preprocessing, and exploratory data analysis from monitoring systems.",
+        "Implementation, training, and comparative evaluation of different predictive models, using performance metrics to determine the most efficient solution.",
+        "Optimization and improvement of a data collection application, enhancing the quality, consistency, and availability of information used in analytical models.",
+        "Collaboration in research activities that contributed to the scientific publication presented at IEEE Future Networks World Forum (FNWF 2022)."
+      ]
     },
     {
       date: "MAY 2021 - JUL 2021",
-      title: "Web Programmer",
-      company: "Edu4lab",
+      title: "Web Developer",
+      company: "Edu4Lab",
       description: [
-        "Design with the Laravel framework, a educational web platform was developed, with functionalities for creating profiles, roles, and online tests, associated with books, courses, and instructors.",
-      ],
-      link: "",
-    },
+        "Development of an educational web platform using Laravel under a scalable and maintainable system architecture.",
+        "Implementation of user management, profile, and role modules, ensuring proper access control based on user responsibilities.",
+        "Development of features for managing courses, books, online assessments, and academic staff.",
+        "Design and integration of business logic and database for centralized management of educational content.",
+        "Participation in functional testing and requirements validation to ensure proper platform operation."
+      ]
+    }
   ],
   gradosCompletados: [
     {
@@ -649,7 +661,7 @@ export const en = {
     },
     {
       name: "Other tools",
-      skills: ["Paquete Office", "Notion", "Odoo"],
+      skills: ["Paquete Office", "Notion", "Odoo", "Claude", "Copilot", "Canva"],
     },
     {
       name: "Technical skills",

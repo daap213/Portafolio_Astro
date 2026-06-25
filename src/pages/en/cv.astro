@@ -146,6 +146,11 @@ const { currentLocale } = Astro;
     </h1> -->
 
     <section id="informacion-general">
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        {en.nombre}
+      </h2>
       <div class="contact-info">
         <img
           src={raizApp + "img/me.webp"}
@@ -156,8 +161,7 @@ const { currentLocale } = Astro;
           style="width: 125px; height: 155px; object-position: 100% 40%"
         />
         <div class="text-base">
-          <p><strong>Name:</strong> {en.nombre}</p>
-          <p><strong>Degree:</strong> {en.tituloUniversidad}</p>
+          <p><strong>Degrees:</strong> {en.tituloUniversidad}</p>
           <p><strong>Birthdate:</strong> {en.cumpleaños}</p>
           <p><strong>Address:</strong> {en.ubicacion}</p>
           <p><strong>E-mail:</strong> {en.correo}</p>

@@ -145,6 +145,11 @@ const { currentLocale } = Astro;
       Hoja de vida
     </h1> -->
     <section id="informacion-general">
+      <h2
+        class="text-lg font-extrabold border-b-4 border-double border-gray-400"
+      >
+        {es.nombre}
+      </h2>
       <div class="contact-info">
         <img
           src={raizApp + "img/me.webp"}
@@ -155,8 +160,7 @@ const { currentLocale } = Astro;
           style="width: 125px; height: 155px; object-position: 100% 40%"
         />
         <div class="text-base">
-          <p><strong>Nombre:</strong> {es.nombre}</p>
-          <p><strong>Título:</strong> {es.tituloUniversidad}</p>
+          <p><strong>Títulos:</strong> {es.tituloUniversidad}</p>
           <p><strong>Fecha de Nacimiento:</strong> {es.cumpleaños}</p>
           <p><strong>Dirección:</strong> {es.ubicacion}</p>
           <p><strong>Email:</strong> {es.correo}</p>
