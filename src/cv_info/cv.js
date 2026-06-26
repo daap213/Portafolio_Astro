@@ -35,13 +35,10 @@ export const es = {
   git_user: git_user,
   linkedin_user: linkedin_user,
   work_state: "Trabajo remoto",
- sobremi: [
-"Soy ecuatoriano, <strong>Ingeniero Mecatrónico y Máster en Ciberseguridad</strong>, apasionado por la tecnología, la innovación y la resolución de problemas complejos. Cuento con experiencia en el diseño, desarrollo e implementación de soluciones tecnológicas de alto impacto, integrando <strong>desarrollo de software, análisis de datos, inteligencia artificial y ciberseguridad</strong> para generar valor en entornos empresariales e industriales.",
-
-"Mi perfil combina una sólida formación técnica con una visión integral de negocio, permitiéndome participar en todo el ciclo de vida de las soluciones tecnológicas: desde la adquisición y procesamiento de datos hasta el desarrollo de aplicaciones, automatización de procesos y protección de activos digitales. Poseo experiencia en <strong>desarrollo full-stack, machine learning, arquitectura de sistemas, seguridad de la información, gestión de riesgos, auditorías de seguridad y sistemas IoT</strong>. Asimismo, he liderado iniciativas técnicas y coordinado proyectos multidisciplinarios, promoviendo la colaboración entre equipos y la entrega de soluciones alineadas con los objetivos organizacionales.",
-
-"Complemento mi perfil con una comunicación efectiva en entornos internacionales gracias a mi dominio profesional del inglés (C1), facilitando la interacción con equipos, documentación y tecnologías globales. Mantengo un enfoque de aprendizaje continuo y una visión responsable de la inteligencia artificial, impulsando su adopción tanto desde una perspectiva ética como práctica para mejorar la productividad, optimizar procesos y apoyar la toma de decisiones basada en datos. Me caracterizo por mi pensamiento analítico, liderazgo técnico, orientación a resultados y compromiso con la excelencia profesional."
-] ,
+  sobremi: [
+    "Soy ecuatoriano, <strong>Ingeniero Mecatrónico y Máster en Ciberseguridad</strong>, apasionado por la tecnología y la innovación. Cuento con experiencia en el diseño, desarrollo e implementación de soluciones de alto impacto, integrando el <strong>desarrollo de software, la ciberseguridad, el análisis de datos y la inteligencia artificial</strong> para resolver desafíos complejos, con un enfoque orientado a potenciar la productividad empresarial bajo criterios éticos y eficientes.",
+    "Mi perfil une una sólida formación técnica con la capacidad para <strong>liderar equipos y proyectos tecnológicos</strong> durante todo su ciclo de vida: desde la ingesta de datos hasta el desarrollo full-stack, arquitectura, automatización y auditorías de seguridad. Me caracterizo por mi pensamiento analítico, orientación a resultados y por mi adaptabilidad en <strong>entornos multidisciplinarios y multilingüísticos</strong>, lo que me permite integrarme con éxito en dinámicas de trabajo globales y multiculturales."
+  ],
   experiencias: [
     {
       date: "MAY 2023 - Actualidad",
@@ -456,13 +453,11 @@ export const en = {
   git_user: git_user,
   linkedin_user: linkedin_user,
   work_state: "Remote work",
-     sobremi: [
-"I am Ecuadorian, a <strong>Mechatronics Engineer and Master's Graduate in Cybersecurity</strong>, passionate about technology, innovation, and solving complex challenges. I have experience in the design, development, and implementation of high-impact technological solutions, integrating <strong>software development, data analytics, artificial intelligence, and cybersecurity</strong> to deliver value in both business and industrial environments.",
+  sobremi: [
+    "I am an Ecuadorian <strong>Mechatronics Engineer and Master in Cybersecurity</strong>, passionate about technology and innovation. I have extensive experience in the design, development, and implementation of high-impact solutions, integrating <strong>software development, cybersecurity, data analysis, and artificial intelligence</strong> to solve complex challenges, with a focus on enhancing business productivity through ethical and efficient practices.",
 
-"My profile combines a strong technical foundation with a business-oriented perspective, enabling me to contribute throughout the entire lifecycle of technology solutions: from data acquisition and processing to application development, process automation, and digital asset protection. I have experience in <strong>full-stack development, machine learning, systems architecture, information security, risk management, security auditing, and IoT systems</strong>. In addition, I have led technical initiatives and coordinated multidisciplinary projects, fostering collaboration across teams and delivering solutions aligned with organizational objectives.",
-
-"I complement my technical expertise with effective communication in international environments, supported by professional English proficiency (C1), allowing me to collaborate with global teams, technologies, and documentation. I maintain a continuous learning mindset and promote the responsible adoption of artificial intelligence, balancing ethical considerations with practical applications to enhance productivity, optimize processes, and support data-driven decision-making. I am recognized for my analytical thinking, technical leadership, results-oriented approach, collaborative mindset, and commitment to professional excellence."
-],
+    "My profile combines a solid technical background with the ability to <strong>lead technology teams and projects</strong> throughout their entire lifecycle: from data ingestion to full-stack development, architecture, automation, and security audits. I am characterized by my analytical mindset, results-driven approach, and adaptability within <strong>multidisciplinary and multilingual environments</strong>, allowing me to successfully integrate into global and multicultural work dynamics."
+  ],
   experiencias: [
     {
       date: "MAY 2023 - Present",
