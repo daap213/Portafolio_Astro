@@ -1,0 +1,27 @@
+version: 2
+
+# Los PR de Dependabot pasan por ci.yml (se dispara en pull_request), así que
+# una subida de versión que rompa la web o los scripts se detecta antes de fusionar.
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    target-branch: cloud_version
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Un solo PR para las herramientas de test: se actualizan juntas
+      testing:
+        patterns:
+          - "vitest"
+          - "@playwright/test"
+      tailwind:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    target-branch: cloud_version
+    schedule:
+      interval: monthly

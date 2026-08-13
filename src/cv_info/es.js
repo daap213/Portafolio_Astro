@@ -299,5 +299,5 @@ export const pagIndex = {
 export const ui = {
   project_dropdownText_title: 'Descripción:',
   experience_dropdownText_title: 'Responsabilidades y actividades:',
-  ThemeToggle_span_title: 'Elige el tema'
+  ThemeToggle_title: 'Elige el tema'
 }

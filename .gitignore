@@ -19,10 +19,15 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# El proyecto usa pnpm: pnpm-lock.yaml SÍ se versiona para que CI
+# instale exactamente lo mismo que se probó en local
 package-lock.json
-pnpm-lock.yaml
 
+# test artifacts
+test-results/
+playwright-report/
+blob-report/
+.playwright/
 
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md
-pnpm-lock.yaml

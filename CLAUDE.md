@@ -13,22 +13,30 @@ Content, identifiers, folder names and comments are in Spanish (`proyectos`, `se
 ## Commands
 
 ```bash
-pnpm run dev        # dev server on :4321
-pnpm run build      # astro check && astro build
-pnpm run preview    # serve dist/ on :4321
-npx astro check     # type check only
+pnpm run dev          # dev server on :4321
+pnpm run build        # astro build
+pnpm run preview      # serve dist/ on :4321 (background daemon — see below)
 
-pnpm run GQR        # regenerate public/img/qr/*.png from cv.js
-pnpm run GPDF       # print /es/cv and /en/cv to public/docs/*.pdf (needs a server already running)
+pnpm run test         # vitest: data, config, ui keys, component rendering (fast, no build needed)
+pnpm run test:build   # asserts dist/ contents — run after `pnpm run build`
+pnpm run test:scripts # really generates QRs and a PDF (needs dist/ + Chrome)
+pnpm run test:e2e     # playwright: theme toggle, i18n, anchors, images (needs dist/)
+
+pnpm run GQR          # regenerate public/img/qr/*.png from cv.js
+pnpm run GPDF         # print /es/cv and /en/cv to public/docs/*.pdf (needs a server running)
 ```
 
-There is no test suite; `astro check` is the only automated verification. Note that section components take `infoSeccion: any`, so type checking catches very little in the data path.
+Run a single test file with `pnpm exec vitest run tests/unit/qr-sync.test.js`, a single e2e spec with `pnpm exec playwright test tests/e2e/cv.spec.ts`, and a single case with `-t "<substring>"`.
 
-`GPDF` fetches `http://localhost:4321/{es,en}/cv` — start `pnpm run preview` (or `dev`) in another shell first. Setting `PROD=true` makes it print the live production site instead.
+There is no `astro check` step: TypeScript 7 is the native Go compiler and has no stable programmatic API, so Astro's template type-checker cannot run on it ([withastro/astro#17268](https://github.com/withastro/astro/issues/17268), upstream, unfixable for now). `@astrojs/check` was removed for the same reason — its peer range is `typescript ^5 || ^6`. The test suite is the safety net; re-add both when TS 7.1 ships a stable API.
 
-`pnpm-workspace.yaml` disables postinstall builds for puppeteer/esbuild/sharp, so Chrome is not downloaded on install. If `GPDF` fails to find a browser, install it explicitly: `npx puppeteer browsers install chrome`.
+**`astro preview` is a daemon since Astro 7.** It detaches, so the foreground process exits immediately; a second start fails with "already running" regardless of port. Use `astro preview --background --port N`, `astro preview status`, `astro preview stop`. Killing the process does not deregister it — this bit both the Playwright `webServer` option (replaced with `globalSetup`) and `tests/helpers/preview.js`.
 
-Lockfiles are gitignored (`pnpm-lock.yaml`, `package-lock.json`), so CI resolves dependencies fresh within the semver ranges in `package.json`.
+`GPDF` fetches `http://localhost:4321/{es,en}/cv`, so start a preview first. Setting `PROD=true` makes it print the live production site instead. It generates the two PDFs sequentially on purpose: two concurrent Chrome instances exhaust memory on small machines and CI runners, leaving one PDF half-written.
+
+`pnpm-workspace.yaml` disables postinstall builds for puppeteer/esbuild/sharp, so Chrome is not downloaded on install. If `GPDF` or `test:scripts` fails to find a browser: `pnpm exec puppeteer browsers install chrome`.
+
+`pnpm-lock.yaml` is committed and CI installs with `--frozen-lockfile`; `packageManager` pins the pnpm version.
 
 ## Architecture
 
@@ -64,8 +72,10 @@ Tailwind v4 with no `tailwind.config.*` file — the entire config is `src/style
 
 ```css
 @import "tailwindcss";
-@variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 ```
+
+Tailwind is wired through `@tailwindcss/vite` in `astro.config.mjs`, not PostCSS. Vite 8's CSS pipeline resolves `@import "tailwindcss"` as a file path before plugins run, so the old `postcss.config.cjs` + `@tailwindcss/postcss` setup broke the build outright under Astro 7.
 
 So `dark:` utilities depend on a `.dark` class on `<html>`, set by the inline script in `ThemeToggle.astro` from `localStorage.theme` (`light`/`dark`/`system`). Several component `<style>` blocks still use `@media (prefers-color-scheme: dark)` (`Layout.astro`, `NavBar.astro`) — those follow the OS, not the toggle. Prefer `dark:` utilities for anything that must respond to the toggle.
 
@@ -78,16 +88,33 @@ So `dark:` utilities depend on a `.dark` class on `<html>`, set by the inline sc
 
 1. Edit `src/cv_info/cv.js` — both `es` and `en`.
 2. Run `pnpm run GQR` if any project/certificate/publication URL or Spanish project title changed.
-3. `pnpm run build`, then `pnpm run preview` in a second shell, then `pnpm run GPDF`.
-4. Commit to `cloud_version`. CI will regenerate the PDFs anyway (step 3 is for local verification).
+3. `pnpm run test` — catches es/en desync, missing assets, and QR filenames that no longer match the data.
+4. `pnpm run build && pnpm run test:build`, then `pnpm exec astro preview --background` and `pnpm run GPDF`, then `pnpm exec astro preview stop`.
+5. Commit to `cloud_version`. CI regenerates the PDFs anyway (step 4 is for local verification).
 
 ## CI/CD
 
-`.github/workflows/deploy.yml` (push to `cloud_version`): `dorny/paths-filter` watches `src/cv_info/cv.js` and both `cv.astro` files; on a hit it installs, builds, starts `preview`, runs `GPDF`, and auto-commits the regenerated PDFs back to `cloud_version` with the message `Update PDFs` — that's the source of the repeated "Update PDFs" commits in the log. The workflow uses `npm install` even though local development is pnpm.
+`.github/workflows/ci.yml` runs the whole suite (unit → build → build assertions → GQR/GPDF integration → Playwright). It triggers on `pull_request` and via `workflow_call`, never directly on push — `deploy.yml` calls it so a push doesn't run it twice.
+
+`.github/workflows/deploy.yml` (push to `cloud_version`): `dorny/paths-filter` watches `src/cv_info/cv.js` and both `cv.astro` files. The `ci` job runs on every push; `generate-pdf` runs only when those files changed **and** CI passed, then auto-commits the regenerated PDFs back to `cloud_version` with the message `Update PDFs` — that's the source of the repeated "Update PDFs" commits in the log.
 
 Despite its name, this workflow does **not** deploy — the Cloudflare deploy is wired up outside the repo (Cloudflare Pages Git integration).
 
-`.github/workflows/codeql.yml` runs CodeQL on push/PR to `cloud_version` and weekly.
+`.github/workflows/codeql.yml` runs CodeQL on push/PR to `cloud_version` and weekly. `.github/dependabot.yml` targets `cloud_version` so its PRs are gated by `ci.yml`.
+
+## Tests
+
+`tests/unit/` needs nothing built — it imports the data and renders components through Astro's Container API. The rest needs `dist/`.
+
+The tests that earn their keep are the ones guarding this repo's specific traps:
+
+- `qr-sync.test.js` — QR filenames are derived from **Spanish** project titles and reused by the English data. It byte-compares the committed PNGs against freshly generated ones, so a renamed project without `pnpm run GQR` goes red.
+- `ui-keys.test.js` — scans `.astro` sources for `ui.*` accesses and asserts each key exists in both `es.js` and `en.js`. `ui` travels as an untyped prop, so nothing else catches a typo. It found a real one: `es.js` defined `ThemeToggle_span_title` while the component and `en.js` used `ThemeToggle_title`.
+- `dist.test.js` — link-checks every local `src`/`href` in the generated HTML against `dist/`, which is what would break if `raizApp`/`base` handling regressed.
+
+Section ids are **translated** (`#sobre-mi` vs `#about_me`), so tests compare the two languages by position, never by id. `tests/e2e/*.spec.ts` can only import `cv.js` — `es.js`/`en.js` pull in `.astro` files that Playwright's loader cannot parse.
+
+Playwright is capped at 2 workers: each worker starts a Chromium and the default (half the cores) exhausts memory, making context setup time out.
 
 ## Other agent configuration present
 

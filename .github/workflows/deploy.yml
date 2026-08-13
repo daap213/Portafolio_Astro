@@ -18,7 +18,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }} # Salida para cambios en archivos fuente
       infra: ${{ steps.changes.outputs.infra }} # Salida para cambios en la infraestructura
     steps:
-      - uses: actions/checkout@v4 # Clona el repositorio
+      - uses: actions/checkout@v6 # Clona el repositorio
       - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
         id: changes
         with:
@@ -28,28 +28,53 @@ jobs:
               - 'src/cv_info/cv.js' # Archivos que se monitorizan para cambios
               - 'src/pages/en/cv.astro'
               - 'src/pages/es/cv.astro'
+
+  # La suite completa corre en TODOS los push, no solo cuando cambia el CV:
+  # así un build roto no llega a producción ni genera PDFs corruptos.
+  ci:
+    uses: ./.github/workflows/ci.yml
+
   generate-pdf:
-    if: ${{ needs.changes.outputs.src == 'true' }} # Este trabajo se ejecuta solo si hay cambios en los archivos fuente especificados
-    needs: [changes] # Este trabajo depende del trabajo 'changes'
-    runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
+    if: ${{ needs.changes.outputs.src == 'true' }} # Solo si cambiaron los archivos del CV
+    needs: [changes, ci] # No se regeneran PDFs si los tests fallan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
-      PROD: ${{ false }} # Define la variable de entorno PROD
+      PROD: ${{ false }} # Los PDF se imprimen desde el preview local, no desde producción
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.head_ref }} # Clona el repositorio en la rama actual
+          ref: ${{ github.head_ref }}
+
+      - uses: pnpm/action-setup@v4 # lee la versión del campo packageManager
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24 # astro 7 exige >= 22.12.0
+          cache: pnpm
+
       - name: Install dependencies
-        run: npm install # Instala las dependencias necesarias
+        run: pnpm install --frozen-lockfile
+
       - name: Build site with Astro
-        run: npm run build # Construye el sitio
-      - name: Start Astro preview server in the background
-        run: nohup npm run preview & # Levanta el servidor en segundo plano
-      - name: Wait for the preview server to start
-        run: sleep 5 # Espera unos segundos para que el servidor se inicie correctamente
+        run: pnpm run build
+
+      # pnpm-workspace.yaml desactiva el postinstall de puppeteer
+      - name: Install Chrome for Puppeteer
+        run: pnpm exec puppeteer browsers install chrome
+
+      # Desde Astro 7 el preview es un demonio: se arranca con --background
+      # y se para con `astro preview stop` (antes: nohup + kill por puerto)
+      - name: Start Astro preview server
+        run: pnpm exec astro preview --background --host 127.0.0.1 --port 4321
+
       - name: Generate PDFs
-        run: npm run GPDF # Genera los PDFs usando la vista del servidor
+        run: pnpm run GPDF
+
       - name: Stop Astro preview server
-        run: kill $(lsof -t -i:4321) # Detiene el servidor en el puerto predeterminado de Astro (4321)
+        if: always()
+        run: pnpm exec astro preview stop
+
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }} # Utiliza el token de GitHub para autenticarse

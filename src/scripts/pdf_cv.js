@@ -1,23 +1,23 @@
-import { launch } from 'puppeteer';
+import { launch as puppeteerLaunch } from 'puppeteer';
+import { pathToFileURL } from 'url';
 import { config } from './../../config.js'
 
-let isPROD = process.env.PROD
-console.log(isPROD, isPROD == 'true')
-const urlweb = (isPROD == 'true') ? config.prod.URLWEB : config.dev.URLWEB
-const generatePDF = async (pageURL, pdfFilePath) => {
-    console.log("pdf-cv", pageURL, pdfFilePath)
+// Selecciona la URL base según la variable de entorno PROD
+export function resolveUrlWeb(prodEnv = process.env.PROD) {
+    return (prodEnv == 'true') ? config.prod.URLWEB : config.dev.URLWEB;
+}
 
-    const browser = await launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-    const page = await browser.newPage();
+// Pares (url de la vista, ruta del PDF de salida). Sin efectos secundarios.
+export function buildPdfJobs(urlweb) {
+    return [
+        { url: urlweb + "en/cv", path: "public/docs/CV_EN.pdf" },
+        { url: urlweb + "es/cv", path: "public/docs/CV_ESP.pdf" },
+    ];
+}
 
-    // Cambiar el modo de visualización a modo de impresión
-    await page.emulateMediaType('print');
-
-    await page.goto(pageURL, { waitUntil: 'networkidle2', timeout: 60000 });
-    await page.waitForSelector('body'); // Esperar a que el cuerpo de la página esté presente
-
-    // Definir las opciones del PDF, incluyendo displayHeaderFooter, headerTemplate y footerTemplate
-    const pdfOptions = {
+// Opciones de impresión, incluyendo displayHeaderFooter, headerTemplate y footerTemplate
+export function buildPdfOptions(pdfFilePath) {
+    return {
         path: pdfFilePath,
         displayHeaderFooter: true,
         headerTemplate: `<div style='width:100%;text-align: right; border-bottom: 1pt solid #eeeeee;'><span class="title"></span></div>`,
@@ -31,20 +31,42 @@ const generatePDF = async (pageURL, pdfFilePath) => {
             top: 35,
         },
     };
+}
+
+// `launch` es inyectable para poder testear sin abrir un navegador real
+export const generatePDF = async (pageURL, pdfFilePath, launch = puppeteerLaunch) => {
+    console.log("pdf-cv", pageURL, pdfFilePath)
+
+    const browser = await launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+    const page = await browser.newPage();
+
+    // Cambiar el modo de visualización a modo de impresión
+    await page.emulateMediaType('print');
+
+    await page.goto(pageURL, { waitUntil: 'networkidle2', timeout: 60000 });
+    await page.waitForSelector('body'); // Esperar a que el cuerpo de la página esté presente
 
     // Generar el PDF con las opciones definidas
-    await page.pdf(pdfOptions);
+    await page.pdf(buildPdfOptions(pdfFilePath));
 
     console.log(`PDF generado en: ${pdfFilePath}`);
 
     await browser.close();
+
+    return pdfFilePath;
 };
 
-const urlEn = urlweb + "en/cv"
-const urlEs = urlweb + "es/cv"
+async function main() {
+    const urlweb = resolveUrlWeb();
+    console.log("PROD:", process.env.PROD, "-> base:", urlweb);
+    // De uno en uno: dos Chrome simultáneos agotan la memoria en máquinas
+    // ajustadas (y en los runners de CI) y uno de los dos PDF se queda a medias.
+    for (const { url, path } of buildPdfJobs(urlweb)) {
+        await generatePDF(url, path);
+    }
+}
 
-// Generar el PDF para la versión en inglés
-generatePDF(urlEn, "public/docs/CV_EN.pdf");
-
-// Generar el PDF para la versión en español
-generatePDF(urlEs, "public/docs/CV_ESP.pdf");
+const esEntrypoint = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (esEntrypoint) {
+    await main();
+}

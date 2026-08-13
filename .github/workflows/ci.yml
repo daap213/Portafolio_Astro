@@ -1,0 +1,56 @@
+name: CI
+
+# En push a cloud_version no se dispara sola: la llama deploy.yml con `uses:`
+# para no ejecutar la suite dos veces por el mismo commit.
+on:
+  pull_request:
+  workflow_call:
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v4 # lee la versión del campo packageManager
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24 # astro 7 exige >= 22.12.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Build output tests
+        run: pnpm run test:build
+
+      # pnpm-workspace.yaml desactiva el postinstall de puppeteer, así que
+      # el navegador hay que instalarlo a mano
+      - name: Install Chrome for Puppeteer
+        run: pnpm exec puppeteer browsers install chrome
+
+      - name: Auxiliary scripts tests (GQR / GPDF)
+        run: pnpm run test:scripts
+
+      - name: Install Chromium for Playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: pnpm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
