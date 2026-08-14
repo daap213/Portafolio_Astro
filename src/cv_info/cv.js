@@ -109,7 +109,7 @@ export const es = {
     link: "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
     qr: rutaQR + "qr_certificados_link.png",
     titleLink: "Drive con certificados",
-    title: "Cursos realizados",
+    title: "Cursos finalizados",
     items: [
       {
         date: "MAR 2023",
