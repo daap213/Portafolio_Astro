@@ -379,18 +379,7 @@ export const es = {
       image: rutaProyect + "fabricacionFlexible.webp",
       tags: [],
       qr: rutaQR + "qr_Proceso_de_fabricación_flexible.png",
-    },
-    {
-      title: "Calidad de Producción de Azúcar",
-      description: [
-        "<strong>Objetivo:</strong><br />Mejorar el sistema de producción de calidad de azúcar mediante la modificación en las etapas de fabricación evitando el frecuente rechazo del producto al momento de su entrega.<br /><strong>Problemática:</strong><br />Una planta encargada de generar azúcar se conforma por una serie de etapas que contienen ciertos procesos que hacen la producción de forma eficiente:<br />*Cristalización<br />*Entrega y extracción de jugo<br />*Evaporación<br />*Purificación del jugo<br />La planta no cuenta con controles de la calidad del azúcar, por ello los clientes desean realizar pruebas de calidad en base a la toma de muestras aleatorias de manera que, si el producto pasa las pruebas, se acepte el pedido, por otra parte, si el producto no pasa las pruebas de calidad, el producto será devuelto en su totalidad independientemente del tamaño del pedido.",
-      ],
-      link: "https://www.youtube.com/watch?v=AorRajwlaNI",
-      github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
-      image: rutaProyect + "sinfoto.webp",
-      tags: [],
-      qr: rutaQR + "qr_Calidad_de_Producción_de_Azúcar.png",
-    },
+    }
   ],
   referencias: [
     {
@@ -798,18 +787,7 @@ export const en = {
       image: rutaProyect + "fabricacionFlexible.webp",
       tags: [],
       qr: rutaQR + "qr_Proceso_de_fabricación_flexible.png",
-    },
-    {
-      title: "Sugar Production Quality",
-      description: [
-        "<strong>Objective:</strong><br />Improve sugar production quality system by modifying manufacturing stages to avoid frequent product rejection upon delivery.<br /><strong>Issue:</strong><br />A sugar-producing plant consists of several stages containing certain processes that make production efficient:<br />*Crystallization<br />*Juice delivery and extraction<br />*Evaporation<br />*Juice purification<br />The plant lacks sugar quality controls, so customers want quality tests based on random sampling so that if the product passes the tests, the order is accepted; otherwise, the product will be returned in full regardless of the order size.",
-      ],
-      link: "https://www.youtube.com/watch?v=AorRajwlaNI",
-      github: "https://github.com/daap213/Monitoreo-produccion-de-azucar",
-      image: rutaProyect + "sinfoto.webp",
-      tags: [],
-      qr: rutaQR + "qr_Calidad_de_Producción_de_Azúcar.png",
-    },
+    }
   ],
   referencias: [
     {
