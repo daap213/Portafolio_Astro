@@ -5,6 +5,11 @@ on:
     branches:
       - cloud_version # Desencadena el flujo de trabajo cada vez que se hace push a la rama 'cloud_version'
   workflow_dispatch: # Permite ejecutar el flujo de trabajo manualmente desde la pestaña de Actions en GitHub
+    inputs:
+      forzar_pdf:
+        description: "Regenerar los PDF aunque cv.js no haya cambiado"
+        type: boolean
+        default: true
 
 permissions:
   contents: write # Permite escribir contenidos en el repositorio
@@ -35,7 +40,10 @@ jobs:
     uses: ./.github/workflows/ci.yml
 
   generate-pdf:
-    if: ${{ needs.changes.outputs.src == 'true' }} # Solo si cambiaron los archivos del CV
+    # Normalmente solo corre si cambiaron los archivos del CV. La válvula de escape
+    # manual es necesaria porque si CI falla en el commit que toca cv.js, el arreglo
+    # posterior ya no toca cv.js: sin ella los PDF se quedarían viejos para siempre.
+    if: ${{ needs.changes.outputs.src == 'true' || (github.event_name == 'workflow_dispatch' && inputs.forzar_pdf) }}
     needs: [changes, ci] # No se regeneran PDFs si los tests fallan
     runs-on: ubuntu-latest
     timeout-minutes: 20
