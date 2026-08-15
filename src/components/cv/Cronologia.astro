@@ -1,0 +1,27 @@
+---
+// Experiencia laboral: cada puesto con su lista de responsabilidades.
+// `#experiencia > div` y `#experiencia h3/h4` son selectores del CSS de
+// impresion: los div de primer nivel deben seguir colgando de la seccion.
+interface Props {
+  infoSeccion: any;
+}
+const { infoSeccion } = Astro.props;
+---
+
+{
+  infoSeccion.map((experiencia: any) => (
+    <div>
+      <h3 class="mt-3 font-semibold ">{experiencia.title}</h3>
+      <h4 class="text-end font-semibold">
+        <small>{experiencia.company + " / " + experiencia.date}</small>
+      </h4>
+      <ul class="border-t text-sm border-gray-400">
+        {experiencia.description.map((actividad: any) => (
+          <li class="check_y w-full px-3 py-1.5 border-b-2 border-dashed text-justify border-gray-300 ">
+            {actividad}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))
+}

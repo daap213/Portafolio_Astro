@@ -1,0 +1,18 @@
+---
+// Parrafos sueltos con HTML (el "sobre mi" del CV).
+interface Props {
+  infoSeccion: any;
+}
+const { infoSeccion } = Astro.props;
+---
+
+{
+  infoSeccion.map((contenido: any) => (
+    <div>
+      <p
+        class="check_y text-sm text-justify text-gray-800 dark:[&>strong]:text-black-200 [&>strong]:text-black-500 [&>strong]:font-semibold dark:text-gray-300"
+        set:html={contenido}
+      />
+    </div>
+  ))
+}

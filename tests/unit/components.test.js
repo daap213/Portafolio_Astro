@@ -1,7 +1,10 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
-import * as configEs from '@cv/es';
-import * as configEn from '@cv/en';
+import { IDIOMAS, configuracionDe } from '../helpers/configuraciones.js';
+import { IDIOMA_PREDETERMINADO, otrosIdiomas } from '@cv/locales.js';
+
+// Los componentes compartidos se prueban con un idioma cualquiera: el predeterminado
+const configEs = configuracionDe(IDIOMA_PREDETERMINADO.codigo);
 
 let container;
 beforeAll(async () => {
@@ -20,7 +23,6 @@ const decodificar = (html) =>
         .replaceAll('&lt;', '<')
         .replaceAll('&gt;', '>');
 
-const IDIOMAS = [['es', configEs], ['en', configEn]];
 
 // Las secciones se identifican por POSICIÓN, no por id: los ids están
 // traducidos (#sobre-mi en español, #about_me en inglés).
@@ -117,16 +119,23 @@ describe.each(IDIOMAS)('renderizado de secciones (%s)', (_idioma, config) => {
 });
 
 describe('componentes compartidos', () => {
-    it('el navbar renderiza un enlace por cada navItem y el cambio de idioma', async () => {
+    it('el navbar renderiza un enlace por cada navItem y uno por cada otro idioma', async () => {
         const { default: NavBar } = await import('@/components/otros/NavBar.astro');
+        const idiomas = otrosIdiomas(IDIOMA_PREDETERMINADO.codigo).map((idioma) => ({
+            codigo: idioma.codigo,
+            etiqueta: idioma.etiqueta,
+            ruta: `/${idioma.codigo}/`,
+        }));
         const html = await container.renderToString(NavBar, {
-            props: { navItems: configEs.navItems, rutaLeng: '/en/', ui: configEs.ui },
+            props: { navItems: configEs.navItems, idiomas, ui: configEs.ui },
         });
 
         for (const item of configEs.navItems) {
             expect(html.includes(`href="${item.url}"`), `falta el enlace ${item.url}`).toBe(true);
         }
-        expect(html.includes('href="/en/')).toBe(true);
+        for (const idioma of idiomas) {
+            expect(html.includes(`href="${idioma.ruta}"`), `falta el idioma ${idioma.codigo}`).toBe(true);
+        }
     });
 
     it('el footer renderiza los datos de contacto', async () => {

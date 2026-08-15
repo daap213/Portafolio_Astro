@@ -1,0 +1,51 @@
+---
+// Vista imprimible del CV de cualquier idioma declarado.
+// Sustituye a las copias es/cv.astro y en/cv.astro (~410 lineas cada una).
+//
+// Mundo aparte del resto del sitio A PROPOSITO: sin Layout, sin Tailwind, solo
+// FontAwesome por CDN y src/styles/cv_impresion.css. Importar aqui global.css
+// meteria el preflight de Tailwind y descuadraria la paginacion del PDF.
+import { construirCv } from "@cv/paginaCv";
+import { CODIGOS } from "@cv/locales";
+import "@/styles/cv_impresion.css";
+
+export function getStaticPaths() {
+  return CODIGOS.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const { titulo, descripcion, foto, ui, secciones } = construirCv(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="icon" type="image/svg+xml" href={foto} />
+    <meta name="generator" content={Astro.generator} />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      {
+        secciones.map((seccion) => (
+          <section id={seccion.id}>
+            {seccion.titulo && <h2 class={seccion.claseTitulo}>{seccion.titulo}</h2>}
+            <seccion.componente
+              infoSeccion={seccion.datos}
+              ui={ui}
+              opciones={seccion.opciones}
+            />
+          </section>
+        ))
+      }
+    </div>
+  </body>
+</html>

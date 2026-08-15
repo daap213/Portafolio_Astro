@@ -1,13 +1,21 @@
 ---
+// Raiz del sitio: sirve el idioma predeterminado.
+// Antes era una copia byte a byte de es/index.astro; ahora reutiliza la misma
+// plantilla que el resto de idiomas.
 import Layout from "@/layouts/Layout.astro";
 import SectionContainer from "@/components/otros/SectionContainer.astro";
-import { pagIndex } from "@cv/es";
-import { navItems } from "@cv/es";
-import { footerInfor } from "@cv/es";
+import { construirPagina } from "@cv/paginaWeb";
 import { raizApp } from "@cv/cv";
-import { ui } from "@cv/es";
+import { IDIOMA_PREDETERMINADO, otrosIdiomas } from "@cv/locales";
 
-const rutaLeng = raizApp + "en/";
+const lang = IDIOMA_PREDETERMINADO.codigo;
+const { pagIndex, navItems, footerInfor, ui } = construirPagina(lang);
+
+const idiomas = otrosIdiomas(lang).map((idioma) => ({
+  codigo: idioma.codigo,
+  etiqueta: idioma.etiqueta,
+  ruta: raizApp + idioma.codigo + "/",
+}));
 
 const primeraSeccion = pagIndex.primeraSeccion;
 const secciones = pagIndex.secciones;
@@ -18,7 +26,7 @@ const secciones = pagIndex.secciones;
   description={pagIndex.description}
   navItems={navItems}
   footerInfor={footerInfor}
-  rutaLeng={rutaLeng}
+  idiomas={idiomas}
   ui={ui}
 >
   <main class="px-4">

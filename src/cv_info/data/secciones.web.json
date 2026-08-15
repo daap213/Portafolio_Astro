@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "contacto": {
+    "textos": {
+      "es": {
+        "titulo": "Contacto",
+        "ancla": "contacto",
+        "boton": "Contáctame"
+      },
+      "en": {
+        "titulo": "Contact",
+        "ancla": "contact",
+        "boton": "Contact me"
+      }
+    }
+  },
+  "pie": {
+    "urlMencion": "https://linkedin.com/in/midudev",
+    "mencion": {
+      "es": "Plantilla diseñada por Midudev.",
+      "en": "Template designed by Midudev."
+    }
+  },
+  "secciones": [
+    {
+      "id": "presentacion",
+      "tipo": "presentacion",
+      "bloque": "sobremi",
+      "icono": "ProfileCheck",
+      "enNav": true,
+      "opciones": {},
+      "clases": {
+        "seccion": "py-16 md:py-32",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white",
+        "icono": "size-8"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Sobre mí",
+          "nav": "Sobre_mí",
+          "ancla": "sobre-mi"
+        },
+        "en": {
+          "titulo": "About me",
+          "nav": "About_me",
+          "ancla": "about_me"
+        }
+      }
+    },
+    {
+      "id": "experiencia",
+      "tipo": "cronologia",
+      "bloque": "experiencias",
+      "icono": "Briefcase",
+      "enNav": true,
+      "opciones": {
+        "desplegable": true,
+        "mostrarEnlace": true
+      },
+      "clases": {
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+        "icono": "size-8"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Experiencia laboral",
+          "nav": "Exp.",
+          "ancla": "experiencia"
+        },
+        "en": {
+          "titulo": "Job experience",
+          "nav": "Exp.",
+          "ancla": "experience"
+        }
+      }
+    },
+    {
+      "id": "proyectos",
+      "tipo": "proyectos",
+      "bloque": "proyectos",
+      "icono": "Code",
+      "enNav": true,
+      "opciones": {
+        "mostrarImagen": true,
+        "mostrarEnlace": true,
+        "mostrarQr": false,
+        "mostrarEtiquetas": true
+      },
+      "clases": {
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+        "icono": "size-7"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Proyectos",
+          "nav": "Proy.",
+          "ancla": "misproyectos"
+        },
+        "en": {
+          "titulo": "Projects",
+          "nav": "Proy.",
+          "ancla": "myprojects"
+        }
+      }
+    },
+    {
+      "id": "publicaciones",
+      "tipo": "publicaciones",
+      "bloque": "publicaciones",
+      "icono": "Publication",
+      "enNav": true,
+      "opciones": {
+        "mostrarQr": false
+      },
+      "clases": {
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+        "icono": "size-8"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Publicaciones",
+          "nav": "Publ.",
+          "ancla": "mispublicaciones"
+        },
+        "en": {
+          "titulo": "Publications",
+          "nav": "Publ.",
+          "ancla": "myposts"
+        }
+      }
+    },
+    {
+      "id": "educacion",
+      "tipo": "formacion",
+      "bloque": "gradosCompletados",
+      "icono": "Education",
+      "enNav": true,
+      "opciones": {
+        "mostrarValoracion": true
+      },
+      "clases": {
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+        "icono": "size-8"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Educación",
+          "nav": "Educ.",
+          "ancla": "educacion"
+        },
+        "en": {
+          "titulo": "Education",
+          "nav": "Educ.",
+          "ancla": "education"
+        }
+      }
+    },
+    {
+      "id": "habilidades",
+      "tipo": "habilidades",
+      "bloque": "habilidades",
+      "icono": "Skill",
+      "enNav": true,
+      "opciones": {
+        "mostrarRelacionadas": true
+      },
+      "clases": {
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+        "icono": "size-8"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Habilidades y herramientas",
+          "nav": "KSAO",
+          "ancla": "mishabilidades"
+        },
+        "en": {
+          "titulo": "Skills and tools",
+          "nav": "KSAO",
+          "ancla": "myskills"
+        }
+      }
+    },
+    {
+      "id": "certificados",
+      "tipo": "certificados",
+      "bloque": "certificados",
+      "icono": "Certificado",
+      "enNav": true,
+      "opciones": {
+        "desplegable": true,
+        "mostrarQr": false
+      },
+      "clases": {
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+        "icono": "size-7"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Certificados",
+          "nav": "Cert.",
+          "ancla": "miscertificados"
+        },
+        "en": {
+          "titulo": "Certificates",
+          "nav": "Cert.",
+          "ancla": "miscertificates"
+        }
+      }
+    },
+    {
+      "id": "cita",
+      "tipo": "cita",
+      "bloque": "previewFooter",
+      "icono": null,
+      "enNav": false,
+      "opciones": {},
+      "clases": {
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/50 dark:text-white",
+        "icono": ""
+      },
+      "textos": {
+        "es": {
+          "titulo": "Frase de un ingeniero:",
+          "nav": null,
+          "ancla": ""
+        },
+        "en": {
+          "titulo": "Phrase from an engineer:",
+          "nav": null,
+          "ancla": ""
+        }
+      }
+    }
+  ]
+}

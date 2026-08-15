@@ -1,0 +1,17 @@
+# admin/ es su propio espacio de trabajo A PROPOSITO.
+#
+# Sin este fichero, pnpm subiria hasta la raiz del repositorio y trataria el
+# administrador como parte del proyecto publicado: `pnpm install` en la raiz
+# (que es exactamente lo que ejecuta Cloudflare Pages al construir el sitio)
+# acabaria instalando React, Vite y Express para nada, y el lockfile del sitio
+# cambiaria cada vez que se toque una dependencia de esta herramienta.
+#
+# Con el, `pnpm -C admin install` escribe su propio node_modules y su propio
+# lockfile, y el build publico se queda igual que estaba.
+packages:
+  - "."
+
+# Aqui si se permite: Vite necesita el binario nativo de esbuild. En la raiz
+# esta desactivado a proposito para que CI no lo compile.
+allowBuilds:
+  esbuild: true

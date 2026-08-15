@@ -1,0 +1,54 @@
+---
+// Cabecera del CV: foto, titulos, contacto y redes.
+// Extraido de src/pages/{es,en}/cv.astro. Los estilos que lo maquetan viven en
+// src/styles/cv_impresion.css (global a proposito: ver el comentario de ese fichero).
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const { mostrarFoto = true, mostrarRedes = true } = opciones;
+---
+
+<h2 class="text-lg font-extrabold border-b-4 border-double border-gray-400">
+  {infoSeccion.nombre}
+</h2>
+<div class="contact-info">
+  {
+    mostrarFoto && (
+      <img
+        src={infoSeccion.foto}
+        alt={ui.perfil_alt_foto}
+        loading="eager"
+        decoding="async"
+        class="object-cover h-full bg-black/20"
+        style="width: 125px; height: 155px; object-position: 100% 40%"
+      />
+    )
+  }
+  <div class="text-base">
+    <p><strong>{ui.perfil_titulos}</strong> {infoSeccion.tituloUniversidad}</p>
+    <p><strong>{ui.perfil_nacimiento}</strong> {infoSeccion.cumpleaños}</p>
+    <p><strong>{ui.perfil_direccion}</strong> {infoSeccion.ubicacion}</p>
+    <p><strong>{ui.perfil_email}</strong> {infoSeccion.correo}</p>
+  </div>
+</div>
+{
+  mostrarRedes && (
+    <div class="contact-info mt-2">
+      <a href={"https://www.linkedin.com/in/" + infoSeccion.linkedin_user} target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin fa-lg" />
+        <span class="text-xs"> {infoSeccion.linkedin_user}</span>
+      </a>
+      <a href={"https://github.com/" + infoSeccion.git_user} target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github fa-lg" />
+        <span class="text-xs"> {infoSeccion.git_user}</span>
+      </a>
+      <a href={infoSeccion.urlWeb} target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-globe fa-lg" />
+        <span class="text-xs"> {infoSeccion.mi_web}</span>
+      </a>
+    </div>
+  )
+}

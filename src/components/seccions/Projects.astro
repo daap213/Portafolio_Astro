@@ -62,13 +62,13 @@ const { infoSeccion, ui } = Astro.props;
               {github && (
                 <LinkButton href={github}>
                   <GitHub class="size-6" />
-                  Code
+                  {ui.proyectos_codigo}
                 </LinkButton>
               )}
               {link && (
                 <LinkButton href={link}>
                   <Link class="size-4" />
-                  Preview
+                  {ui.proyectos_vista_previa}
                 </LinkButton>
               )}
             </footer>

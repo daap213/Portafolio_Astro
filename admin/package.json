@@ -1,0 +1,23 @@
+{
+  "name": "portafolio-admin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Administrador local del portafolio. Herramienta de desarrollo: no se publica ni forma parte del build del sitio.",
+  "scripts": {
+    "api": "node api/servidor.js",
+    "ui": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "@vitejs/plugin-react": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "4.3.3",
+    "vite": "^7.0.0"
+  }
+}

@@ -1,8 +1,9 @@
 ---
 interface Props {
   infoSeccion: any;
+  ui: any;
 }
-const { infoSeccion } = Astro.props;
+const { infoSeccion, ui } = Astro.props;
 ---
 
 <div class="flex flex-wrap gap-4">
@@ -22,7 +23,7 @@ const { infoSeccion } = Astro.props;
         </p>
 
         <h7 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white">
-          Autores:
+          {ui.publicaciones_autores}
         </h7>
         <p class="font-normal  text-base text-gray-700 dark:text-gray-200">
           {authors}

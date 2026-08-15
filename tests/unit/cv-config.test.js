@@ -1,42 +1,43 @@
 import { describe, expect, it } from 'vitest';
-import * as configEs from '@cv/es';
-import * as configEn from '@cv/en';
-
-const IDIOMAS = [['es', configEs], ['en', configEn]];
+import { IDIOMAS, configuracionDe } from '../helpers/configuraciones.js';
+import { IDIOMA_PREDETERMINADO, otrosIdiomas, IDIOMAS as LOCALES } from '@cv/locales.js';
 
 // Todas las secciones de la home, en orden: la primera va fuera del bucle en index.astro
 const seccionesDe = (config) => [config.pagIndex.primeraSeccion, ...config.pagIndex.secciones];
 
-describe('paridad entre es.js y en.js', () => {
-    it('exportan exactamente los mismos nombres', () => {
-        expect(Object.keys(configEn).sort()).toEqual(Object.keys(configEs).sort());
+const REFERENCIA = configuracionDe(IDIOMA_PREDETERMINADO.codigo);
+const OTROS = otrosIdiomas(IDIOMA_PREDETERMINADO.codigo).map(({ codigo }) => [codigo, configuracionDe(codigo)]);
+
+describe.each(OTROS)(`paridad de la configuración de ${IDIOMA_PREDETERMINADO.codigo} con %s`, (_codigo, config) => {
+    it('exporta exactamente los mismos nombres', () => {
+        expect(Object.keys(config).sort()).toEqual(Object.keys(REFERENCIA).sort());
     });
 
     it('navItems tiene la misma longitud', () => {
         // Los ids sí difieren a propósito: las anclas están traducidas
         // (#sobre-mi en español, #about_me en inglés)
-        expect(configEn.navItems).toHaveLength(configEs.navItems.length);
+        expect(config.navItems).toHaveLength(REFERENCIA.navItems.length);
     });
 
     it('la home tiene el mismo número de secciones', () => {
-        expect(seccionesDe(configEn)).toHaveLength(seccionesDe(configEs).length);
+        expect(seccionesDe(config)).toHaveLength(seccionesDe(REFERENCIA).length);
     });
 
-    it('cada sección usa el mismo componente en ambos idiomas', () => {
-        const seccionesEs = seccionesDe(configEs);
-        seccionesDe(configEn).forEach((seccion, i) => {
-            expect(seccion.seccion).toBe(seccionesEs[i].seccion);
+    it('cada sección usa el mismo componente', () => {
+        const seccionesReferencia = seccionesDe(REFERENCIA);
+        seccionesDe(config).forEach((seccion, i) => {
+            expect(seccion.seccion).toBe(seccionesReferencia[i].seccion);
         });
     });
 
     it('el objeto ui tiene las mismas claves', () => {
-        expect(Object.keys(configEn.ui).sort()).toEqual(Object.keys(configEs.ui).sort());
+        expect(Object.keys(config.ui).sort()).toEqual(Object.keys(REFERENCIA.ui).sort());
     });
 
     it('los botones del hero son los mismos y en el mismo orden', () => {
-        expect(configEn.sobreMi.botones).toHaveLength(configEs.sobreMi.botones.length);
-        expect(configEn.sobreMi.botones.map((b) => b.url)).toEqual(
-            configEs.sobreMi.botones.map((b) => b.url),
+        expect(config.sobreMi.botones).toHaveLength(REFERENCIA.sobreMi.botones.length);
+        expect(config.sobreMi.botones.map((b) => b.url)).toEqual(
+            REFERENCIA.sobreMi.botones.map((b) => b.url),
         );
     });
 });
@@ -77,11 +78,12 @@ describe.each(IDIOMAS)('coherencia de la configuración (%s)', (_idioma, config)
         }
     });
 
-    it('los enlaces a los PDF del CV apuntan a public/docs', () => {
+    it('el hero enlaza un PDF del CV por cada idioma declarado', () => {
         const pdfs = config.sobreMi.botones.map((b) => b.url).filter((u) => u.endsWith('.pdf'));
-        expect(pdfs).toHaveLength(2);
+        expect(pdfs).toHaveLength(LOCALES.length);
+        const esperados = LOCALES.map(({ pdf }) => `docs/${pdf}`);
         for (const pdf of pdfs) {
-            expect(pdf).toMatch(/docs\/CV_(EN|ESP)\.pdf$/);
+            expect(esperados.some((esperado) => pdf.endsWith(esperado)), `PDF no declarado: ${pdf}`).toBe(true);
         }
     });
 });

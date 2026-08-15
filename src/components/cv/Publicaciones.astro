@@ -1,0 +1,34 @@
+---
+// Publicaciones academicas, con su QR de enlace.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarQr = true } = opciones;
+---
+
+{
+  infoSeccion.map((publicacion: any) => (
+    <div class="flex items-center border-b-2 border-dashed  border-gray-300">
+      <div class="w-full check_y">
+        <h3 class="mt-2 font-semibold ">{publicacion.title}</h3>
+        <p class=" text-sm px-3 py-1  text-justify">
+          {publicacion.description + " " + publicacion.authors}
+        </p>
+        <p class="text-sm px-3 text-justify font-bold" set:html={publicacion.codigo} />
+      </div>
+      {mostrarQr && (
+        <a href={publicacion.link} target="_blank" rel="noopener noreferrer">
+          <img
+            style="width: 160px; height: 130px;"
+            src={publicacion.qr}
+            loading="eager"
+            decoding="async"
+            alt={publicacion.title}
+          />
+        </a>
+      )}
+    </div>
+  ))
+}

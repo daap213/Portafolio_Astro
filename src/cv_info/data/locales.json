@@ -1,0 +1,23 @@
+[
+  {
+    "codigo": "es",
+    "etiqueta": "es",
+    "nombre": "Español",
+    "pdf": "CV_ESP.pdf",
+    "predeterminado": true,
+    "botonCv": {
+      "es": "CV Esp",
+      "en": "CV Spa"
+    }
+  },
+  {
+    "codigo": "en",
+    "etiqueta": "en",
+    "nombre": "English",
+    "pdf": "CV_EN.pdf",
+    "botonCv": {
+      "es": "CV En",
+      "en": "CV En"
+    }
+  }
+]

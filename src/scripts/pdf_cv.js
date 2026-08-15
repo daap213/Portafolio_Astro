@@ -1,18 +1,22 @@
 import { launch as puppeteerLaunch } from 'puppeteer';
 import { pathToFileURL } from 'url';
 import { config } from './../../config.js'
+import { IDIOMAS } from '../cv_info/locales.js'
 
-// Selecciona la URL base según la variable de entorno PROD
-export function resolveUrlWeb(prodEnv = process.env.PROD) {
+// Selecciona la URL base. URL_BASE tiene prioridad: lo usa el administrador
+// local, que imprime contra su propio preview y no contra el puerto de siempre.
+export function resolveUrlWeb(prodEnv = process.env.PROD, urlBase = process.env.URL_BASE) {
+    if (urlBase) return urlBase.endsWith('/') ? urlBase : urlBase + '/';
     return (prodEnv == 'true') ? config.prod.URLWEB : config.dev.URLWEB;
 }
 
-// Pares (url de la vista, ruta del PDF de salida). Sin efectos secundarios.
-export function buildPdfJobs(urlweb) {
-    return [
-        { url: urlweb + "en/cv", path: "public/docs/CV_EN.pdf" },
-        { url: urlweb + "es/cv", path: "public/docs/CV_ESP.pdf" },
-    ];
+// Pares (url de la vista, ruta del PDF de salida), uno por idioma declarado en
+// data/locales.json. Sin efectos secundarios.
+export function buildPdfJobs(urlweb, idiomas = IDIOMAS) {
+    return idiomas.map(({ codigo, pdf }) => ({
+        url: `${urlweb}${codigo}/cv`,
+        path: `public/docs/${pdf}`,
+    }));
 }
 
 // Opciones de impresión, incluyendo displayHeaderFooter, headerTemplate y footerTemplate

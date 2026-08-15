@@ -15,7 +15,9 @@
     "test:watch": "vitest tests/unit",
     "test:build": "vitest run tests/build",
     "test:scripts": "vitest run tests/scripts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "idiomas": "node ./src/scripts/sync_idiomas.js",
+    "admin": "node ./admin/lanzar.js"
   },
   "dependencies": {
     "@fontsource-variable/onest": "5.3.0",

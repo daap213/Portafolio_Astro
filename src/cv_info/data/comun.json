@@ -1,0 +1,244 @@
+{
+  "identidad": {
+    "nombre": "Daniel Alvarado Peláez",
+    "siglas": "DAAP",
+    "correo": "daniel.alvardo.1999@gmail.com",
+    "gitUser": "daap213",
+    "linkedinUser": "daniel-alvarado-peláez",
+    "web": "portafolio.daaptech.org/",
+    "foto": "img/me.webp"
+  },
+  "bloques": {
+    "experiencias": {
+      "items": [
+        {
+          "id": "especialista-general",
+          "link": ""
+        },
+        {
+          "id": "ayudante-de-investigacion-tecnico-de-desarrollo"
+        },
+        {
+          "id": "programador-web"
+        }
+      ]
+    },
+    "gradosCompletados": {
+      "items": [
+        {
+          "id": "posgrado-maestria-en-ciberseguridad"
+        },
+        {
+          "id": "educacion-superior-ingenieria-mecatronica"
+        },
+        {
+          "id": "primaria-secundaria"
+        }
+      ]
+    },
+    "certificados": {
+      "items": [
+        {
+          "id": "despliegue-de-mysql-con-docker"
+        },
+        {
+          "id": "python-para-data-scientist-avanzado"
+        },
+        {
+          "id": "docker-esencial"
+        },
+        {
+          "id": "learning-docker"
+        },
+        {
+          "id": "openedx-escritura-academica"
+        },
+        {
+          "id": "examen-cambridge-english-placement-test-c1"
+        },
+        {
+          "id": "cuarta-revolucion-industrial-data-science"
+        },
+        {
+          "id": "aprende-excel-office365-microsoft365"
+        },
+        {
+          "id": "como-eliminar-las-distracciones"
+        },
+        {
+          "id": "como-conciliar-las-funciones-multiples-del-lider"
+        },
+        {
+          "id": "introduccion-a-la-programacion-en-python"
+        },
+        {
+          "id": "fundamentos-de-programacion-en-plc"
+        },
+        {
+          "id": "python-para-data-science-y-big-data-esencial"
+        },
+        {
+          "id": "matlab-onramp"
+        },
+        {
+          "id": "certificate-of-competency-in-english-ecce-b2"
+        },
+        {
+          "id": "certificado-de-graduacion-cen"
+        }
+      ],
+      "link": "https://drive.google.com/drive/folders/1k3Gb4c1tQa0eKYGnvWbXT8EdypvT9Jb-?usp=share_link",
+      "qr": {
+        "desde": "link",
+        "porItem": false
+      }
+    },
+    "publicaciones": {
+      "qr": {
+        "desde": "link",
+        "porItem": true
+      },
+      "items": [
+        {
+          "id": "comparison-of-traditional-ml-algorithms-for",
+          "link": "https://ieeexplore.ieee.org/document/10056675",
+          "image": ""
+        }
+      ]
+    },
+    "habilidades": {
+      "items": [
+        {
+          "id": "lenguajes-de-programacion"
+        },
+        {
+          "id": "bases-de-datos"
+        },
+        {
+          "id": "otras-herramientas-de-desarrollo"
+        },
+        {
+          "id": "ciberseguridad"
+        },
+        {
+          "id": "herramientas-de-hardware"
+        },
+        {
+          "id": "otras-herramientas"
+        },
+        {
+          "id": "habilidades-tecnicas"
+        },
+        {
+          "id": "habilidades-personales"
+        },
+        {
+          "id": "idiomas"
+        }
+      ]
+    },
+    "proyectos": {
+      "qr": {
+        "desde": "github",
+        "porItem": true
+      },
+      "items": [
+        {
+          "id": "dron-para-monitoreo-termico",
+          "image": "img/projects/dron.webp",
+          "link": "https://www.canva.com/design/DAFX9yXkbVk/DF8M5vSArvJTF0_a-fzVag/watch?utm_content=DAFX9yXkbVk&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
+          "github": "https://github.com/daap213/MonitoreoTermico",
+          "tags": []
+        },
+        {
+          "id": "simulacion-opc-en-tiempo-real",
+          "image": "img/projects/simulacionOPC.webp",
+          "link": "https://www.canva.com/design/DAFJCVANN2g/aI2GtYXtZmk-CkhwHaSFEQ/watch?utm_content=DAFJCVANN2g&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
+          "github": "https://github.com/daap213/Simulacion-protocolo-OPC-en-tiempo-real",
+          "tags": []
+        },
+        {
+          "id": "control-de-bombas-proteus-ubidots",
+          "image": "img/projects/bombasUbidots.webp",
+          "link": "https://www.canva.com/design/DAE1pn3Eg34/oXMn2FTiOz5Hzs9sH3YjGQ/watch?utm_content=DAE1pn3Eg34&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
+          "github": "https://github.com/daap213/Control-de-bombas-Proteus-",
+          "tags": []
+        },
+        {
+          "id": "adaptacion-de-protesis-para-rodilla",
+          "image": "img/projects/protesisRodilla.webp",
+          "link": "",
+          "github": "https://github.com/daap213/adaptation-of-knee-prosthesis",
+          "tags": []
+        },
+        {
+          "id": "control-de-bombeo-labview",
+          "image": "img/projects/bombasLabview.webp",
+          "link": "",
+          "github": "https://github.com/daap213/Control-de-bombeo-LABVIEW",
+          "tags": []
+        },
+        {
+          "id": "simulacion-dinamica-de-mecanismo",
+          "image": "img/projects/ejeMolino.webp",
+          "link": "",
+          "github": "https://github.com/daap213/SimulacionDinamicaMecanismo",
+          "tags": []
+        },
+        {
+          "id": "diseno-de-una-apiladora-de-arroz",
+          "image": "img/projects/apiladoraArroz.webp",
+          "link": "",
+          "github": "https://github.com/daap213/Practica-comunitaria-apiladora-de-arroz",
+          "tags": []
+        },
+        {
+          "id": "alimentador-de-mascotas-automatico",
+          "image": "img/projects/petFeeder.webp",
+          "link": "https://youtu.be/xK9o9PrH0lI",
+          "github": "https://github.com/daap213/Alimentador-de-mascotas",
+          "tags": []
+        },
+        {
+          "id": "proceso-de-fabricacion-flexible",
+          "image": "img/projects/fabricacionFlexible.webp",
+          "link": "https://www.canva.com/design/DAFLZCEZKGQ/C2buCKb0bE4fJlOO9KrR9w/watch?utm_content=DAFLZCEZKGQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink",
+          "github": "https://github.com/daap213/Flexible-Manufacturing-Process",
+          "tags": []
+        }
+      ]
+    },
+    "referencias": {
+      "items": [
+        {
+          "id": "ph-d-victor-manuel-asanza",
+          "nombre": "Ph.D. Víctor Manuel Asanza",
+          "telefono": "+593 98 265 9680",
+          "correo": ""
+        },
+        {
+          "id": "ing-tamara-garcia",
+          "nombre": "Ing. Tamara García",
+          "telefono": "+593 98 459 1065",
+          "correo": "tamikgr@outlook.con"
+        },
+        {
+          "id": "mgs-alexandra-perez-rivera",
+          "nombre": "Mgs. Alexandra Pérez Rivera",
+          "telefono": "+593 99 457 8095",
+          "correo": ""
+        },
+        {
+          "id": "darwin-leon",
+          "nombre": "Darwin León",
+          "telefono": "+593 98 480 5355",
+          "correo": ""
+        }
+      ]
+    },
+    "previewFooter": {
+      "name": "Daniel Alvarado Peláez",
+      "logo": "img/me_panoramico.webp"
+    }
+  }
+}

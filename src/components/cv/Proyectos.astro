@@ -1,0 +1,32 @@
+---
+// Proyectos con su QR a GitHub. `#proyectos > div` es un selector del CSS de
+// impresion: cada proyecto debe seguir siendo un div directo de la seccion.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarQr = true } = opciones;
+---
+
+{
+  infoSeccion.map((proyecto: any) => (
+    <div class="flex items-center flex-col-2 check_y border-b-2 border-dashed border-gray-300">
+      <div class="w-full">
+        <h3 class="mt-1 font-semibold ">{proyecto.title}</h3>
+        <p class=" text-sm px-3 py-1.5 text-justify" set:html={proyecto.description} />
+      </div>
+      {mostrarQr && (
+        <a href={proyecto.github} target="_blank" rel="noopener noreferrer">
+          <img
+            src={proyecto.qr}
+            loading="eager"
+            decoding="async"
+            alt={proyecto.title}
+            style="width: 160px; height: 130px;"
+          />
+        </a>
+      )}
+    </div>
+  ))
+}

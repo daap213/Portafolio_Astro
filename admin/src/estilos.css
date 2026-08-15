@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* Interfaz del administrador. Deliberadamente sobria: es una herramienta. */
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+}

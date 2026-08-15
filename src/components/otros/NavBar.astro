@@ -2,12 +2,11 @@
 import ThemeToggle from "@/components/otros/ThemeToggle.astro";
 interface Props {
   navItems: any;
-  rutaLeng: string;
+  /** Los DEMAS idiomas: [{ codigo, etiqueta, ruta }]. Ya no se supone que haya solo dos. */
+  idiomas: { codigo: string; etiqueta: string; ruta: string }[];
   ui: any;
 }
-const { navItems, rutaLeng, ui } = Astro.props;
-let [label, label2, label3] = rutaLeng.split("/");
-label3 = label3 || label2 || label;
+const { navItems, idiomas, ui } = Astro.props;
 ---
 
 <header
@@ -31,11 +30,16 @@ label3 = label3 || label2 || label;
     }
     <a class="px-2 py-2 md:px-4 md:py-2 ml-2 md:ml-0"><ThemeToggle ui={ui} /></a
     >
-    <a
-      href={rutaLeng}
-      class="px-2 py-2 md:px-4 md:py-2 ml-2 md:ml-0 transition hover:text-yellow-500 dark:hover:text-yellow-400"
-      >{label3}</a
-    >
+    {
+      idiomas.map((idioma) => (
+        <a
+          href={idioma.ruta}
+          class="px-2 py-2 md:px-4 md:py-2 ml-2 md:ml-0 transition hover:text-yellow-500 dark:hover:text-yellow-400"
+        >
+          {idioma.etiqueta}
+        </a>
+      ))
+    }
   </nav>
   <!-- Botón para mostrar/ocultar el navbar en pantallas pequeñas -->
   <button

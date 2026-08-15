@@ -21,18 +21,21 @@ jobs:
     runs-on: ubuntu-latest # Ejecuta este trabajo en un contenedor Ubuntu más reciente
     outputs:
       src: ${{ steps.changes.outputs.src }} # Salida para cambios en archivos fuente
-      infra: ${{ steps.changes.outputs.infra }} # Salida para cambios en la infraestructura
     steps:
       - uses: actions/checkout@v6 # Clona el repositorio
       - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
         id: changes
         with:
           base: cloud_version # Comparar con el último estado de cloud-test
+          # Todo lo que puede alterar el contenido o la paginación del CV.
+          # OJO: nunca incluir public/docs/**, o el commit automático de los PDF
+          # (que usa un PAT y sí redispara workflows) montaría un bucle infinito.
           filters: |
             src:
-              - 'src/cv_info/cv.js' # Archivos que se monitorizan para cambios
-              - 'src/pages/en/cv.astro'
-              - 'src/pages/es/cv.astro'
+              - 'src/cv_info/**'
+              - 'src/pages/**/cv.astro'
+              - 'src/components/cv/**'
+              - 'src/styles/cv_impresion.css'
 
   # La suite completa corre en TODOS los push, no solo cuando cambia el CV:
   # así un build roto no llega a producción ni genera PDFs corruptos.
@@ -90,3 +93,6 @@ jobs:
         with:
           branch: cloud_version
           commit_message: Update PDFs # Mensaje del commit
+          # Acotado a los PDF: sin esto commitea TODO lo que esté sucio en el
+          # árbol de trabajo, incluido cualquier fichero que escriba una herramienta local
+          file_pattern: public/docs/*.pdf

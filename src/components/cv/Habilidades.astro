@@ -1,0 +1,33 @@
+---
+// Grupos de habilidades y sus herramientas relacionadas.
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const { mostrarRelacionadas = true } = opciones;
+---
+
+<div class="grid grid-cols-1 gap-1">
+  {
+    infoSeccion.map((habilidad: any) => (
+      <div class=" border-b-2 border-dashed border-gray-300">
+        <div class="check_y grid m-1">
+          <h3 class="mt-1 mb-1 font-semibold">{habilidad.name}</h3>
+          <div class="text-sm px-1 h-auto max-w-full my-auto border-gray-400">
+            {habilidad.skills.join(" / ")}
+          </div>
+        </div>
+        {mostrarRelacionadas && habilidad.related && (
+          <div class="check_y grid pl-2 border-l-2 border-dashed border-gray-300">
+            <h3 class=" font-semibold">{ui.habilidades_relacionado}</h3>
+            <div class="text-sm px-1 h-auto  max-w-full my-auto">
+              {habilidad.related.join(" / ")}
+            </div>
+          </div>
+        )}
+      </div>
+    ))
+  }
+</div>

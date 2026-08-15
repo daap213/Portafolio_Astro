@@ -6,7 +6,14 @@ interface Props {
   ui: any;
 }
 const { ui } = Astro.props;
-const THEMES = ["Light", "Dark", "System"];
+
+// El valor guardado en localStorage viaja en data-tema, NO en el texto visible:
+// antes se leia de innerText y traducir estas etiquetas rompia el tema en silencio.
+const TEMAS = [
+  { valor: "light", etiqueta: ui.tema_claro },
+  { valor: "dark", etiqueta: ui.tema_oscuro },
+  { valor: "system", etiqueta: ui.tema_sistema },
+];
 ---
 
 <div class="relative mx-1">
@@ -34,9 +41,12 @@ const THEMES = ["Light", "Dark", "System"];
   >
     <ul>
       {
-        THEMES.map((theme) => (
-          <li class="themes-menu-option px-2 py-1.5 cursor-pointer hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm">
-            {theme}
+        TEMAS.map((tema) => (
+          <li
+            class="themes-menu-option px-2 py-1.5 cursor-pointer hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm"
+            data-tema={tema.valor}
+          >
+            {tema.etiqueta}
           </li>
         ))
       }
@@ -120,8 +130,9 @@ const THEMES = ["Light", "Dark", "System"];
       themesMenu.classList[isClosed ? "add" : "remove"]("open");
     });
     document.querySelectorAll(".themes-menu-option").forEach((element) => {
-      element.addEventListener("click", (e) => {
-        localStorage.setItem("theme", e.target.innerText.toLowerCase().trim());
+      element.addEventListener("click", () => {
+        // El valor viene de data-tema, no del texto: asi se puede traducir
+        localStorage.setItem("theme", element.dataset.tema);
         updateTheme();
       });
     });

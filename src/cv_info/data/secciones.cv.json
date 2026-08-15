@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "secciones": [
+    {
+      "id": "informacion-general",
+      "tipo": "perfil",
+      "bloque": "perfil",
+      "opciones": {
+        "mostrarFoto": true,
+        "mostrarRedes": true
+      },
+      "clases": {
+        "titulo": ""
+      },
+      "textos": {
+        "es": {
+          "titulo": ""
+        },
+        "en": {
+          "titulo": ""
+        }
+      }
+    },
+    {
+      "id": "sobre-mi",
+      "tipo": "texto",
+      "bloque": "sobremi",
+      "opciones": {},
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-4 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Sobre Mí"
+        },
+        "en": {
+          "titulo": "About me"
+        }
+      }
+    },
+    {
+      "id": "experiencia",
+      "tipo": "cronologia",
+      "bloque": "experiencias",
+      "opciones": {},
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-2 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Experiencia"
+        },
+        "en": {
+          "titulo": "Experience"
+        }
+      }
+    },
+    {
+      "id": "educacion",
+      "tipo": "formacion",
+      "bloque": "gradosCompletados",
+      "opciones": {
+        "mostrarValoracion": true
+      },
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-4 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Educación"
+        },
+        "en": {
+          "titulo": "Education"
+        }
+      }
+    },
+    {
+      "id": "publicaciones",
+      "tipo": "publicaciones",
+      "bloque": "publicaciones",
+      "opciones": {
+        "mostrarQr": true
+      },
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-4 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Publicaciones"
+        },
+        "en": {
+          "titulo": "Publications"
+        }
+      }
+    },
+    {
+      "id": "habilidades",
+      "tipo": "habilidades",
+      "bloque": "habilidades",
+      "opciones": {
+        "mostrarRelacionadas": true
+      },
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-4 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Habilidades"
+        },
+        "en": {
+          "titulo": "Skills"
+        }
+      }
+    },
+    {
+      "id": "proyectos",
+      "tipo": "proyectos",
+      "bloque": "proyectos",
+      "opciones": {
+        "mostrarQr": true
+      },
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-4 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Proyectos"
+        },
+        "en": {
+          "titulo": "Projects"
+        }
+      }
+    },
+    {
+      "id": "certificados",
+      "tipo": "certificados",
+      "bloque": "certificados",
+      "opciones": {
+        "mostrarQr": true
+      },
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-4 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Certificados"
+        },
+        "en": {
+          "titulo": "Certificates"
+        }
+      }
+    },
+    {
+      "id": "referencias",
+      "tipo": "referencias",
+      "bloque": "referencias",
+      "opciones": {
+        "mostrarTelefono": true,
+        "mostrarCorreo": true
+      },
+      "clases": {
+        "titulo": "text-lg font-extrabold border-b-4 border-double border-gray-400"
+      },
+      "textos": {
+        "es": {
+          "titulo": "Referencias"
+        },
+        "en": {
+          "titulo": "References"
+        }
+      }
+    }
+  ]
+}

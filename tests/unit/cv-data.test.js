@@ -1,16 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { es, en, raizApp } from '@cv/cv';
+import { DATOS, raizApp } from '@cv/cv';
+import { CODIGOS, IDIOMA_PREDETERMINADO, otrosIdiomas } from '@cv/locales.js';
 
 const RAIZ = resolve(import.meta.dirname, '../..');
 
 // Traduce una ruta pública del CV ("/img/qr/x.png") a una ruta de disco en public/
 const aRutaDeDisco = (ruta) => resolve(RAIZ, 'public', ruta.slice(raizApp.length));
 
-const IDIOMAS = [['es', es], ['en', en]];
+const IDIOMAS = CODIGOS.map((codigo) => [codigo, DATOS[codigo]]);
 
-// Arrays que deben tener la misma longitud en ambos idiomas
+// El idioma predeterminado es la referencia contra la que se comparan los demás
+const REFERENCIA = DATOS[IDIOMA_PREDETERMINADO.codigo];
+const OTROS = otrosIdiomas(IDIOMA_PREDETERMINADO.codigo).map(({ codigo }) => [codigo, DATOS[codigo]]);
+
+// Arrays que deben tener la misma longitud en todos los idiomas
 const ARRAYS_PARALELOS = [
     'sobremi',
     'experiencias',
@@ -21,32 +26,35 @@ const ARRAYS_PARALELOS = [
     'referencias',
 ];
 
-describe('paridad es/en', () => {
-    it('ambos idiomas exportan exactamente las mismas claves', () => {
-        expect(Object.keys(en).sort()).toEqual(Object.keys(es).sort());
+// Campos que salen de comun.json: el cargador nunca debería hacerlos divergir
+const CAMPOS_COMUNES = ['nombre', 'siglasNombre', 'correo', 'git_user', 'linkedin_user', 'mi_web'];
+
+describe.each(OTROS)(`paridad de ${IDIOMA_PREDETERMINADO.codigo} con %s`, (_codigo, datos) => {
+    it('exporta exactamente las mismas claves', () => {
+        expect(Object.keys(datos).sort()).toEqual(Object.keys(REFERENCIA).sort());
     });
 
-    it.each(ARRAYS_PARALELOS)('%s tiene la misma longitud en es y en', (clave) => {
-        expect(Array.isArray(es[clave])).toBe(true);
-        expect(en[clave]).toHaveLength(es[clave].length);
+    it.each(ARRAYS_PARALELOS)('%s tiene la misma longitud', (clave) => {
+        expect(Array.isArray(REFERENCIA[clave])).toBe(true);
+        expect(datos[clave]).toHaveLength(REFERENCIA[clave].length);
     });
 
-    it('certificados.items tiene la misma longitud en ambos idiomas', () => {
-        expect(en.certificados.items).toHaveLength(es.certificados.items.length);
+    it('certificados.items tiene la misma longitud', () => {
+        expect(datos.certificados.items).toHaveLength(REFERENCIA.certificados.items.length);
     });
 
-    it('los datos que no se traducen coinciden entre idiomas', () => {
+    it('los datos que no se traducen coinciden', () => {
         // `cumpleaños`, `ubicacion` y los títulos sí se traducen; estos no deberían
-        for (const clave of ['nombre', 'siglasNombre', 'correo', 'git_user', 'linkedin_user', 'mi_web']) {
-            expect(en[clave], `desincronizado: ${clave}`).toBe(es[clave]);
+        for (const clave of CAMPOS_COMUNES) {
+            expect(datos[clave], `desincronizado: ${clave}`).toBe(REFERENCIA[clave]);
         }
     });
 
-    it('cada proyecto apunta al mismo enlace y QR en ambos idiomas', () => {
-        es.proyectos.forEach((proyecto, i) => {
-            expect(en.proyectos[i].github).toBe(proyecto.github);
-            expect(en.proyectos[i].qr).toBe(proyecto.qr);
-            expect(en.proyectos[i].image).toBe(proyecto.image);
+    it('cada proyecto apunta al mismo enlace, imagen y QR', () => {
+        REFERENCIA.proyectos.forEach((proyecto, i) => {
+            expect(datos.proyectos[i].github).toBe(proyecto.github);
+            expect(datos.proyectos[i].qr).toBe(proyecto.qr);
+            expect(datos.proyectos[i].image).toBe(proyecto.image);
         });
     });
 });

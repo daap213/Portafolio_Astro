@@ -2,8 +2,8 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { es } from '@cv/cv';
-import { buildQrJobs, generateQrFiles, qrFileName } from '@/scripts/url_to_qr.js';
+
+import { buildQrJobs, generateQrFiles } from '@/scripts/url_to_qr.js';
 
 const QR_COMMITEADOS = resolve(import.meta.dirname, '../../public/img/qr');
 const FIRMA_PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47]); // \x89PNG
@@ -14,7 +14,7 @@ let generados;
 beforeAll(async () => {
     // Se genera en una carpeta temporal para no tocar public/
     salida = mkdtempSync(join(tmpdir(), 'qr-test-'));
-    generados = await generateQrFiles(buildQrJobs(es), salida + '/');
+    generados = await generateQrFiles(buildQrJobs(), salida + '/');
 }, 120_000);
 
 afterAll(() => {
@@ -23,7 +23,7 @@ afterAll(() => {
 
 describe('generación real de QR', () => {
     it('escribe un PNG por cada enlace de los datos', () => {
-        expect(generados).toHaveLength(buildQrJobs(es).length);
+        expect(generados).toHaveLength(buildQrJobs().length);
         expect(readdirSync(salida)).toHaveLength(generados.length);
     });
 
@@ -59,10 +59,9 @@ describe('generación real de QR', () => {
     it('la generación es determinista: dos ejecuciones dan el mismo binario', async () => {
         const otra = mkdtempSync(join(tmpdir(), 'qr-test-2-'));
         try {
-            const jobs = buildQrJobs(es).slice(0, 3);
+            const jobs = buildQrJobs().slice(0, 3);
             await generateQrFiles(jobs, otra + '/');
-            for (const job of jobs) {
-                const nombre = qrFileName(job.nombre);
+            for (const { nombre } of jobs) {
                 expect(readFileSync(join(otra, nombre)).equals(readFileSync(join(salida, nombre)))).toBe(true);
             }
         } finally {

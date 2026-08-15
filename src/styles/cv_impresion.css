@@ -1,0 +1,125 @@
+/*
+ * Estilos de las paginas del CV (/es/cv, /en/cv) y contrato de impresion del PDF.
+ *
+ * Vive fuera de los .astro A PROPOSITO: dentro de un <style> de Astro estas
+ * reglas se compilan con un selector de ambito ([data-astro-cid-xxxx]) que solo
+ * marca los elementos del propio fichero. En cuanto el marcado se reparta en
+ * componentes, esos hijos reciben otro identificador y TODAS las reglas
+ * @media print dejarian de aplicar sin ningun error visible: el unico sintoma
+ * seria un PDF repaginado, que ademas CI commitea automaticamente.
+ *
+ * Estas paginas no cargan Tailwind (solo FontAwesome por CDN), asi que este
+ * fichero es su unica hoja de estilos. No importar aqui global.css ni Layout:
+ * el preflight de Tailwind descuadraria la paginacion.
+ */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+}
+
+.container {
+  max-width: 21cm;
+  margin: 0 auto;
+  padding-left: 1cm;
+  padding-right: 1cm;
+  background-color: #fff;
+}
+
+section {
+  margin-bottom: 0.45cm;
+}
+
+h1,
+h2 {
+  margin-bottom: 0.5em;
+}
+
+p {
+  margin-bottom: 0.5em;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+}
+
+.contact-info img {
+  width: 100px;
+  height: 100px;
+  margin-right: 1em;
+}
+
+.contact-info a {
+  color: #333;
+  text-decoration: none;
+  margin-right: 1em;
+}
+
+.reference {
+  margin-top: 1em;
+}
+
+.reference p {
+  margin-bottom: 0.2em;
+}
+
+.certificate-link {
+  display: flex;
+  align-items: center;
+}
+
+/* Estilos de impresión para evitar espacios en blanco */
+@media print {
+  /* Permitir que las secciones grandes se dividan */
+  section {
+    break-inside: auto;
+  }
+
+  /* Evitar que los títulos queden huérfanos */
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Cada item de lista no se corta */
+  li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Los bloques pequeños como educación, certificados no se cortan */
+  .check_y {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Bloques de experiencia pueden dividirse, pero cada item no */
+  #experiencia > div {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  /* El encabezado de experiencia (título + empresa) no se separa */
+  #experiencia h3,
+  #experiencia h4 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Proyectos con QR no se cortan */
+  #proyectos > div {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Referencias no se cortan */
+  #referencias > div {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

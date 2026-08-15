@@ -1,10 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { es, en } from '../../src/cv_info/cv.js';
+import { DATOS } from '../../src/cv_info/cv.js';
+import { CODIGOS } from '../../src/cv_info/locales.js';
 
-const VISTAS = [
-    { ruta: '/es/cv', datos: es },
-    { ruta: '/en/cv', datos: en },
-];
+const VISTAS = CODIGOS.map((codigo) => ({ ruta: `/${codigo}/cv`, datos: DATOS[codigo] }));
 
 // Estas son las páginas que Puppeteer imprime a PDF: si se rompen, el CV sale mal
 test.describe('vistas del CV', () => {

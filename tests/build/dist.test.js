@@ -2,18 +2,20 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import { glob } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { es, en } from '@cv/cv';
+import { DATOS } from '@cv/cv';
+import { CODIGOS, IDIOMAS, IDIOMA_PREDETERMINADO, otrosIdiomas } from '@cv/locales.js';
 
 const DIST = resolve(import.meta.dirname, '../../dist');
 
-// Rutas que astro debe generar (i18n con prefixDefaultLocale: true)
+// Rutas que astro debe generar (i18n con prefixDefaultLocale: true), derivadas
+// de data/locales.json: añadir un idioma no obliga a tocar este fichero
 const PAGINAS = [
     'index.html',
-    'es/index.html',
-    'en/index.html',
-    'es/cv/index.html',
-    'en/cv/index.html',
+    ...CODIGOS.flatMap((codigo) => [`${codigo}/index.html`, `${codigo}/cv/index.html`]),
 ];
+
+const PAGINAS_PORTADA = CODIGOS.map((codigo) => [`${codigo}/index.html`, codigo]);
+const PAGINAS_CV = CODIGOS.map((codigo) => [`${codigo}/cv/index.html`, codigo]);
 
 beforeAll(() => {
     if (!existsSync(DIST)) {
@@ -48,13 +50,15 @@ describe('salida del build', () => {
         expect(leer('robots.txt')).toMatch(/User-agent/i);
     });
 
-    it('copia los PDF del CV que enlaza el hero', () => {
-        expect(existsSync(resolve(DIST, 'docs/CV_ESP.pdf'))).toBe(true);
-        expect(existsSync(resolve(DIST, 'docs/CV_EN.pdf'))).toBe(true);
+    it('copia un PDF del CV por idioma', () => {
+        for (const { pdf } of IDIOMAS) {
+            expect(existsSync(resolve(DIST, `docs/${pdf}`)), `falta docs/${pdf}`).toBe(true);
+        }
     });
 
     it('copia todos los QR e imágenes de proyecto referenciados en los datos', () => {
-        for (const ruta of [...es.proyectos, ...en.proyectos].flatMap((p) => [p.qr, p.image])) {
+        const proyectos = CODIGOS.flatMap((codigo) => DATOS[codigo].proyectos);
+        for (const ruta of proyectos.flatMap((p) => [p.qr, p.image])) {
             expect(existsSync(resolve(DIST, '.' + ruta)), `falta en dist: ${ruta}`).toBe(true);
         }
     });
@@ -64,6 +68,25 @@ describe('salida del build', () => {
         for await (const f of glob('_astro/**', { cwd: DIST })) assets.push(f);
         expect(assets.some((f) => f.endsWith('.css')), 'no se generó CSS').toBe(true);
         expect(assets.some((f) => f.includes('onest')), 'no se empaquetó la fuente Onest').toBe(true);
+    });
+});
+
+// El PDF se imprime desde estas páginas y su paginación depende por completo de
+// src/styles/cv_impresion.css. Dos formas silenciosas de romperlo, ambas vigiladas aquí.
+describe('contrato de impresión del CV', () => {
+    it.each(PAGINAS_CV)('%s no carga hojas de estilo de Astro (Tailwind rompe la paginación)', (pagina) => {
+        const enlaces = [...leer(pagina).matchAll(/<link[^>]+href="([^"]+\.css)"/g)].map((m) => m[1]);
+        const locales = enlaces.filter((href) => href.startsWith('/'));
+        expect(locales, `el CV no debe importar Layout.astro ni global.css: ${locales}`).toEqual([]);
+    });
+
+    it.each(PAGINAS_CV)('%s aplica las reglas de impresión sin ámbito de componente', (pagina) => {
+        const html = leer(pagina);
+        // Si el CSS volviera dentro de un <style> de .astro, Astro lo compilaría como
+        // `.check_y[data-astro-cid-xxxx]` y dejaría de alcanzar a los componentes hijos:
+        // el PDF se repaginaría en silencio y el CI commitearía el resultado.
+        expect(html, 'falta la regla de impresión .check_y').toMatch(/\.check_y\s*[,{]/);
+        expect(html.includes('data-astro-cid'), 'el CSS del CV volvió a estar scoped').toBe(false);
     });
 });
 
@@ -83,46 +106,47 @@ describe('enlaces y recursos locales', () => {
         expect(rotos, `enlaces rotos:\n${rotos.join('\n')}`).toEqual([]);
     });
 
-    it('cada ancla del menú existe como id en la página', () => {
-        for (const [pagina] of [['es/index.html', es], ['en/index.html', en]]) {
-            const html = leer(pagina);
-            const anclas = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+    it.each(PAGINAS_PORTADA)('%s: cada ancla del menú existe como id en la página', (pagina) => {
+        const html = leer(pagina);
+        const anclas = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
 
-            expect(anclas.length, `${pagina} no tiene anclas`).toBeGreaterThan(0);
-            for (const ancla of anclas) {
-                expect(html.includes(`id="${ancla}"`), `${pagina}: ancla #${ancla} sin destino`).toBe(true);
-            }
+        expect(anclas.length, `${pagina} no tiene anclas`).toBeGreaterThan(0);
+        for (const ancla of anclas) {
+            expect(html.includes(`id="${ancla}"`), `${pagina}: ancla #${ancla} sin destino`).toBe(true);
         }
     });
 
-    it('el selector de idioma enlaza a la otra versión del sitio', () => {
-        expect(leer('es/index.html')).toContain('href="/en/"');
-        expect(leer('en/index.html')).toContain('href="/es/"');
+    it.each(PAGINAS_PORTADA)('%s enlaza a todos los demás idiomas', (pagina, codigo) => {
+        const html = leer(pagina);
+        for (const otro of otrosIdiomas(codigo)) {
+            expect(html.includes(`href="/${otro.codigo}/"`), `${pagina}: no enlaza a /${otro.codigo}/`).toBe(true);
+        }
     });
 });
 
 describe('contenido de las páginas generadas', () => {
-    it.each([['es/index.html', es], ['en/index.html', en]])('%s incluye los proyectos y el título', (pagina, datos) => {
+    it.each(PAGINAS_PORTADA)('%s incluye los proyectos y el título', (pagina, codigo) => {
         const html = leer(pagina);
+        const datos = DATOS[codigo];
         expect(html).toContain(datos.nombre);
         for (const proyecto of datos.proyectos) {
             expect(html.includes(proyecto.title), `${pagina}: falta el proyecto ${proyecto.title}`).toBe(true);
         }
     });
 
-    it.each([['es/cv/index.html', es], ['en/cv/index.html', en]])('%s incluye los datos de contacto', (pagina, datos) => {
+    it.each(PAGINAS_CV)('%s incluye los datos de contacto', (pagina, codigo) => {
         const html = leer(pagina);
+        const datos = DATOS[codigo];
         expect(html).toContain(datos.nombre);
         expect(html).toContain(datos.correo);
         expect(html).toContain(datos.git_user);
     });
 
-    it('las páginas declaran el idioma correcto en <html lang>', () => {
-        expect(leer('es/index.html')).toMatch(/<html lang="es"/);
-        expect(leer('en/index.html')).toMatch(/<html lang="en"/);
+    it.each([...PAGINAS_PORTADA, ...PAGINAS_CV])('%s declara el idioma correcto en <html lang>', (pagina, codigo) => {
+        expect(leer(pagina)).toMatch(new RegExp(`<html lang="${codigo}"`));
     });
 
-    it('la raíz sirve la versión en español', () => {
-        expect(leer('index.html')).toMatch(/<html lang="es"/);
+    it('la raíz sirve el idioma predeterminado', () => {
+        expect(leer('index.html')).toMatch(new RegExp(`<html lang="${IDIOMA_PREDETERMINADO.codigo}"`));
     });
 });

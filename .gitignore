@@ -31,3 +31,8 @@ blob-report/
 
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md
+
+# administrador local (herramienta de desarrollo, no se publica)
+admin/node_modules/
+admin/dist/
+admin/.copias/

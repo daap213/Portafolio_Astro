@@ -1,0 +1,374 @@
+{
+  "meta": {
+    "tituloUniversidad": "Master in Cybersecurity | Mechatronic Engineer",
+    "nombreTitulo": "Ing. Daniel Alvarado Peláez",
+    "titleWeb": "Portfolio: Daniel Alvarado Peláez - Master in Cybersecurity | Mechatronic Engineer, Developer and Programmer",
+    "descriptionWeb": "Graduated from the Mechatronics degree at ESPOL University, in Ecuador.",
+    "ubicacion": "Ecuador - Guayaquil",
+    "cumpleaños": "March 24, 1999",
+    "work_state": "Remote work"
+  },
+  "bloques": {
+    "sobremi": {
+      "parrafos": [
+        "I am an Ecuadorian <strong>Mechatronics Engineer and Master in Cybersecurity</strong>, passionate about technology and innovation. I have extensive experience in the design, development, and implementation of high-impact solutions, integrating <strong>software development, cybersecurity, data analysis, and artificial intelligence</strong> to solve complex challenges, with a focus on enhancing business productivity through ethical and efficient practices.",
+        "My profile combines a solid technical background with the ability to <strong>lead technology teams and projects</strong> throughout their entire lifecycle: from data ingestion to full-stack development, architecture, automation, and security audits. I am characterized by my analytical mindset, results-driven approach, and adaptability within <strong>multidisciplinary and multilingual environments</strong>, allowing me to successfully integrate into global and multicultural work dynamics."
+      ]
+    },
+    "experiencias": {
+      "items": {
+        "especialista-general": {
+          "date": "MAY 2023 - Present",
+          "title": "General Specialist",
+          "company": "Information Tecnology XOA S. A.",
+          "description": [
+            "Full-stack development: design and implementation of secure web applications using modern technologies and coding best practices.",
+            "Machine Learning model development and integration with company APIs and enterprise services, including production ML pipelines.",
+            "Data analysis and processing: defining strategies for acquisition, cleaning, preprocessing, and handling large-scale data volumes with specialized tools.",
+            "Information security: implementing protection measures, code audits, input validation, secure credential management, and service hardening.",
+            "Security improvements: identifying vulnerabilities, assessing risks, designing mitigation solutions, and ensuring regulatory compliance.",
+            "Technical support: field work for diagnostics, problem detection, and critical infrastructure issue resolution at client sites.",
+            "Proactive monitoring: continuous supervision of services, servers, and production applications to ensure availability, performance, and security.",
+            "Version updates and migrations: planning and implementing secure updates with minimal downtime and comprehensive validation.",
+            "Internal tool development: creating company-specific services and utilities to optimize operational processes.",
+            "Quality control: functional, security, and performance testing for embedded systems and web applications before release."
+          ]
+        },
+        "ayudante-de-investigacion-tecnico-de-desarrollo": {
+          "date": "MAR 2022 - APR 2022",
+          "title": "Research Assistant (Development Technician)",
+          "company": "Center for Information Technologies (CTI)",
+          "description": [
+            "Participation in a research project focused on predicting the energy consumption of Data Center infrastructure using Machine Learning techniques.",
+            "Design and development of Jupyter notebooks for data acquisition, cleaning, preprocessing, and exploratory data analysis from monitoring systems.",
+            "Implementation, training, and comparative evaluation of different predictive models, using performance metrics to determine the most efficient solution.",
+            "Optimization and improvement of a data collection application, enhancing the quality, consistency, and availability of information used in analytical models.",
+            "Collaboration in research activities that contributed to the scientific publication presented at IEEE Future Networks World Forum (FNWF 2022)."
+          ]
+        },
+        "programador-web": {
+          "date": "MAY 2021 - JUL 2021",
+          "title": "Web Developer",
+          "company": "Edu4Lab",
+          "description": [
+            "Development of an educational web platform using Laravel under a scalable and maintainable system architecture.",
+            "Implementation of user management, profile, and role modules, ensuring proper access control based on user responsibilities.",
+            "Development of features for managing courses, books, online assessments, and academic staff.",
+            "Design and integration of business logic and database for centralized management of educational content.",
+            "Participation in functional testing and requirements validation to ensure proper platform operation."
+          ]
+        }
+      }
+    },
+    "gradosCompletados": {
+      "items": {
+        "posgrado-maestria-en-ciberseguridad": {
+          "date": "Guayaquil, Ecuador / JUL 2024 - JAN 2026",
+          "title": "Postgraduate, Master in Cybersecurity",
+          "institution": "Universidad Casa Grande",
+          "appreciation": "Passed with honors; Cum laude",
+          "description": []
+        },
+        "educacion-superior-ingenieria-mecatronica": {
+          "date": "Guayaquil, Ecuador / OCT 2017 - FEB 2023",
+          "title": "Higher Education, Mechatronics Engineering",
+          "institution": "Escuela Superior Politécnica del Litoral (ESPOL)",
+          "description": []
+        },
+        "primaria-secundaria": {
+          "date": "Guayaquil, Ecuador / MAY 2005 - FEB 2017",
+          "title": "Primary - Secondary Education",
+          "institution": "Unidad Educativa FAE Nº2",
+          "description": []
+        }
+      }
+    },
+    "certificados": {
+      "items": {
+        "despliegue-de-mysql-con-docker": {
+          "date": "MAR 2023",
+          "title": "Despliegue de MySQL con Docker"
+        },
+        "python-para-data-scientist-avanzado": {
+          "date": "FEB 2023",
+          "title": "Python para data scientist avanzado"
+        },
+        "docker-esencial": {
+          "date": "FEB 2023",
+          "title": "Docker esencial"
+        },
+        "learning-docker": {
+          "date": "FEB 2023",
+          "title": "Learning Docker"
+        },
+        "openedx-escritura-academica": {
+          "date": "ENE 2023",
+          "title": "OPENedX Escritura Académica"
+        },
+        "examen-cambridge-english-placement-test-c1": {
+          "date": "DIC 2022",
+          "title": "Examen CAMBRIDGE ENGLISH PLACEMENT TEST, C1"
+        },
+        "cuarta-revolucion-industrial-data-science": {
+          "date": "FEB 2022",
+          "title": "Cuarta revolución Industrial: Data science"
+        },
+        "aprende-excel-office365-microsoft365": {
+          "date": "FEB 2022",
+          "title": "Aprende Excel (Office365/Microsoft365)"
+        },
+        "como-eliminar-las-distracciones": {
+          "date": "FEB 2022",
+          "title": "Cómo eliminar las distracciones"
+        },
+        "como-conciliar-las-funciones-multiples-del-lider": {
+          "date": "FEB 2022",
+          "title": "Cómo conciliar las funciones múltiples del líder"
+        },
+        "introduccion-a-la-programacion-en-python": {
+          "date": "ABR 2021",
+          "title": "Introducción a la programación en Python"
+        },
+        "fundamentos-de-programacion-en-plc": {
+          "date": "SEPT 2021",
+          "title": "Fundamentos de programación en PLC"
+        },
+        "python-para-data-science-y-big-data-esencial": {
+          "date": "SEPT 2021",
+          "title": "Python para data science y big data esencial"
+        },
+        "matlab-onramp": {
+          "date": "OCT 2020",
+          "title": "MATLAB Onramp"
+        },
+        "certificate-of-competency-in-english-ecce-b2": {
+          "date": "NOV 2017",
+          "title": "Certificate of Competency in English, ECCE B2"
+        },
+        "certificado-de-graduacion-cen": {
+          "date": "MAY 2017",
+          "title": "Certificado de graduación, CEN"
+        }
+      },
+      "titleLink": "Drive with certificates",
+      "title": "Courses taken"
+    },
+    "publicaciones": {
+      "items": {
+        "comparison-of-traditional-ml-algorithms-for": {
+          "title": "Comparison of Traditional ML Algorithms for Energy Consumption Prediction Models",
+          "authors": "R. Estrada, V. Asanza, D. Torres, I. Valeriano and D. Alvarado",
+          "description": " 2022 IEEE Future Networks World Forum (FNWF), Montreal, QC, Canada, 2022, pp. 232-237,",
+          "codigo": "doi: 10.1109/FNWF55208.2022.00048."
+        }
+      }
+    },
+    "habilidades": {
+      "items": {
+        "lenguajes-de-programacion": {
+          "name": "Programming languages",
+          "skills": [
+            "JAVA",
+            "Python",
+            "C/C++",
+            "HTML",
+            "JavaScript",
+            "PHP"
+          ],
+          "related": [
+            "Node.js",
+            "Laravel",
+            "Jupyter Notebook",
+            "Dataiku",
+            "Astro",
+            "Vue.js"
+          ]
+        },
+        "bases-de-datos": {
+          "name": "Databases",
+          "skills": [
+            "MySQL",
+            "Postgresql",
+            "MongoDB",
+            "Redis",
+            "Meilisearch"
+          ],
+          "related": [
+            "Supabase",
+            "MongoDBCompass",
+            "MongoDB Atlas",
+            "Laragon",
+            "XAMPP",
+            "HeidiSQL",
+            "PGAdmin4",
+            "DBeaver"
+          ]
+        },
+        "otras-herramientas-de-desarrollo": {
+          "name": "Other development tools",
+          "skills": [
+            "Git & GitHub",
+            "Docker",
+            "Cloudflare",
+            "Copilot",
+            "MATLAB & Simulink"
+          ]
+        },
+        "ciberseguridad": {
+          "name": "Cybersecurity",
+          "skills": [
+            "ISO 27001",
+            "OWASP Top 10",
+            "Personal Data Protection Law (Ecuador)",
+            "OSINT Tools",
+            "Shodan"
+          ],
+          "related": [
+            "Vulnerability analysis",
+            "Risk management",
+            "Security audits"
+          ]
+        },
+        "herramientas-de-hardware": {
+          "name": "hardware tools",
+          "skills": [
+            "Arduino",
+            "Raspberry Pi",
+            "ESP32 - 8266",
+            "PLC Siemens",
+            "PLC Logo"
+          ]
+        },
+        "otras-herramientas": {
+          "name": "Other tools",
+          "skills": [
+            "Paquete Office",
+            "Notion",
+            "Odoo",
+            "Claude",
+            "Copilot",
+            "Canva"
+          ]
+        },
+        "habilidades-tecnicas": {
+          "name": "Technical skills",
+          "skills": [
+            "Development and programming",
+            "Analytics and data science",
+            "3d design",
+            "Development of embedded systems"
+          ],
+          "related": [
+            "Autodesk Inventor",
+            "Autodesk AutoCAD",
+            "Automation Studio",
+            "CADe Simu",
+            "CCW (Connected Components Workbench)",
+            "FluidSIM",
+            "LabVIEW",
+            "TIA Portal",
+            "Proteus",
+            "FlexSim"
+          ]
+        },
+        "habilidades-personales": {
+          "name": "Personal skills",
+          "skills": [
+            "Teamwork",
+            "Commitment to tasks",
+            "Learning capacity",
+            "Orientation to results"
+          ]
+        },
+        "idiomas": {
+          "name": "Languages",
+          "skills": [
+            "Spanish - Native",
+            "English - C1"
+          ]
+        }
+      }
+    },
+    "proyectos": {
+      "items": {
+        "dron-para-monitoreo-termico": {
+          "title": "Thermal Monitoring Drone",
+          "description": [
+            "CAD designs and Arduino circuits for a drone. CAD designs, circuits, and Raspberry Pi program for an embedded system that detects cable presence, captures thermal images, and detects temperature spikes."
+          ]
+        },
+        "simulacion-opc-en-tiempo-real": {
+          "title": "Real-time OPC Simulation",
+          "description": [
+            "Real-time circuit simulation, connected via OPC to a LABVIEW interface, for monitoring and control."
+          ]
+        },
+        "control-de-bombas-proteus-ubidots": {
+          "title": "Proteus/Ubidots Pump Control",
+          "description": [
+            "Design of a pump system in Proteus, controlled by an Atmega328p, and visualization in Ubidots of the system's status communicated by a program developed in Python."
+          ]
+        },
+        "adaptacion-de-protesis-para-rodilla": {
+          "title": "Knee Prosthesis Adaptation",
+          "description": [
+            "3D design of a knee and editing of a total knee prosthesis, using Slice 3D and Blender software to adapt the existing knee prosthesis to the test knee."
+          ]
+        },
+        "control-de-bombeo-labview": {
+          "title": "LABVIEW Pump Control",
+          "description": [
+            "Design of an HMI for the control of a pump system, which has three pumps. Two pumps are primary and the third is backup in case one fails or is disabled for maintenance. Each pump has its start and stop pushbuttons, as well as its enable or disable selector. The system will have manual and automatic operation commanded by the signal sent by a selector."
+          ]
+        },
+        "simulacion-dinamica-de-mecanismo": {
+          "title": "Dynamic Mechanism Simulation",
+          "description": [
+            "A mechanism is designed where the shaft of a mill receives the necessary power and speed through pulley-chains. In turn, the shaft that transmits power to the pulley with chain receives the input power through a set of V-belt pulleys, as well as being supported by 2 bearings."
+          ]
+        },
+        "diseno-de-una-apiladora-de-arroz": {
+          "title": "Rice Stacker Design",
+          "description": [
+            "Design and feasibility analysis of a rice stacker using renewable energy for implementation in a developing agricultural community."
+          ]
+        },
+        "alimentador-de-mascotas-automatico": {
+          "title": "Automatic Pet Feeder",
+          "description": [
+            "Automatic pet feeder project controlled by a mobile application that allows scheduling feeding times."
+          ]
+        },
+        "proceso-de-fabricacion-flexible": {
+          "title": "Flexible Manufacturing Process",
+          "description": [
+            "Redesigning the bottle manufacturing system of a company to reduce production times, increase system flexibility, and improve company profitability."
+          ]
+        }
+      }
+    },
+    "referencias": {
+      "items": {
+        "ph-d-victor-manuel-asanza": {
+          "cargo": "Professor of the FIEC faculty",
+          "empresa": "ESPOL University"
+        },
+        "ing-tamara-garcia": {
+          "cargo": "Supervisor",
+          "empresa": "Delta Delfini"
+        },
+        "mgs-alexandra-perez-rivera": {
+          "cargo": "Tourism Course Teacher",
+          "empresa": "ECOTEC University"
+        },
+        "darwin-leon": {
+          "cargo": "Manager",
+          "empresa": "Edu4lat"
+        }
+      }
+    },
+    "previewFooter": {
+      "frase": "God created the Earth, nature, animals, humanity... And the engineer to take care of everything else."
+    }
+  }
+}

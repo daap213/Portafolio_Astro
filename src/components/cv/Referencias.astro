@@ -1,0 +1,37 @@
+---
+// Referencias profesionales. `#referencias > div` es un selector del CSS de
+// impresion: cada referencia debe seguir siendo un div directo de la seccion.
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const { mostrarTelefono = true, mostrarCorreo = true } = opciones;
+---
+
+{
+  infoSeccion.map((referencia: any) => (
+    <div class="check_y  border-b-2 border-dashed border-gray-300">
+      <h3 class="mt-2 mb-2 font-semibold ">
+        {referencia.nombre + " - " + referencia.cargo}
+      </h3>
+      <h4 class="text-start ml-5">
+        <strong>{ui.referencias_empresa}</strong>
+        {referencia.empresa}
+      </h4>
+      {mostrarTelefono && (
+        <h4 class="text-start ml-5">
+          <strong>{ui.referencias_telefono}</strong>
+          {referencia.telefono}
+        </h4>
+      )}
+      {mostrarCorreo && referencia.correo && (
+        <h4 class="text-start ml-5">
+          <strong>{ui.referencias_email}</strong>
+          {referencia.correo}
+        </h4>
+      )}
+    </div>
+  ))
+}

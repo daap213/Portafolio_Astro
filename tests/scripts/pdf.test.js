@@ -3,6 +3,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { buildPdfJobs, generatePDF } from '@/scripts/pdf_cv.js';
+import { CODIGOS, IDIOMAS } from '@cv/locales.js';
 import { iniciarPreview } from '../helpers/preview.js';
 
 const DIST = resolve(import.meta.dirname, '../../dist');
@@ -26,7 +27,7 @@ afterAll(async () => {
 });
 
 describe('servidor de preview', () => {
-    it.each(['es/cv', 'en/cv', 'es/', 'en/'])('sirve /%s', async (ruta) => {
+    it.each(CODIGOS.flatMap((codigo) => [`${codigo}/cv`, `${codigo}/`]))('sirve /%s', async (ruta) => {
         const respuesta = await fetch(baseUrl + ruta);
         expect(respuesta.status).toBe(200);
         expect((await respuesta.text()).length).toBeGreaterThan(1000);
@@ -36,7 +37,7 @@ describe('servidor de preview', () => {
 describe('generación real de PDF con Puppeteer', () => {
     // Requiere Chrome: `pnpm exec puppeteer browsers install chrome`
     // (pnpm-workspace.yaml desactiva el postinstall de puppeteer)
-    it.each([['es', 'CV_ESP.pdf'], ['en', 'CV_EN.pdf']])(
+    it.each(IDIOMAS.map(({ codigo, pdf }) => [codigo, pdf]))(
         'imprime la vista /%s/cv a un PDF válido',
         async (idioma, nombre) => {
             const destino = join(salida, nombre);

@@ -1,20 +1,27 @@
 import { expect, test } from '@playwright/test';
-// Solo cv.js: es.js/en.js importan componentes .astro que el loader de Playwright no entiende
-import { es, en } from '../../src/cv_info/cv.js';
+// Solo cv.js y locales.js: es.js/en.js importan componentes .astro que el loader
+// de Playwright no entiende
+import { DATOS } from '../../src/cv_info/cv.js';
+import { IDIOMAS as LOCALES, IDIOMA_PREDETERMINADO, otrosIdiomas } from '../../src/cv_info/locales.js';
 
-const IDIOMAS = [
-    { ruta: '/es/', idioma: 'es', datos: es, otro: '/en/' },
-    { ruta: '/en/', idioma: 'en', datos: en, otro: '/es/' },
-];
+const IDIOMAS = LOCALES.map(({ codigo }) => ({
+    ruta: `/${codigo}/`,
+    idioma: codigo,
+    datos: DATOS[codigo],
+    // Los demás idiomas: el conmutador ya no se supone binario
+    otros: otrosIdiomas(codigo).map((idioma) => `/${idioma.codigo}/`),
+}));
+
+const RUTA_PREDETERMINADA = `/${IDIOMA_PREDETERMINADO.codigo}/`;
 
 test.describe('portada', () => {
-    test('la raíz sirve la versión en español', async ({ page }) => {
+    test('la raíz sirve el idioma predeterminado', async ({ page }) => {
         await page.goto('/');
-        await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+        await expect(page.locator('html')).toHaveAttribute('lang', IDIOMA_PREDETERMINADO.codigo);
         await expect(page.locator('h2').first()).toBeVisible();
     });
 
-    for (const { ruta, idioma, datos, otro } of IDIOMAS) {
+    for (const { ruta, idioma, datos, otros } of IDIOMAS) {
         test(`${ruta} carga con su idioma y su contenido`, async ({ page }) => {
             await page.goto(ruta);
 
@@ -47,13 +54,15 @@ test.describe('portada', () => {
             await expect(page.locator(destino)).toBeInViewport();
         });
 
-        test(`${ruta} enlaza a ${otro} para cambiar de idioma`, async ({ page }) => {
-            await page.goto(ruta);
-            await page.locator(`#navbar a[href="${otro}"]`).click();
+        for (const otro of otros) {
+            test(`${ruta} enlaza a ${otro} para cambiar de idioma`, async ({ page }) => {
+                await page.goto(ruta);
+                await page.locator(`#navbar a[href="${otro}"]`).click();
 
-            await expect(page).toHaveURL(new RegExp(`${otro}$`));
-            await expect(page.locator('html')).toHaveAttribute('lang', otro.replaceAll('/', ''));
-        });
+                await expect(page).toHaveURL(new RegExp(`${otro}$`));
+                await expect(page.locator('html')).toHaveAttribute('lang', otro.replaceAll('/', ''));
+            });
+        }
 
         test(`${ruta} renderiza todos los proyectos`, async ({ page }) => {
             await page.goto(ruta);
@@ -90,10 +99,10 @@ test.describe('portada', () => {
             expect(errores, `errores en consola:\n${errores.join('\n')}`).toEqual([]);
         });
 
-        test(`${ruta} ofrece los dos PDF del CV`, async ({ page }) => {
+        test(`${ruta} ofrece un PDF del CV por idioma`, async ({ page }) => {
             await page.goto(ruta);
 
-            for (const pdf of ['/docs/CV_ESP.pdf', '/docs/CV_EN.pdf']) {
+            for (const pdf of LOCALES.map(({ pdf: nombre }) => `/docs/${nombre}`)) {
                 await expect(page.locator(`a[href="${pdf}"]`)).toHaveCount(1);
                 const respuesta = await page.request.get(pdf);
                 expect(respuesta.status(), `${pdf} no se sirve`).toBe(200);
@@ -104,11 +113,11 @@ test.describe('portada', () => {
 
 test.describe('selector de tema', () => {
     test('aplica el tema oscuro y lo recuerda', async ({ page }) => {
-        await page.goto('/es/');
+        await page.goto(RUTA_PREDETERMINADA);
 
         await page.locator('#theme-toggle-btn').click();
         await expect(page.locator('#themes-menu')).toHaveClass(/open/);
-        await page.locator('.themes-menu-option', { hasText: 'Dark' }).click();
+        await page.locator('.themes-menu-option[data-tema="dark"]').click();
 
         // El modo oscuro es por clase (@variant dark en global.css), no por media query
         await expect(page.locator('html')).toHaveClass(/dark/);
@@ -119,22 +128,22 @@ test.describe('selector de tema', () => {
     });
 
     test('vuelve al tema claro', async ({ page }) => {
-        await page.goto('/es/');
+        await page.goto(RUTA_PREDETERMINADA);
 
         await page.locator('#theme-toggle-btn').click();
-        await page.locator('.themes-menu-option', { hasText: 'Dark' }).click();
+        await page.locator('.themes-menu-option[data-tema="dark"]').click();
         await expect(page.locator('html')).toHaveClass(/dark/);
 
         await page.locator('#theme-toggle-btn').click();
-        await page.locator('.themes-menu-option', { hasText: 'Light' }).click();
+        await page.locator('.themes-menu-option[data-tema="light"]').click();
 
         await expect(page.locator('html')).not.toHaveClass(/dark/);
         expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
     });
 
-    test('el botón tiene texto accesible en ambos idiomas', async ({ page }) => {
+    test('el botón tiene texto accesible en todos los idiomas', async ({ page }) => {
         // Regresión: la clave de traducción estaba mal escrita y el label salía vacío en español
-        for (const ruta of ['/es/', '/en/']) {
+        for (const { ruta } of IDIOMAS) {
             await page.goto(ruta);
             await expect(page.locator('#theme-toggle-btn .sr-only'), ruta).not.toBeEmpty();
         }
@@ -145,7 +154,7 @@ test.describe('menú responsive', () => {
     test.use({ viewport: { width: 390, height: 844 } });
 
     test('el menú se despliega en móvil', async ({ page }) => {
-        await page.goto('/es/');
+        await page.goto(RUTA_PREDETERMINADA);
 
         const navbar = page.locator('#navbar');
         await expect(navbar).toHaveClass(/grid-hidden/);

@@ -1,0 +1,41 @@
+---
+// Cursos finalizados y el enlace (con QR) a la carpeta de certificados.
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const { mostrarQr = true } = opciones;
+---
+
+{
+  infoSeccion.items.map((certificado: any) => (
+    <div class="check_y">
+      <h3 class="test-sm mt-2 font-semibold ">{certificado.title}</h3>
+      <h4 class="text-end border-b-2 border-dashed border-gray-300">
+        <small>{certificado.date}</small>
+      </h4>
+    </div>
+  ))
+}
+<div class="mt-1 certificate-link">
+  {
+    mostrarQr && (
+      <a href={infoSeccion.link} target="_blank" rel="noopener noreferrer">
+        <img
+          class="certificate-image"
+          src={infoSeccion.qr}
+          loading="eager"
+          decoding="async"
+          style="width: 130px; height: 130px;"
+          alt={ui.certificados_alt_qr}
+        />
+      </a>
+    )
+  }
+
+  <a href={infoSeccion.link} target="_blank" rel="noopener noreferrer"
+    >{ui.certificados_enlace}</a
+  >
+</div>
