@@ -173,7 +173,7 @@ export function Secciones({ estado, borrador, guardarPendientes, idiomasVisibles
         />
       )}
 
-      <div className="grid gap-4 lg:grid-cols-[18rem_1fr]">
+      <div className="grid gap-4 @2xl:grid-cols-[minmax(12rem,16rem)_1fr]">
         <aside className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <ul className="text-sm">
             {secciones.map((s, i) => (
@@ -200,12 +200,12 @@ export function Secciones({ estado, borrador, guardarPendientes, idiomasVisibles
           </div>
         </aside>
 
-        <section className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 space-y-4">
+        <section className="@container min-w-0 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 space-y-4">
           {!seccion && <p className="text-sm text-gray-500">Esta lista no tiene secciones.</p>}
 
           {seccion && (
             <>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-3 @xl:grid-cols-2">
                 <label className="block">
                   <span className="text-xs uppercase tracking-wide text-gray-500">Identificador</span>
                   <input
@@ -284,7 +284,7 @@ export function Secciones({ estado, borrador, guardarPendientes, idiomasVisibles
                 <summary className="text-xs uppercase tracking-wide text-gray-500 cursor-pointer">
                   Clases CSS
                 </summary>
-                <div className="grid gap-2 sm:grid-cols-3 mt-2">
+                <div className="grid gap-2 @xl:grid-cols-3 mt-2">
                   {(lista === 'web' ? ['seccion', 'titulo', 'icono'] : ['titulo']).map((campo) => (
                     <label key={campo} className="block">
                       <span className="text-xs text-gray-500">{campo}</span>
@@ -413,7 +413,7 @@ function FormularioAlta({
     <div className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-3 space-y-3">
       <h3 className="font-semibold text-sm">Nueva sección en {lista === 'web' ? 'la página web' : 'el CV'}</h3>
 
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-3 @xl:grid-cols-3">
         <label className="block">
           <span className="text-xs uppercase tracking-wide text-gray-500">Tipo</span>
           <select className={claseEntrada} value={tipoNombre} onChange={(e) => setTipoNombre(e.target.value)}>

@@ -81,46 +81,46 @@ export function Textos({ estado, borrador, guardarPendientes, idiomasVisibles })
         </div>
       </header>
 
-      {/* El desbordamiento se queda DENTRO de la caja: con muchos idiomas la
-          tabla se desplaza sola y la página nunca coge scroll horizontal. La
-          columna de la clave va pegada para no perder de vista qué se edita. */}
-      <div className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-x-auto">
-        <table className="w-full text-sm" style={{ minWidth: `${14 + idiomas.length * 14}rem` }}>
-          <thead className="bg-gray-50 dark:bg-gray-900 text-left">
-            <tr>
-              <th className="px-2 py-1 font-medium w-56 sticky left-0 bg-gray-50 dark:bg-gray-900">clave</th>
-              {idiomas.map((codigo) => (
-                <th key={codigo} className="px-2 py-1 font-mono text-xs font-medium">
-                  {codigo}
-                  {codigo === predeterminado && <span className="ml-1 text-gray-400">(base)</span>}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {visibles.map((clave) => (
-              <tr key={clave} className="border-t border-gray-100 dark:border-gray-700 align-top">
-                <td className="px-2 py-1 font-mono text-xs text-gray-600 dark:text-gray-400 break-all sticky left-0 bg-white dark:bg-gray-800">
-                  {clave}
-                </td>
+      {/* Sin tabla: una tabla con una columna por idioma obliga a desplazarse en
+          horizontal en cuanto el panel se estrecha (y se estrecha cada vez que
+          se ensancha la vista previa). Aquí la clave se pone encima cuando no
+          cabe al lado, y los idiomas se reparten en las filas que hagan falta. */}
+      <div className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <ul className="text-sm">
+          {visibles.map((clave) => (
+            <li
+              key={clave}
+              className="grid gap-2 px-2 py-2 border-t border-gray-100 dark:border-gray-700 first:border-t-0 @3xl:grid-cols-[13rem_1fr] @3xl:items-start"
+            >
+              <code className="font-mono text-xs text-gray-600 dark:text-gray-400 break-all @3xl:pt-1.5">
+                {clave}
+              </code>
+              <div
+                className="grid gap-2"
+                style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, 1fr))' }}
+              >
                 {idiomas.map((codigo) => {
                   const valor = textos[codigo]?.[clave] ?? '';
                   const falta = vacio(valor) && codigo !== predeterminado;
                   return (
-                    <td key={codigo} className="px-2 py-1">
+                    <label key={codigo} className="block min-w-0">
+                      <span className="text-[11px] font-mono text-gray-500">
+                        {codigo}
+                        {codigo === predeterminado && <span className="text-gray-400"> ·base</span>}
+                        {falta && <span className="ml-1 text-amber-600">sin traducir</span>}
+                      </span>
                       <input
                         className={claseEntrada + (falta ? ' ring-1 ring-amber-400' : '')}
                         value={valor}
-                        placeholder={falta ? 'sin traducir' : ''}
                         onChange={(e) => cambiar(codigo, clave, e.target.value)}
                       />
-                    </td>
+                    </label>
                   );
                 })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              </div>
+            </li>
+          ))}
+        </ul>
         {visibles.length === 0 && <p className="p-3 text-sm text-gray-500">Ninguna clave coincide.</p>}
       </div>
     </div>

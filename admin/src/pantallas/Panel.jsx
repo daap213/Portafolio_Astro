@@ -48,7 +48,7 @@ export function Panel({ estado, recargar }) {
   const { errores, avisos } = estado.diagnostico;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className="grid gap-4 @3xl:grid-cols-2">
       <section className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
         <h2 className="font-semibold mb-2">Diagnóstico</h2>
         {errores.length === 0 && avisos.length === 0 && (
@@ -86,7 +86,7 @@ export function Panel({ estado, recargar }) {
           Solo se ejecuta una a la vez: dos Chrome simultáneos agotan la memoria y el servidor de
           vista previa de Astro es único por máquina.
         </p>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid gap-2 @xl:grid-cols-2">
           {TAREAS.map((t) => (
             <button
               key={t.tipo}
@@ -112,7 +112,7 @@ export function Panel({ estado, recargar }) {
         )}
       </section>
 
-      <section className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 lg:col-span-2">
+      <section className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 @3xl:col-span-2">
         <h2 className="font-semibold mb-2">Cambios sin commitear</h2>
         {estado.git?.error && <p className="text-sm text-red-600">{estado.git.error}</p>}
         {estado.git && !estado.git.sucio && (

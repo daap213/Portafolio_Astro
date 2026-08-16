@@ -81,7 +81,7 @@ export function Contenido({ estado, medios, borrador, guardarPendientes, idiomas
   const hayLista = ambito !== AMBITO_PERFIL && !!tipoDelAmbito && camposDeItem(tipoDelAmbito).length > 0;
 
   return (
-    <div className={`grid gap-4 ${hayLista ? 'lg:grid-cols-[minmax(12rem,16rem)_1fr]' : 'grid-cols-1'}`}>
+    <div className={`grid gap-4 ${hayLista ? '@2xl:grid-cols-[minmax(11rem,15rem)_1fr]' : 'grid-cols-1'}`}>
       <aside className={hayLista ? 'space-y-3' : 'space-y-3 max-w-md'}>
         <label className="block">
           <span className="text-xs uppercase tracking-wide text-gray-500">Qué editar</span>
@@ -118,7 +118,9 @@ export function Contenido({ estado, medios, borrador, guardarPendientes, idiomas
         )}
       </aside>
 
-      <section className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 space-y-4">
+      {/* Contenedor propio: lo que hay dentro mide ESTA columna, que es más
+          estrecha que el panel cuando la lista lateral está puesta */}
+      <section className="@container min-w-0 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 space-y-4">
         {ambito === AMBITO_PERFIL ? (
           <EditorPerfil
             estado={estado}

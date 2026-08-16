@@ -65,7 +65,7 @@ export function Idiomas({ estado, guardar }) {
   const clase = 'rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-2 py-1 text-sm';
 
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className="grid gap-4 @3xl:grid-cols-2">
       <section className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
         <h2 className="font-semibold mb-3">Idiomas del sitio</h2>
         <table className="w-full text-sm">
@@ -112,7 +112,7 @@ export function Idiomas({ estado, guardar }) {
       <section className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
         <h2 className="font-semibold mb-3">Añadir idioma</h2>
         <form className="space-y-3" onSubmit={anadir}>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 @xl:grid-cols-2">
             <label className="block">
               <span className="text-xs uppercase tracking-wide text-gray-500">Código</span>
               <input
@@ -150,7 +150,7 @@ export function Idiomas({ estado, guardar }) {
                 onChange={(e) => setNuevo({ ...nuevo, pdf: e.target.value })}
               />
             </label>
-            <label className="block sm:col-span-2">
+            <label className="block @xl:col-span-2">
               <span className="text-xs uppercase tracking-wide text-gray-500">Sembrar desde</span>
               <select
                 className={clase + ' w-full'}

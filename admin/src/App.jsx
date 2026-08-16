@@ -287,7 +287,13 @@ export default function App() {
       )}
 
       <div className="flex-1 flex min-h-0">
-        <main className="flex-1 overflow-auto p-4 min-w-0">
+        {/* `@container`: dentro de las pantallas los cortes responsive miden ESTE
+            panel, no la ventana. Con `sm:`/`lg:` normales, ensanchar la vista
+            previa encogía el editor pero el viewport seguía siendo el mismo, así
+            que se mantenían cinco columnas en cuatrocientos píxeles. */}
+        {/* Con la vista previa plegada, su pestaña queda flotando sobre el borde
+            derecho: se le deja hueco para que no tape la última tarjeta. */}
+        <main className={`@container flex-1 overflow-auto p-4 min-w-0 ${vistaAbierta ? '' : 'pr-12'}`}>
           <Actual
             estado={estado}
             medios={medios}

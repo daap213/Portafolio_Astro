@@ -99,7 +99,14 @@ export function Medios({ medios, guardar, recargar }) {
         </section>
       )}
 
-      <section className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      {/* Rejilla intrínseca: las tarjetas caben las que quepan, sin cortes fijos.
+          Con `sm:grid-cols-3 lg:grid-cols-5` seguían siendo cinco aunque el
+          editor midiera cuatrocientos píxeles, porque esos cortes miran la
+          ventana y no el panel. */}
+      <section
+        className="grid gap-3"
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))' }}
+      >
         {medios.map((imagen) => (
           <figure
             key={imagen.ruta}
