@@ -76,6 +76,10 @@ const TEMAS = [
 </style>
 
 <script is:inline>
+  // Este script NO decide el tema: eso lo hace el <head> de Layout.astro antes
+  // del primer pintado, y expone `window.aplicarTema()`. Aqui solo esta el
+  // menu: abrirlo, guardar la eleccion y marcar el icono activo. Tener la
+  // logica en un solo sitio evita que las dos copias se separen.
   const initializeThemeToggle = () => {
     const toggleButton = document.getElementById("theme-toggle-btn");
     const themesMenu = document.getElementById("themes-menu");
@@ -90,38 +94,23 @@ const TEMAS = [
 
     toggleButton.dataset.themeReady = "true";
 
-    let remove = null;
-    const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const getThemePreference = () => {
-      if (typeof localStorage !== "undefined") {
+    // Reserva por si el selector se usa fuera de Layout.astro: al menos guarda
+    // la preferencia y pinta el icono, aunque no aplique la clase
+    const aplicarTema = () => {
+      if (typeof window.aplicarTema === "function") return window.aplicarTema();
+      try {
         return localStorage.getItem("theme") ?? "system";
+      } catch {
+        return "system";
       }
-      return matchMedia.matches ? "dark" : "light";
     };
+
     const updateIcon = (themePreference) => {
       document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
         const isActive = element.id === themePreference;
         element.style.transform = isActive ? "scale(1)" : "scale(0)";
         element.style.opacity = isActive ? "1" : "0";
       });
-    };
-    const updateTheme = () => {
-      if (remove != null) {
-        remove();
-      }
-      matchMedia.addEventListener("change", updateTheme);
-      remove = () => {
-        matchMedia.removeEventListener("change", updateTheme);
-      };
-
-      const themePreference = getThemePreference();
-      const isDark =
-        themePreference === "dark" ||
-        (themePreference === "system" && matchMedia.matches);
-
-      updateIcon(themePreference);
-      document.documentElement.classList[isDark ? "add" : "remove"]("dark");
     };
 
     toggleButton.addEventListener("click", (e) => {
@@ -133,14 +122,19 @@ const TEMAS = [
       element.addEventListener("click", () => {
         // El valor viene de data-tema, no del texto: asi se puede traducir
         localStorage.setItem("theme", element.dataset.tema);
-        updateTheme();
+        updateIcon(aplicarTema());
       });
     });
     document.addEventListener("click", () =>
       themesMenu.classList.remove("open"),
     );
 
-    updateTheme();
+    // Con "system", el icono tambien tiene que seguir al sistema si cambia
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", () => updateIcon(aplicarTema()));
+
+    updateIcon(aplicarTema());
   };
 
   if (document.readyState === "loading") {

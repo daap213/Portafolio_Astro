@@ -29,6 +29,45 @@ const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
     <link rel="icon" type="image/svg+xml" href={raizApp + "img/logo.webp"} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    {/*
+      El tema se decide AQUI, en el <head> y sin `defer`, para que la clase
+      `.dark` este puesta antes del primer pintado. Estaba en el <script> del
+      selector, que vive en el <body> y ademas esperaba a DOMContentLoaded: la
+      pagina pintaba siempre en claro y se corregia despues, o sea un fogonazo
+      blanco en cada carga para quien usa el modo oscuro.
+
+      Es el UNICO sitio que aplica el tema. ThemeToggle.astro solo guarda la
+      preferencia y llama a `aplicarTema()`, para que no haya dos copias de esta
+      logica que puedan separarse.
+    */}
+    <script is:inline>
+      (() => {
+        const consulta = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const preferencia = () => {
+          try {
+            return localStorage.getItem("theme") ?? "system";
+          } catch {
+            // Sin localStorage (modo privado con cookies bloqueadas) se sigue al sistema
+            return "system";
+          }
+        };
+
+        // Devuelve la preferencia guardada para que el selector pinte su icono
+        window.aplicarTema = () => {
+          const tema = preferencia();
+          const esOscuro = tema === "dark" || (tema === "system" && consulta.matches);
+          document.documentElement.classList.toggle("dark", esOscuro);
+          return tema;
+        };
+
+        // Con "system" hay que seguir al sistema aunque cambie con la pagina abierta
+        consulta.addEventListener("change", () => window.aplicarTema());
+
+        window.aplicarTema();
+      })();
+    </script>
   </head>
 
   <body class="relative text-black dark:text-white">
@@ -42,8 +81,30 @@ const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
     <slot />
     <Footer footerInfor={footerInfor} />
     <style is:global>
+      /* Sigue al interruptor, no al sistema: con `color-scheme: light dark`
+         fijo, elegir "Claro" en un sistema oscuro dejaba las barras de
+         desplazamiento y los controles nativos en oscuro (y al reves). */
       :root {
-        color-scheme: light dark;
+        color-scheme: light;
+      }
+      :root.dark {
+        color-scheme: dark;
+      }
+
+      /* Lo unico que cambia entre temas en las animaciones de la barra.
+         Van aqui, en un ambito global, porque el <style> de NavBar.astro es
+         scoped: alli Astro convertiria `.dark` en `.dark[data-astro-cid-...]`,
+         que nunca casa con el <html class="dark">. Las variables si se heredan
+         hacia dentro de los estilos scoped. */
+      :root {
+        --nav-fondo: rgb(229, 229, 229);
+        --nav-desenfoque-fondo: rgb(209 213 219 / 0.6);
+        --nav-sombra: 0px 5px 50px -5px rgba(0, 0, 0, 0.1), 0px 0px 0 1px rgba(0, 0, 0, 0.3);
+      }
+      :root.dark {
+        --nav-fondo: rgba(0, 0, 0, 0.3);
+        --nav-desenfoque-fondo: rgb(31 41 55 / 0.6);
+        --nav-sombra: 0px 5px 50px -5px rgba(0, 0, 0, 0.4), 0px 0px 0 1px rgba(0, 0, 0, 0.5);
       }
 
       html {
@@ -51,8 +112,10 @@ const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
         scroll-behavior: smooth;
       }
 
+      /* El color del texto lo ponen las utilidades `text-black dark:text-white`
+         del <body>: una regla de elemento aqui pierde por especificidad y solo
+         serviria para confundir. */
       body {
-        color: rgba(17, 17, 17, 0.9);
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -65,20 +128,23 @@ const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
         }
       }
 
-      @media (prefers-color-scheme: dark) {
-        body {
-          color: rgba(255, 255, 255, 0.9);
-        }
-      }
-
       #header-nav {
         animation: blur linear both 0.5s;
         animation-timeline: scroll();
         animation-range: 0 500px;
       }
 
+      /* UNA sola declaracion: lo que cambia entre temas sale por variables.
+         Antes habia una segunda dentro de @media (prefers-color-scheme: dark),
+         que seguia al sistema y no al interruptor. No se puede acotar unos
+         @keyframes con `.dark`: solo los reemplaza otra declaracion del mismo
+         nombre, asi que la unica salida es parametrizarlos. */
       @keyframes blur {
+        from {
+          border: 0px;
+        }
         to {
+          box-shadow: var(--nav-sombra);
           backdrop-filter: blur(20px);
           border-width: 1px;
           border-color: rgba(0, 0, 0);
@@ -86,34 +152,8 @@ const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
           display: flex;
           flex-direction: row;
           align-items: center;
-          background-color: rgb(229, 229, 229);
+          background-color: var(--nav-fondo);
           border-radius: 9999px;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        @keyframes blur {
-          from {
-            border: 0px;
-          }
-          to {
-            box-shadow:
-              0px 5px 50px -5px rgba(0, 0, 0, 0.1),
-              0px 0px 0 1px rgba(0, 0, 0, 0.3);
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-width: 1px;
-            border-color: rgba(0, 0, 0);
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 9999px;
-          }
         }
       }
     </style>

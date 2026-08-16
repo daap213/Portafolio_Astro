@@ -163,3 +163,94 @@ test.describe('menú responsive', () => {
         await expect(navbar).not.toHaveClass(/grid-hidden/);
     });
 });
+
+test.describe('selector de tema: la opción «sistema»', () => {
+    // Esta rama no tenía NINGUNA prueba, y es justo la que se dio por rota.
+    // `emulateMedia` simula la preferencia del sistema operativo, que es lo que
+    // el navegador reporta en `prefers-color-scheme`.
+    const elegir = async (page, tema) => {
+        await page.locator('#theme-toggle-btn').click();
+        await page.locator(`.themes-menu-option[data-tema="${tema}"]`).click();
+    };
+
+    test('con el sistema en oscuro, «sistema» pone el tema oscuro', async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await page.goto(RUTA_PREDETERMINADA);
+        await elegir(page, 'system');
+
+        await expect(page.locator('html')).toHaveClass(/dark/);
+        expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('system');
+    });
+
+    test('con el sistema en claro, «sistema» deja el tema claro', async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'light' });
+        await page.goto(RUTA_PREDETERMINADA);
+        await elegir(page, 'system');
+
+        await expect(page.locator('html')).not.toHaveClass(/dark/);
+    });
+
+    test('sin nada guardado, la primera visita sigue al sistema', async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await page.goto(RUTA_PREDETERMINADA);
+
+        expect(await page.evaluate(() => localStorage.getItem('theme'))).toBeNull();
+        await expect(page.locator('html')).toHaveClass(/dark/);
+    });
+
+    test('si el sistema cambia con la página abierta, el tema le sigue', async ({ page }) => {
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await page.goto(RUTA_PREDETERMINADA);
+        await elegir(page, 'system');
+        await expect(page.locator('html')).toHaveClass(/dark/);
+
+        await page.emulateMedia({ colorScheme: 'light' });
+        await expect(page.locator('html')).not.toHaveClass(/dark/);
+
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await expect(page.locator('html')).toHaveClass(/dark/);
+    });
+
+    test('una elección explícita gana al sistema', async ({ page }) => {
+        // Lo que se elige manda: antes había estilos (color-scheme, las
+        // animaciones de la barra) que seguían al sistema y contradecían esto
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await page.goto(RUTA_PREDETERMINADA);
+        await elegir(page, 'light');
+        await expect(page.locator('html')).not.toHaveClass(/dark/);
+
+        await page.emulateMedia({ colorScheme: 'light' });
+        await page.reload();
+        await elegir(page, 'dark');
+        await expect(page.locator('html')).toHaveClass(/dark/);
+    });
+
+    test('color-scheme acompaña a la elección, no al sistema', async ({ page }) => {
+        // Gobierna las barras de desplazamiento y los controles nativos
+        const esquema = () =>
+            page.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
+
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await page.goto(RUTA_PREDETERMINADA);
+        await elegir(page, 'light');
+        expect(await esquema()).toBe('light');
+
+        await elegir(page, 'dark');
+        expect(await esquema()).toBe('dark');
+    });
+
+    test('el tema ya está aplicado en el primer pintado, sin fogonazo', async ({ page }) => {
+        // Antes la clase la ponía un script del <body> detrás de
+        // DOMContentLoaded: la página pintaba en claro y se corregía después.
+        await page.emulateMedia({ colorScheme: 'dark' });
+        await page.goto(RUTA_PREDETERMINADA);
+        await page.evaluate(() => localStorage.setItem('theme', 'dark'));
+
+        await page.goto(RUTA_PREDETERMINADA, { waitUntil: 'commit' });
+        const claseAlEmpezar = await page.evaluate(() => {
+            // En cuanto hay <html> la clase debe estar: el script va en el <head>
+            return document.documentElement.className;
+        });
+        expect(claseAlEmpezar).toContain('dark');
+    });
+});

@@ -169,19 +169,20 @@ const { navItems, idiomas, ui } = Astro.props;
     animation: nav-shadown 1s linear both;
   }
 
+  /* El color lo pone --nav-desenfoque-fondo, que Layout.astro define para cada
+     tema (aqui no valdria: este <style> es scoped y `.dark` se convertiria en
+     `.dark[data-astro-cid-...]`, que no casa con el <html>).
+
+     Antes esto se redefinia entero dentro de @media (prefers-color-scheme:
+     dark) declarando solo `background-color`, y como redefinir unos @keyframes
+     los REEMPLAZA, en modo oscuro la barra perdia la sombra, el desenfoque y el
+     contorno. */
   @keyframes nav-shadown {
     to {
       box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
       backdrop-filter: blur(8px);
-      background-color: rgb(209 213 219 / 0.6);
+      background-color: var(--nav-desenfoque-fondo);
       outline: 1px solid rgb(255 255 255 / 0.1);
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    @keyframes nav-shadown {
-      to {
-        background-color: rgb(31 41 55 / 0.6);
-      }
     }
   }
 

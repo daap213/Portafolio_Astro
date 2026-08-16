@@ -150,3 +150,31 @@ describe('contenido de las páginas generadas', () => {
         expect(leer('index.html')).toMatch(new RegExp(`<html lang="${IDIOMA_PREDETERMINADO.codigo}"`));
     });
 });
+
+describe('el tema se decide antes de pintar', () => {
+    // El único código que pone `.dark` en <html> vivía en un script del <body>
+    // (dentro del selector de tema) y encima esperaba a DOMContentLoaded: la
+    // página pintaba siempre en claro y se corregía después. Aquí se ancla la
+    // colocación, que en e2e es difícil de comprobar porque los `expect` de
+    // Playwright reintentan y se comen el retardo.
+    it.each(PAGINAS_PORTADA)('%s aplica el tema dentro del <head>', (pagina) => {
+        const html = leer(pagina);
+        const finHead = html.indexOf('</head>');
+        const posicion = html.indexOf('aplicarTema');
+
+        expect(finHead, 'no se encontró el </head>').toBeGreaterThan(-1);
+        expect(posicion, 'no está el script del tema').toBeGreaterThan(-1);
+        expect(posicion, 'el script del tema quedó fuera del <head>: habría fogonazo').toBeLessThan(finHead);
+    });
+
+    it.each(PAGINAS_PORTADA)('%s no deja estilos atados al sistema operativo', (pagina) => {
+        // `prefers-color-scheme` en el CSS del sitio significa estilos que
+        // ignoran el interruptor: con la elección opuesta al sistema, el color
+        // del texto y las animaciones de la barra se contradecían.
+        const html = leer(pagina);
+        for (const hoja of [...html.matchAll(/href="([^"]+\.css)"/g)].map((m) => m[1])) {
+            const css = readFileSync(resolve(DIST, '.' + hoja), 'utf8');
+            expect(css.includes('prefers-color-scheme'), `${hoja} sigue al sistema`).toBe(false);
+        }
+    });
+});

@@ -116,7 +116,13 @@ Tailwind v4 with no `tailwind.config.*` file — the entire config is `src/style
 
 Tailwind is wired through `@tailwindcss/vite` in `astro.config.mjs`, not PostCSS. Vite 8's CSS pipeline resolves `@import "tailwindcss"` as a file path before plugins run, so the old PostCSS setup broke the build outright under Astro 7.
 
-So `dark:` utilities depend on a `.dark` class on `<html>`, set by the inline script in `ThemeToggle.astro` from `localStorage.theme`. Some component `<style>` blocks still use `@media (prefers-color-scheme: dark)` (`Layout.astro`, `NavBar.astro`) — those follow the OS, not the toggle. Prefer `dark:` utilities for anything that must respond to the toggle.
+So `dark:` utilities depend on a `.dark` class on `<html>`. **The one place that class is decided is the inline script in the `<head>` of `Layout.astro`**, which exposes `window.aplicarTema()`; `ThemeToggle.astro` only stores the choice and calls it. It has to be in the `<head>` and un-deferred: it used to live in the body behind `DOMContentLoaded`, so every load painted light first and corrected itself afterwards — a white flash on each navigation for dark-mode users. `tests/build/dist.test.js` asserts the script really is inside the `<head>`.
+
+**Nothing in the site's CSS may key off `@media (prefers-color-scheme: dark)`** — that follows the OS and contradicts the toggle. A build assertion enforces it (zero occurrences in the emitted CSS). `color-scheme` is set from `:root` / `:root.dark`, so scrollbars and native controls follow the choice too.
+
+`@keyframes` are the awkward case: they can't be scoped by a selector, only replaced wholesale by another declaration of the same name. So the navbar animations keep **one** declaration and take what varies from custom properties (`--nav-fondo`, `--nav-desenfoque-fondo`, `--nav-sombra`) defined on `:root` / `:root.dark` in `Layout.astro`. They must be declared in a **global** scope: `NavBar.astro`'s `<style>` is scoped, and Astro would rewrite `.dark` there into `.dark[data-astro-cid-…]`, which never matches `<html>`. The old media-query override also silently dropped the shadow, blur and outline in dark mode, because redefining keyframes replaces them entirely.
+
+Worth knowing when someone reports that "system" ignores their dark OS: on Windows, Chrome follows the **app** theme (`AppsUseLightTheme`), not the Windows one, and `chrome://settings/appearance` → Mode overrides both. The page can only ever report what `matchMedia` tells it.
 
 ### Generated assets
 
