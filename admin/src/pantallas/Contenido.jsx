@@ -23,8 +23,11 @@ const AMBITO_PERFIL = '@perfil';
 const LISTAS = ['listaTexto', 'listaHtml', 'etiquetas'];
 const valorVacio = (campo) => (LISTAS.includes(campo.tipo) ? [] : '');
 
-export function Contenido({ estado, medios, borrador, guardarPendientes }) {
+export function Contenido({ estado, medios, borrador, guardarPendientes, idiomasVisibles }) {
+  // `idiomas` son TODOS: dar de alta o de baja un ítem tiene que tocarlos todos
+  // o la validación lo rechaza. `idiomasVisibles` es solo lo que se pinta.
   const idiomas = estado.locales.map((idioma) => idioma.codigo);
+  const mostrados = idiomasVisibles ?? idiomas;
   const predeterminado = (estado.locales.find((i) => i.predeterminado) ?? estado.locales[0]).codigo;
 
   const comun = borrador.leer('comun') ?? estado.comun;
@@ -70,9 +73,16 @@ export function Contenido({ estado, medios, borrador, guardarPendientes }) {
     </button>
   );
 
+  // Sin lista de ítems (el perfil, o un bloque de forma "objeto") la columna
+  // lateral se quedaba ocupando 16rem en blanco, que con la vista previa al
+  // lado es justo el espacio que le falta al formulario.
+  // Mismo criterio que usa ListaDeItems para pintarse o no
+  const tipoDelAmbito = estado.tipos[tipoPorBloque.get(ambito)];
+  const hayLista = ambito !== AMBITO_PERFIL && !!tipoDelAmbito && camposDeItem(tipoDelAmbito).length > 0;
+
   return (
-    <div className="grid gap-4 lg:grid-cols-[16rem_1fr]">
-      <aside className="space-y-3">
+    <div className={`grid gap-4 ${hayLista ? 'lg:grid-cols-[minmax(12rem,16rem)_1fr]' : 'grid-cols-1'}`}>
+      <aside className={hayLista ? 'space-y-3' : 'space-y-3 max-w-md'}>
         <label className="block">
           <span className="text-xs uppercase tracking-wide text-gray-500">Qué editar</span>
           <select
@@ -114,7 +124,7 @@ export function Contenido({ estado, medios, borrador, guardarPendientes }) {
             estado={estado}
             comun={comun}
             contenidos={contenidos}
-            idiomas={idiomas}
+            idiomas={mostrados}
             predeterminado={predeterminado}
             medios={medios}
             ponerComun={ponerComun}
@@ -127,7 +137,7 @@ export function Contenido({ estado, medios, borrador, guardarPendientes }) {
             bloque={ambito}
             comun={comun}
             contenidos={contenidos}
-            idiomas={idiomas}
+            idiomas={mostrados}
             predeterminado={predeterminado}
             medios={medios}
             nombreTipo={tipoPorBloque.get(ambito)}

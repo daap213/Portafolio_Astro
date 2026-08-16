@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from './api.js';
+import { guardarAjuste, leerAjuste } from './ajustes.js';
+import { SelectorIdiomas } from './componentes/SelectorIdiomas.jsx';
 import { VistaPrevia } from './componentes/VistaPrevia.jsx';
 import { Panel } from './pantallas/Panel.jsx';
 import { Contenido } from './pantallas/Contenido.jsx';
@@ -8,11 +10,14 @@ import { Textos } from './pantallas/Textos.jsx';
 import { Medios } from './pantallas/Medios.jsx';
 import { Idiomas } from './pantallas/Idiomas.jsx';
 
+// `porIdioma` marca las pantallas que pintan una columna por idioma: son las
+// que se quedan sin sitio en cuanto hay unos cuantos, y las que enseñan el
+// selector de idiomas visibles.
 const PANTALLAS = [
   { id: 'panel', titulo: 'Panel', componente: Panel },
-  { id: 'contenido', titulo: 'Contenido', componente: Contenido },
-  { id: 'secciones', titulo: 'Secciones', componente: Secciones },
-  { id: 'textos', titulo: 'Textos', componente: Textos },
+  { id: 'contenido', titulo: 'Contenido', componente: Contenido, porIdioma: true },
+  { id: 'secciones', titulo: 'Secciones', componente: Secciones, porIdioma: true },
+  { id: 'textos', titulo: 'Textos', componente: Textos, porIdioma: true },
   { id: 'medios', titulo: 'Medios', componente: Medios },
   { id: 'idiomas', titulo: 'Idiomas', componente: Idiomas },
 ];
@@ -31,7 +36,8 @@ export default function App() {
   const [guardando, setGuardando] = useState(false);
   const [mensaje, setMensaje] = useState(null);
 
-  const [vistaAbierta, setVistaAbierta] = useState(true);
+  const [vistaAbierta, setVistaAbierta] = useState(() => leerAjuste('vistaAbierta', true));
+  const [idiomasOcultos, setIdiomasOcultos] = useState(() => leerAjuste('idiomasOcultos', []));
   // Con la vista en vivo, cada cambio que valide se escribe solo y `astro dev`
   // recarga el iframe. Es la única forma de ver algo "en tiempo real": la vista
   // previa renderiza los JSON del disco, no lo que hay en el formulario.
@@ -164,9 +170,34 @@ export default function App() {
 
   if (!estado) return <div className="p-8 text-gray-500">Cargando…</div>;
 
-  const Actual = PANTALLAS.find((p) => p.id === pantalla).componente;
+  const actual = PANTALLAS.find((p) => p.id === pantalla);
+  const Actual = actual.componente;
   const nErrores = estado.diagnostico.errores.length;
   const nAvisos = estado.diagnostico.avisos.length;
+
+  const codigos = estado.locales.map((idioma) => idioma.codigo);
+  const predeterminado = (estado.locales.find((i) => i.predeterminado) ?? estado.locales[0]).codigo;
+  // Un idioma dado de baja podría seguir en la preferencia guardada
+  const visibles = codigos.filter((codigo) => !idiomasOcultos.includes(codigo));
+  const idiomasVisibles = visibles.length ? visibles : codigos;
+
+  const cambiarVisibles = (nuevos) => {
+    const ocultos = codigos.filter((codigo) => !nuevos.includes(codigo));
+    setIdiomasOcultos(ocultos);
+    guardarAjuste('idiomasOcultos', ocultos);
+  };
+
+  const alternarVista = (abierta) => {
+    setVistaAbierta(abierta);
+    guardarAjuste('vistaAbierta', abierta);
+  };
+
+  // Cuántos avisos de traducción pendiente tiene cada idioma, para el selector
+  const pendientesPorIdioma = {};
+  for (const aviso of estado.diagnostico.avisos) {
+    const encontrado = aviso.ruta.match(/^(?:contenido|ui)\.([a-z-]+)\.json/i);
+    if (encontrado) pendientesPorIdioma[encontrado[1]] = (pendientesPorIdioma[encontrado[1]] ?? 0) + 1;
+  }
 
   return (
     <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -243,6 +274,18 @@ export default function App() {
         </div>
       )}
 
+      {actual.porIdioma && (
+        <div className="shrink-0 px-4 py-1.5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+          <SelectorIdiomas
+            codigos={codigos}
+            visibles={idiomasVisibles}
+            predeterminado={predeterminado}
+            alCambiar={cambiarVisibles}
+            pendientesPorIdioma={pendientesPorIdioma}
+          />
+        </div>
+      )}
+
       <div className="flex-1 flex min-h-0">
         <main className="flex-1 overflow-auto p-4 min-w-0">
           <Actual
@@ -252,10 +295,11 @@ export default function App() {
             recargar={recargar}
             borrador={borrador}
             guardarPendientes={guardarPendientes}
+            idiomasVisibles={idiomasVisibles}
           />
         </main>
 
-        <VistaPrevia estado={estado} abierta={vistaAbierta} alAlternar={setVistaAbierta} />
+        <VistaPrevia estado={estado} abierta={vistaAbierta} alAlternar={alternarVista} />
       </div>
     </div>
   );

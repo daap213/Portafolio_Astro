@@ -10,8 +10,11 @@ import { claseEntrada } from '../componentes/Campos.jsx';
 // Las claves las manda el idioma predeterminado: validar.js da error
 // (UI_SOBRANTE) si un idioma tiene una clave que el predeterminado no tiene.
 
-export function Textos({ estado, borrador, guardarPendientes }) {
-  const idiomas = estado.locales.map((idioma) => idioma.codigo);
+export function Textos({ estado, borrador, guardarPendientes, idiomasVisibles }) {
+  const todos = estado.locales.map((idioma) => idioma.codigo);
+  // Se pintan solo los idiomas elegidos, pero "pendiente" se cuenta sobre TODOS:
+  // si no, ocultar una columna haría desaparecer trabajo por hacer
+  const idiomas = idiomasVisibles ?? todos;
   const predeterminado = (estado.locales.find((i) => i.predeterminado) ?? estado.locales[0]).codigo;
 
   const textos = borrador.leer('textos') ?? estado.textos;
@@ -23,7 +26,7 @@ export function Textos({ estado, borrador, guardarPendientes }) {
   const claves = useMemo(() => Object.keys(textos[predeterminado] ?? {}).sort(), [textos, predeterminado]);
 
   const vacio = (valor) => valor === undefined || String(valor).trim() === '';
-  const pendiente = (clave) => idiomas.some((codigo) => vacio(textos[codigo]?.[clave]));
+  const pendiente = (clave) => todos.some((codigo) => vacio(textos[codigo]?.[clave]));
 
   const visibles = claves.filter(
     (clave) =>
@@ -78,11 +81,14 @@ export function Textos({ estado, borrador, guardarPendientes }) {
         </div>
       </header>
 
-      <div className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-auto">
-        <table className="w-full text-sm">
+      {/* El desbordamiento se queda DENTRO de la caja: con muchos idiomas la
+          tabla se desplaza sola y la página nunca coge scroll horizontal. La
+          columna de la clave va pegada para no perder de vista qué se edita. */}
+      <div className="rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-x-auto">
+        <table className="w-full text-sm" style={{ minWidth: `${14 + idiomas.length * 14}rem` }}>
           <thead className="bg-gray-50 dark:bg-gray-900 text-left">
             <tr>
-              <th className="px-2 py-1 font-medium w-64">clave</th>
+              <th className="px-2 py-1 font-medium w-56 sticky left-0 bg-gray-50 dark:bg-gray-900">clave</th>
               {idiomas.map((codigo) => (
                 <th key={codigo} className="px-2 py-1 font-mono text-xs font-medium">
                   {codigo}
@@ -94,7 +100,9 @@ export function Textos({ estado, borrador, guardarPendientes }) {
           <tbody>
             {visibles.map((clave) => (
               <tr key={clave} className="border-t border-gray-100 dark:border-gray-700 align-top">
-                <td className="px-2 py-1 font-mono text-xs text-gray-600 dark:text-gray-400 break-all">{clave}</td>
+                <td className="px-2 py-1 font-mono text-xs text-gray-600 dark:text-gray-400 break-all sticky left-0 bg-white dark:bg-gray-800">
+                  {clave}
+                </td>
                 {idiomas.map((codigo) => {
                   const valor = textos[codigo]?.[clave] ?? '';
                   const falta = vacio(valor) && codigo !== predeterminado;

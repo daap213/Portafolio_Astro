@@ -3,6 +3,7 @@ import {
   aSlug,
   conBloqueNuevo,
   nuevaSeccion,
+  etiquetaDeTipo,
   opcionesDeTipo,
   problemasDeAlta,
   tipoDelBloque,
@@ -28,7 +29,7 @@ import { claseEntrada } from '../componentes/Campos.jsx';
 /** Bloques que no son datos de comun.json pero sí destinos válidos. */
 const BLOQUES_VIRTUALES = ['perfil', 'sobremi'];
 
-export function Secciones({ estado, borrador, guardarPendientes }) {
+export function Secciones({ estado, borrador, guardarPendientes, idiomasVisibles }) {
   const [lista, setLista] = useState('web');
   const [seleccion, setSeleccion] = useState(0);
   const [alta, setAlta] = useState(null);
@@ -230,7 +231,7 @@ export function Secciones({ estado, borrador, guardarPendientes }) {
                   >
                     {tiposCompatibles.map(([nombre, t]) => (
                       <option key={nombre} value={nombre}>
-                        {nombre} — {t.etiqueta?.[predeterminado] ?? nombre}
+                        {nombre} — {etiquetaDeTipo(t, nombre, predeterminado, predeterminado)}
                       </option>
                     ))}
                   </select>
@@ -330,9 +331,9 @@ export function Secciones({ estado, borrador, guardarPendientes }) {
                 <h3 className="text-xs uppercase tracking-wide text-gray-500 mb-1">Textos por idioma</h3>
                 <div
                   className="grid gap-3"
-                  style={{ gridTemplateColumns: `repeat(${idiomas.length}, minmax(0, 1fr))` }}
+                  style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))' }}
                 >
-                  {idiomas.map((codigo) => (
+                  {idiomasVisibles.map((codigo) => (
                     <div key={codigo} className="space-y-1">
                       <span className="text-xs font-mono text-gray-500">{codigo}</span>
                       {/* El `?? {}` protege el idioma, pero antes no protegía
@@ -418,7 +419,7 @@ function FormularioAlta({
           <select className={claseEntrada} value={tipoNombre} onChange={(e) => setTipoNombre(e.target.value)}>
             {tiposCompatibles.map(([nombre, t]) => (
               <option key={nombre} value={nombre}>
-                {nombre} — {t.etiqueta?.[predeterminado] ?? nombre}
+                {nombre} — {etiquetaDeTipo(t, nombre, predeterminado, predeterminado)}
               </option>
             ))}
           </select>

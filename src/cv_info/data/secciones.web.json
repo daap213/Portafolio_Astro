@@ -11,6 +11,11 @@
         "titulo": "Contact",
         "ancla": "contact",
         "boton": "Contact me"
+      },
+      "fr": {
+        "titulo": "Contacto",
+        "ancla": "contacto",
+        "boton": "Contáctame"
       }
     }
   },
@@ -18,7 +23,8 @@
     "urlMencion": "https://linkedin.com/in/midudev",
     "mencion": {
       "es": "Plantilla diseñada por Midudev.",
-      "en": "Template designed by Midudev."
+      "en": "Template designed by Midudev.",
+      "fr": "Plantilla diseñada por Midudev."
     }
   },
   "secciones": [
@@ -44,6 +50,11 @@
           "titulo": "About me",
           "nav": "About_me",
           "ancla": "about_me"
+        },
+        "fr": {
+          "titulo": "Sobre mí ",
+          "nav": "Sobre_mí",
+          "ancla": "sobre-mi"
         }
       }
     },
@@ -72,6 +83,11 @@
           "titulo": "Job experience",
           "nav": "Exp.",
           "ancla": "experience"
+        },
+        "fr": {
+          "titulo": "Experiencia laboral",
+          "nav": "Exp.",
+          "ancla": "experiencia"
         }
       }
     },
@@ -102,6 +118,11 @@
           "titulo": "Projects",
           "nav": "Proy.",
           "ancla": "myprojects"
+        },
+        "fr": {
+          "titulo": "Proyectos",
+          "nav": "Proy.",
+          "ancla": "misproyectos"
         }
       }
     },
@@ -129,6 +150,11 @@
           "titulo": "Publications",
           "nav": "Publ.",
           "ancla": "myposts"
+        },
+        "fr": {
+          "titulo": "Publicaciones",
+          "nav": "Publ.",
+          "ancla": "mispublicaciones"
         }
       }
     },
@@ -156,6 +182,11 @@
           "titulo": "Education",
           "nav": "Educ.",
           "ancla": "education"
+        },
+        "fr": {
+          "titulo": "Educación",
+          "nav": "Educ.",
+          "ancla": "educacion"
         }
       }
     },
@@ -183,6 +214,11 @@
           "titulo": "Skills and tools",
           "nav": "KSAO",
           "ancla": "myskills"
+        },
+        "fr": {
+          "titulo": "Habilidades y herramientas",
+          "nav": "KSAO",
+          "ancla": "mishabilidades"
         }
       }
     },
@@ -211,6 +247,11 @@
           "titulo": "Certificates",
           "nav": "Cert.",
           "ancla": "miscertificates"
+        },
+        "fr": {
+          "titulo": "Certificados",
+          "nav": "Cert.",
+          "ancla": "miscertificados"
         }
       }
     },
@@ -234,6 +275,11 @@
         },
         "en": {
           "titulo": "Phrase from an engineer:",
+          "nav": null,
+          "ancla": ""
+        },
+        "fr": {
+          "titulo": "Frase de un ingeniero:",
           "nav": null,
           "ancla": ""
         }

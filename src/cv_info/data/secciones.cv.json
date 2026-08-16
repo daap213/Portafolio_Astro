@@ -18,6 +18,9 @@
         },
         "en": {
           "titulo": ""
+        },
+        "fr": {
+          "titulo": ""
         }
       }
     },
@@ -35,6 +38,9 @@
         },
         "en": {
           "titulo": "About me"
+        },
+        "fr": {
+          "titulo": "Sobre Mí"
         }
       }
     },
@@ -52,6 +58,9 @@
         },
         "en": {
           "titulo": "Experience"
+        },
+        "fr": {
+          "titulo": "Experiencia"
         }
       }
     },
@@ -71,6 +80,9 @@
         },
         "en": {
           "titulo": "Education"
+        },
+        "fr": {
+          "titulo": "Educación"
         }
       }
     },
@@ -90,6 +102,9 @@
         },
         "en": {
           "titulo": "Publications"
+        },
+        "fr": {
+          "titulo": "Publicaciones"
         }
       }
     },
@@ -109,6 +124,9 @@
         },
         "en": {
           "titulo": "Skills"
+        },
+        "fr": {
+          "titulo": "Habilidades"
         }
       }
     },
@@ -128,6 +146,9 @@
         },
         "en": {
           "titulo": "Projects"
+        },
+        "fr": {
+          "titulo": "Proyectos"
         }
       }
     },
@@ -147,6 +168,9 @@
         },
         "en": {
           "titulo": "Certificates"
+        },
+        "fr": {
+          "titulo": "Certificados"
         }
       }
     },
@@ -167,6 +191,9 @@
         },
         "en": {
           "titulo": "References"
+        },
+        "fr": {
+          "titulo": "Referencias"
         }
       }
     }

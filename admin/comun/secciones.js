@@ -167,6 +167,23 @@ export function problemasDeAlta({ id, modo, claveBloque, idsUsados = [], bloques
   return problemas;
 }
 
+/**
+ * Rótulo de un tipo en el idioma que se pueda.
+ *
+ * `etiqueta` vive en tipos.js, que es código: `pnpm run idiomas` siembra los
+ * ficheros de datos pero no puede traducir el catálogo. Al dar de alta un
+ * idioma nuevo esas etiquetas se quedan sin traducir, así que se cae al
+ * predeterminado y, si tampoco, al nombre del tipo.
+ */
+export function etiquetaDeTipo(tipo, nombre, idioma, predeterminado) {
+  return (
+    tipo?.etiqueta?.[idioma] ??
+    tipo?.etiqueta?.[predeterminado] ??
+    Object.values(tipo?.etiqueta ?? {})[0] ??
+    nombre
+  );
+}
+
 /** Tipo con el que ya se muestra un bloque, mirando las dos listas. */
 export function tipoDelBloque(listas, bloque) {
   for (const configuracion of listas) {

@@ -135,6 +135,13 @@ pnpm run idiomas
 
 `pnpm run idiomas` seeds `contenido.<x>.json` and `ui.<x>.json` from the default language with every string blanked, adds `textos.<x>` to every section in both lists, and regenerates `data/indice.js`. No source file is edited by hand.
 
+Two things the script cannot do for you:
+
+- **Generate the new CV.** Every language gets a download button pointing at `docs/<pdf>`, so until you run `GPDF` (or the admin's PDF task) `tests/build/dist.test.js` fails with a broken link. That check is doing its job — the button really is dead until the file exists.
+- **Translate the type labels.** `TIPOS[...].etiqueta` lives in `tipos.js`, which is code, not data. Those labels only name the section types inside the admin and fall back to the default language, so a new language leaves them untranslated on purpose; the schema test prints which ones instead of failing.
+
+Tests must never hardcode a language code that could exist for real (`admin-idiomas.test.js` picks one that isn't in `locales.json`) — pinning it to `fr` broke the suite the day French was actually added.
+
 ## Content-change workflow
 
 1. Edit the JSON under `src/cv_info/data/` (by hand or with `pnpm run admin`).
@@ -150,6 +157,8 @@ Separate app, never published. **It has its own `pnpm-workspace.yaml` on purpose
 - `admin/api/` — Express on 127.0.0.1 only. Reads/writes the JSON with **validate-then-backup-then-atomic-rename**; a rejected state returns 422 and nothing touches disk. Writes are always multi-file (all languages at once) because a half-written state breaks the site and the test suite. It also serves `public/` under `/api/archivos` so image previews don't depend on a third process.
 - `admin/comun/` — logic shared by the API and the UI, plain JS with no node imports: the section/block creation rules live here so `tests/unit/admin-secciones.test.js` can check that what the form produces actually validates.
 - `admin/src/` — React UI: Panel (diagnostics, tasks, git status), Contenido (perfil, blocks, items — forms generated from `tipos.js`, translatable fields side by side per language), Secciones (the two independent lists), Textos (`ui.*.json`), Medios, Idiomas. The preview is **not** a screen: it's an always-mounted pane docked beside the editor, so it never reloads when you switch screens.
+
+**The per-language columns wrap, they don't shrink.** Translatable fields are shown side by side so a missing translation is visible without hunting for it, but with `repeat(N, 1fr)` and five languages each input collapsed to ~100px. They now use `repeat(auto-fit, minmax(15rem, 1fr))`, so columns break onto extra rows instead, and a chip bar picks which languages are on screen (a display filter only — writes always cover every language, which is why `Contenido` keeps `idiomas` and `mostrados` apart). Preview width, whether it's open, and the hidden languages persist in `localStorage` via `src/ajustes.js`.
 
 **Live preview writes to disk.** The preview is `astro dev` rendering the JSON files, so it can only ever show what has been saved. With "vista en vivo" on (the default), the admin writes every draft that validates ~1s after you stop typing and Vite reloads the iframe by itself; drafts that don't validate are held back and the reason is shown. That means editing generates a stream of small writes to the working tree — intended, since you review with `git diff` before committing. Turn the switch off to go back to saving by hand.
 

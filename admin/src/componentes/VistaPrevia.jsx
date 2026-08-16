@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { guardarAjuste, leerAjuste } from '../ajustes.js';
 import { PUERTOS_WEB } from '../constantes.js';
 
 // Vista previa acoplada, SIEMPRE montada.
@@ -22,7 +23,7 @@ export function VistaPrevia({ estado, abierta, alAlternar }) {
   const [idioma, setIdioma] = useState(predeterminado);
   const [vista, setVista] = useState('');
   const [version, setVersion] = useState(0);
-  const [ancho, setAncho] = useState(ANCHO_POR_DEFECTO);
+  const [ancho, setAncho] = useState(() => leerAjuste('anchoVista', ANCHO_POR_DEFECTO));
   const arrastrando = useRef(false);
 
   const url = `${PUERTOS_WEB}/${idioma}/${vista}`;
@@ -40,7 +41,13 @@ export function VistaPrevia({ estado, abierta, alAlternar }) {
       setAncho(Math.max(ANCHO_MINIMO, Math.min(nuevo, window.innerWidth - 420)));
     };
     const soltar = () => {
+      if (!arrastrando.current) return;
       arrastrando.current = false;
+      // Se guarda al soltar, no en cada píxel del arrastre
+      setAncho((actual) => {
+        guardarAjuste('anchoVista', actual);
+        return actual;
+      });
     };
     window.addEventListener('mousemove', mover);
     window.addEventListener('mouseup', soltar);

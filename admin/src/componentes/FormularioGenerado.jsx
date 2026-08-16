@@ -61,9 +61,12 @@ export function FormularioGenerado({
                   {campo.clave}
                   {campo.requerido && <span className="text-red-500"> *</span>}
                 </span>
+                {/* auto-fit + minmax: las columnas se PARTEN en varias filas en
+                    vez de encogerse. Con `repeat(N, 1fr)` y cinco idiomas cada
+                    campo se quedaba en cien píxeles y no se leía nada. */}
                 <div
                   className="grid gap-3 mt-1"
-                  style={{ gridTemplateColumns: `repeat(${idiomas.length}, minmax(0, 1fr))` }}
+                  style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))' }}
                 >
                   {idiomas.map((codigo) => {
                     const valor = valoresPorIdioma?.[codigo]?.[campo.clave];
