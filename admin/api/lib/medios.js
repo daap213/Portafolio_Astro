@@ -9,7 +9,7 @@
 import { existsSync, mkdirSync, statSync } from 'node:fs';
 import { readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { extname, join, relative, resolve, sep } from 'node:path';
-import { DIR_FUENTE, DIR_IMAGENES, DIR_PUBLICO } from '../rutas.js';
+import { DIR_IMAGENES, DIR_PUBLICO, RAIZ } from '../rutas.js';
 import { buildQrJobs } from '../../../src/scripts/url_to_qr.js';
 
 export const EXTENSIONES = ['.webp', '.png', '.jpg', '.jpeg', '.svg', '.gif', '.avif'];
@@ -17,14 +17,16 @@ export const EXTENSIONES = ['.webp', '.png', '.jpg', '.jpeg', '.svg', '.gif', '.
 /** Formato preferido: el resto se acepta, pero se recomienda éste. */
 export const EXTENSION_PREFERIDA = '.webp';
 
-/** Ficheros de código donde puede aparecer una ruta de imagen escrita a mano. */
-const EXTENSIONES_CODIGO = ['.astro', '.js', '.mjs', '.ts', '.css'];
+/** Ficheros donde puede aparecer una ruta de imagen escrita a mano. */
+const EXTENSIONES_CODIGO = ['.astro', '.js', '.mjs', '.ts', '.css', '.html'];
+const EXTENSIONES_DOC = ['.md', '.mdx', '.yml', '.yaml'];
 
 /** Por qué una imagen cuenta como usada. */
 export const MOTIVOS = {
   datos: 'datos',
   qr: 'QR generado',
   codigo: 'código',
+  documentacion: 'documentación',
 };
 
 /**
@@ -79,20 +81,55 @@ function rutasEnDatos(valor, encontradas = new Set()) {
   return encontradas;
 }
 
-const RUTA_EN_CODIGO = /img\/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+/g;
+// Cualquier ".../img/algo.ext", quedándose con la parte que coincide con el
+// formato del inventario: así encaja tanto la ruta de un componente como la
+// que lleva "./public/" delante en un README. Las insignias de shields.io no
+// cuelan porque ahí pone "img." con punto, no "img/".
+//
+// OJO al escribir comentarios en este repositorio: el escaneo es textual, así
+// que un nombre de fichero REAL citado en un comentario cuenta como uso y
+// dejaría esa imagen sin poder borrarse. Usa nombres de ejemplo.
+const RUTA_EN_TEXTO = /img\/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+/g;
 
-/** Rutas de imagen escritas a mano en src/ (el favicon de Layout.astro, p.ej.). */
-async function rutasEnCodigo(directorio = DIR_FUENTE, encontradas = new Set()) {
+/** Directorios que no vale la pena recorrer buscando referencias. */
+const IGNORADOS = new Set([
+  'node_modules', 'dist', '.git', '.astro', '.copias', 'public',
+  'test-results', 'playwright-report', '.playwright',
+]);
+
+const motivoPorExtension = (nombre) => {
+  const extension = extname(nombre).toLowerCase();
+  if (EXTENSIONES_CODIGO.includes(extension)) return MOTIVOS.codigo;
+  if (EXTENSIONES_DOC.includes(extension)) return MOTIVOS.documentacion;
+  return null;
+};
+
+/**
+ * Rutas de imagen escritas a mano fuera de los datos, con su motivo.
+ *
+ * Recorre TODO el repositorio (menos lo que no aporta): el favicon vive en un
+ * .astro, pero la captura de pantalla del proyecto solo se nombra en el
+ * README.md, y mirando solo src/ salía como huérfana y con su botón de borrar.
+ */
+async function rutasEscritasAMano(directorio, encontradas = new Map()) {
   if (!existsSync(directorio)) return encontradas;
+
   for (const entrada of await readdir(directorio, { withFileTypes: true })) {
+    if (IGNORADOS.has(entrada.name)) continue;
     const completa = join(directorio, entrada.name);
+
     if (entrada.isDirectory()) {
-      await rutasEnCodigo(completa, encontradas);
+      await rutasEscritasAMano(completa, encontradas);
       continue;
     }
-    if (!EXTENSIONES_CODIGO.includes(extname(entrada.name).toLowerCase())) continue;
-    for (const encontrada of (await readFile(completa, 'utf8')).matchAll(RUTA_EN_CODIGO)) {
-      encontradas.add(encontrada[0]);
+
+    const motivo = motivoPorExtension(entrada.name);
+    if (!motivo) continue;
+
+    for (const encontrada of (await readFile(completa, 'utf8')).matchAll(RUTA_EN_TEXTO)) {
+      // Si algo se nombra en código y en documentación, manda el código
+      const previo = encontradas.get(encontrada[0]);
+      if (previo !== MOTIVOS.codigo) encontradas.set(encontrada[0], motivo);
     }
   }
   return encontradas;
@@ -123,8 +160,8 @@ export async function imagenesUsadas(estado) {
   // 2. Los QR, cuyo nombre se deriva y no se guarda en ninguna parte
   for (const trabajo of buildQrJobs(estado.comun)) anotar(`img/qr/${trabajo.nombre}`, MOTIVOS.qr);
 
-  // 3. Las rutas escritas a mano en el código
-  for (const ruta of await rutasEnCodigo()) anotar(ruta, MOTIVOS.codigo);
+  // 3. Las rutas escritas a mano en el código y en la documentación
+  for (const [ruta, motivo] of await rutasEscritasAMano(RAIZ)) anotar(ruta, motivo);
 
   return usadas;
 }

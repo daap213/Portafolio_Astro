@@ -7,6 +7,20 @@
 // Que esta lógica estuviera escrita dentro del componente era parte del
 // problema: no había forma de comprobar que lo que genera el formulario pasa la
 // validación, y no pasaba.
+import {
+  camposDeBloque,
+  camposDeItem,
+  claveEnJson,
+  opcionesDe,
+  opcionesPorDefecto,
+} from '../../src/cv_info/tipos.js';
+
+// Se reexportan para que la interfaz tenga un único sitio del que tirar. Salen
+// del catálogo de tipos, no de una copia: la tabla de nombres de `claveEnJson`
+// estuvo duplicada aquí y el formulario del perfil escribía en claves que no
+// leía nadie.
+export { camposDeBloque, camposDeItem, claveEnJson, opcionesPorDefecto };
+export const opcionesDeTipo = opcionesDe;
 
 /** Slug ASCII: de él salen los anclas de la URL y los nombres de los QR. */
 export const aSlug = (texto) =>
@@ -18,28 +32,65 @@ export const aSlug = (texto) =>
     .replace(/^-+|-+$/g, '')
     .slice(0, 48);
 
-/**
- * Hueco vacío de un bloque nuevo según la forma del tipo que lo va a pintar.
- *
- * `comun: null` significa que el bloque NO va en comun.json: los tipos de prosa
- * solo tienen texto traducido, como el "sobre mí" de siempre.
- */
-export function huecoDeBloque(forma) {
-  if (forma === 'lista' || forma === 'objeto-lista') {
-    // Ojo con la asimetría, que es real: en comun.json los ítems son un ARRAY
-    // con su `id` dentro, y en los contenidos un OBJETO indexado por ese id.
-    return { comun: { items: [] }, traducido: { items: {} } };
+/** Texto de relleno de una sección recién creada. Se ve y se reemplaza. */
+export const RELLENO = 'Contenido pendiente';
+
+// Solo se rellenan los campos de PROSA. Un enlace o una imagen inventados son
+// peores que un hueco: el enlace generaría un QR a ninguna parte y la imagen
+// apuntaría a un fichero que no existe. Esos se dejan vacíos y la validación
+// dice exactamente cuál falta.
+const RELLENABLES = new Set(['texto', 'textoLargo', 'html', 'listaTexto', 'listaHtml']);
+
+function sembrarObligatorios(campos) {
+  const comun = {};
+  const traducido = {};
+  for (const campo of campos ?? []) {
+    if (campo.generado || campo.deBloque || !campo.requerido) continue;
+    if (!RELLENABLES.has(campo.tipo)) continue;
+    const valor = campo.tipo.startsWith('lista') ? [RELLENO] : RELLENO;
+    if (campo.traducible === false) comun[claveEnJson(campo)] = valor;
+    else traducido[claveEnJson(campo)] = valor;
   }
-  if (forma === 'parrafos') return { comun: null, traducido: { parrafos: [] } };
-  return { comun: {}, traducido: {} };
+  return { comun, traducido };
 }
 
 /**
- * Crea un bloque vacío en comun.json y en TODOS los idiomas a la vez.
+ * Hueco de un bloque nuevo, según la forma del tipo que lo va a pintar.
+ *
+ * `comun: null` significa que el bloque NO va en comun.json: los tipos de prosa
+ * solo tienen texto traducido, como el "sobre mí" de siempre.
+ *
+ * Los campos obligatorios de prosa nacen con texto de relleno para que la
+ * sección se pueda guardar y se VEA en la vista previa desde el primer momento;
+ * vacía, la validación la rechazaría y no habría nada que enseñar.
+ */
+export function huecoDeBloque(tipo) {
+  const forma = typeof tipo === 'string' ? tipo : tipo?.forma;
+  const sembrado = sembrarObligatorios(camposDeBloque(typeof tipo === 'string' ? {} : (tipo ?? {})));
+
+  if (forma === 'lista' || forma === 'objeto-lista') {
+    // Ojo con la asimetría, que es real: en comun.json los ítems son un ARRAY
+    // con su `id` dentro, y en los contenidos un OBJETO indexado por ese id.
+    return {
+      comun: { ...sembrado.comun, items: [] },
+      traducido: { ...sembrado.traducido, items: {} },
+    };
+  }
+  if (forma === 'parrafos') {
+    return {
+      comun: Object.keys(sembrado.comun).length ? sembrado.comun : null,
+      traducido: sembrado.traducido,
+    };
+  }
+  return { comun: sembrado.comun, traducido: sembrado.traducido };
+}
+
+/**
+ * Crea un bloque en comun.json y en TODOS los idiomas a la vez.
  * Devuelve copias nuevas: no toca lo que recibe.
  */
-export function conBloqueNuevo({ comun, contenidos, clave, forma }) {
-  const hueco = huecoDeBloque(forma);
+export function conBloqueNuevo({ comun, contenidos, clave, tipo }) {
+  const hueco = huecoDeBloque(tipo);
   const nuevoComun = structuredClone(comun);
   const nuevosContenidos = structuredClone(contenidos);
 
@@ -83,15 +134,6 @@ export function nuevaSeccion({ lista, id, tipoNombre, bloque, tipo, idiomas, mod
       idiomas.map((codigo) => [codigo, esWeb ? { titulo: id, nav: id, ancla: id } : { titulo: id }]),
     ),
   };
-}
-
-/** Opciones del tipo que tienen sentido en esa lista, con su valor por defecto. */
-export function opcionesDeTipo(tipo, lista) {
-  return (tipo?.opciones ?? []).filter((opcion) => !opcion.alcance || opcion.alcance.includes(lista));
-}
-
-export function opcionesPorDefecto(tipo, lista) {
-  return Object.fromEntries(opcionesDeTipo(tipo, lista).map((opcion) => [opcion.clave, opcion.defecto]));
 }
 
 /**

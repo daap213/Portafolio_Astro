@@ -6,6 +6,7 @@ import {
     nuevaSeccion,
     opcionesPorDefecto,
     problemasDeAlta,
+    RELLENO,
     tipoDelBloque,
 } from '../../admin/comun/secciones.js';
 import { validar, resumir } from '@cv/validar.js';
@@ -38,7 +39,7 @@ function conSeccionNueva(estado, { lista, id, tipoNombre, claveBloque }) {
         comun: estado.comun,
         contenidos: estado.contenidos,
         clave: claveBloque,
-        forma: TIPOS[tipoNombre].forma,
+        tipo: TIPOS[tipoNombre],
     });
 
     const listaNueva = structuredClone(estado[clave]) ?? { version: 1, secciones: [] };
@@ -66,12 +67,48 @@ describe('alta de sección con bloque nuevo', () => {
         for (const lista of tipo.alcance) casos.push([lista, nombre]);
     }
 
-    it.each(casos)('en la lista de %s, un tipo "%s" queda válido', (lista, tipoNombre) => {
+    // Lo que de verdad importa: crear una sección NO puede romper nada de lo que
+    // ya había. Como mucho puede quedar pendiente rellenar un campo obligatorio
+    // suyo que no se puede inventar (una imagen, un enlace del que sale un QR).
+    // Antes rompía otros bloques: la pareja tipo/bloque por defecto hacía que
+    // "experiencias" se validara con el tipo equivocado.
+    it.each(casos)('en la lista de %s, un tipo "%s" no rompe nada ajeno', (lista, tipoNombre) => {
+        const claveBloque = `bloquePrueba${tipoNombre}`;
         const nuevo = conSeccionNueva(estadoBase(), {
             lista,
             id: `prueba-${tipoNombre}`,
             tipoNombre,
-            claveBloque: `bloquePrueba${tipoNombre}`,
+            claveBloque,
+        });
+        const resultado = validar(nuevo);
+        for (const error of resultado.errores) {
+            expect(error.codigo, `\n${resumir(resultado)}`).toBe('CAMPO_REQUERIDO');
+            expect(error.ruta, `error fuera del bloque nuevo:\n${resumir(resultado)}`).toContain(claveBloque);
+        }
+    });
+
+    it('una sección de prosa nace ya válida, con texto de relleno', () => {
+        // Es el caso normal de "quiero una sección nueva": si naciera vacía, la
+        // validación la rechazaría y no habría nada que ver en la vista previa
+        const nuevo = conSeccionNueva(estadoBase(), {
+            lista: 'web',
+            id: 'manifiesto',
+            tipoNombre: 'texto',
+            claveBloque: 'manifiesto',
+        });
+        const resultado = validar(nuevo);
+        expect(resultado.errores, `\n${resumir(resultado)}`).toEqual([]);
+        for (const codigo of CODIGOS) {
+            expect(nuevo.contenidos[codigo].bloques.manifiesto.parrafos).toEqual([RELLENO]);
+        }
+    });
+
+    it('una lista nace vacía y válida: los ítems se añaden después', () => {
+        const nuevo = conSeccionNueva(estadoBase(), {
+            lista: 'web',
+            id: 'voluntariado',
+            tipoNombre: 'cronologia',
+            claveBloque: 'voluntariado',
         });
         const resultado = validar(nuevo);
         expect(resultado.errores, `\n${resumir(resultado)}`).toEqual([]);
@@ -100,10 +137,8 @@ describe('alta de sección con bloque nuevo', () => {
         });
         expect(nuevo.comun.bloques.manifiesto).toBeUndefined();
         for (const codigo of CODIGOS) {
-            expect(nuevo.contenidos[codigo].bloques.manifiesto).toEqual({ parrafos: [] });
+            expect(nuevo.contenidos[codigo].bloques.manifiesto).toEqual({ parrafos: [RELLENO] });
         }
-        const resultado = validar(nuevo);
-        expect(resultado.errores, `\n${resumir(resultado)}`).toEqual([]);
     });
 
     it('la sección nueva trae textos de todos los idiomas', () => {
@@ -236,9 +271,11 @@ describe('comprobaciones previas al alta', () => {
 
 describe('huecos y slugs', () => {
     it('cada forma tiene su hueco', () => {
+        // Con el tipo entero: los obligatorios de prosa nacen con relleno
+        expect(huecoDeBloque(TIPOS.cronologia)).toEqual({ comun: { items: [] }, traducido: { items: {} } });
+        expect(huecoDeBloque(TIPOS.texto)).toEqual({ comun: null, traducido: { parrafos: [RELLENO] } });
+        // Solo con la forma sigue valiendo, sin sembrar nada
         expect(huecoDeBloque('lista')).toEqual({ comun: { items: [] }, traducido: { items: {} } });
-        expect(huecoDeBloque('objeto-lista')).toEqual({ comun: { items: [] }, traducido: { items: {} } });
-        expect(huecoDeBloque('parrafos')).toEqual({ comun: null, traducido: { parrafos: [] } });
         expect(huecoDeBloque('objeto')).toEqual({ comun: {}, traducido: {} });
     });
 
@@ -251,7 +288,7 @@ describe('huecos y slugs', () => {
     it('conBloqueNuevo no toca el estado que recibe', () => {
         const original = estadoBase();
         const antes = JSON.stringify(original.comun);
-        conBloqueNuevo({ comun: original.comun, contenidos: original.contenidos, clave: 'x', forma: 'lista' });
+        conBloqueNuevo({ comun: original.comun, contenidos: original.contenidos, clave: 'x', tipo: TIPOS.cronologia });
         expect(JSON.stringify(original.comun)).toBe(antes);
     });
 });

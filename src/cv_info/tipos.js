@@ -50,9 +50,12 @@ export const TIPOS = {
       { clave: "nombre", tipo: "texto", requerido: true, traducible: false },
       { clave: "siglas", tipo: "texto", requerido: true, traducible: false },
       { clave: "correo", tipo: "correo", requerido: true, traducible: false },
-      { clave: "git_user", tipo: "texto", requerido: true, traducible: false },
-      { clave: "linkedin_user", tipo: "texto", requerido: true, traducible: false },
-      { clave: "mi_web", tipo: "texto", requerido: true, traducible: false },
+      // `enJson` es la clave con la que se GUARDA cuando no coincide con la que
+      // recibe la plantilla. Sin declararlo, el administrador escribia en
+      // "git_user" y el sitio seguia leyendo "gitUser": el cambio no llegaba.
+      { clave: "git_user", tipo: "texto", requerido: true, traducible: false, enJson: "gitUser" },
+      { clave: "linkedin_user", tipo: "texto", requerido: true, traducible: false, enJson: "linkedinUser" },
+      { clave: "mi_web", tipo: "texto", requerido: true, traducible: false, enJson: "web" },
       { clave: "foto", tipo: "imagen", requerido: true, traducible: false },
       { clave: "tituloUniversidad", tipo: "texto", requerido: true },
       { clave: "cumpleaños", tipo: "texto", requerido: true },
@@ -252,10 +255,26 @@ export const camposTraducibles = (campos) => campos.filter((campo) => campo.trad
 /** Campos de los que se deriva un QR. */
 export const camposConQr = (campos) => campos.filter((campo) => campo.generaQr);
 
+/** Clave con la que un campo se guarda en el JSON (a veces no es `clave`). */
+export const claveEnJson = (campo) => campo.enJson ?? campo.clave;
+
+/** Campos de nivel de BLOQUE: los que no se editan ítem a ítem. */
+export const camposDeBloque = (tipo) => (tipo.forma === "lista" ? [] : (tipo.campos ?? []));
+
+/** Campos que se editan ítem a ítem. */
+export const camposDeItem = (tipo) => {
+  if (tipo.forma === "lista") return tipo.campos ?? [];
+  if (tipo.forma === "objeto-lista") return tipo.camposItem ?? [];
+  return [];
+};
+
+// Estos dos reciben el TIPO, no su nombre: el administrador los recibe por la
+// API ya serializados y no tiene el catálogo a mano.
+
 /** Opciones que tienen sentido en esa lista ("web" o "cv"). */
-export const opcionesDe = (nombre, destino) =>
-  (tipoDe(nombre).opciones ?? []).filter((opcion) => !opcion.alcance || opcion.alcance.includes(destino));
+export const opcionesDe = (tipo, destino) =>
+  (tipo?.opciones ?? []).filter((opcion) => !opcion.alcance || opcion.alcance.includes(destino));
 
 /** Valores por defecto de las opciones de un tipo en esa lista. */
-export const opcionesPorDefecto = (nombre, destino) =>
-  Object.fromEntries(opcionesDe(nombre, destino).map((opcion) => [opcion.clave, opcion.defecto]));
+export const opcionesPorDefecto = (tipo, destino) =>
+  Object.fromEntries(opcionesDe(tipo, destino).map((opcion) => [opcion.clave, opcion.defecto]));

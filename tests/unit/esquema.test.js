@@ -197,3 +197,65 @@ describe('detección de problemas', () => {
         expect(tieneAviso(r, 'DERIVA_ENTRE_LISTAS')).toBe(true);
     });
 });
+
+// ---------------------------------------------------------------------------
+
+describe('campos que no viven en un bloque de ítems', () => {
+    // Estos se quedaban COMPLETAMENTE fuera de la validación: el bucle de campos
+    // obligatorios solo recorría los bloques con `items`, así que el perfil, la
+    // cita, el "sobre mí" y la cabecera de los certificados no se miraban. Se
+    // notó al poder editarlos por fin desde el administrador: con el guardado en
+    // vivo, vaciar el nombre del titular se escribía en disco sin una queja.
+    const estropear = (romper) => {
+        const estado = structuredClone(estadoActual());
+        romper(estado);
+        return validar(estado);
+    };
+    // Una misma ruta puede acumular varios códigos (vaciar el enlace de los
+    // certificados es a la vez un obligatorio sin rellenar y un QR sin origen)
+    const codigosEn = (resultado, ruta) =>
+        resultado.errores.filter((e) => e.ruta === ruta).map((e) => e.codigo);
+
+    it.each([
+        ['comun.json > identidad.nombre', (e) => { e.comun.identidad.nombre = ''; }],
+        ['comun.json > identidad.foto', (e) => { e.comun.identidad.foto = ''; }],
+        ['comun.json > identidad.gitUser', (e) => { e.comun.identidad.gitUser = ''; }],
+        ['contenido.es.json > meta.nombreTitulo', (e) => { e.contenidos.es.meta.nombreTitulo = ''; }],
+        ['contenido.en.json > meta.tituloUniversidad', (e) => { e.contenidos.en.meta.tituloUniversidad = ''; }],
+        ['contenido.es.json > meta.titleWeb', (e) => { e.contenidos.es.meta.titleWeb = ''; }],
+    ])('exige %s', (ruta, romper) => {
+        const codigos = codigosEn(estropear(romper), ruta);
+        expect(codigos, `no se detectó el hueco en ${ruta}`).toContain('CAMPO_REQUERIDO');
+    });
+
+    it.each([
+        ['comun.json > certificados.link', (e) => { e.comun.bloques.certificados.link = ''; }],
+        ['contenido.es.json > certificados.titleLink', (e) => { e.contenidos.es.bloques.certificados.titleLink = ''; }],
+        ['contenido.en.json > previewFooter.frase', (e) => { e.contenidos.en.bloques.previewFooter.frase = ''; }],
+        ['comun.json > previewFooter.logo', (e) => { e.comun.bloques.previewFooter.logo = ''; }],
+        ['contenido.es.json > sobremi.parrafos', (e) => { e.contenidos.es.bloques.sobremi.parrafos = []; }],
+    ])('exige %s', (ruta, romper) => {
+        const codigos = codigosEn(estropear(romper), ruta);
+        expect(codigos, `no se detectó el hueco en ${ruta}`).toContain('CAMPO_REQUERIDO');
+    });
+
+    it('un campo común colado en una traducción del perfil se detecta', () => {
+        const r = estropear((e) => { e.contenidos.es.meta.gitUser = 'colado'; });
+        expect(r.errores.some((x) => x.codigo === 'CAMPO_MAL_UBICADO')).toBe(true);
+    });
+
+    it('los campos del perfil usan la clave con la que se guardan, no la de la plantilla', () => {
+        // tipos.js los llama git_user/linkedin_user/mi_web y el JSON los guarda
+        // como gitUser/linkedinUser/web. Sin `enJson` el administrador escribía
+        // en una clave que no leía nadie.
+        const conEnJson = TIPOS.perfil.campos.filter((campo) => campo.enJson);
+        expect(conEnJson.map((campo) => [campo.clave, campo.enJson])).toEqual([
+            ['git_user', 'gitUser'],
+            ['linkedin_user', 'linkedinUser'],
+            ['mi_web', 'web'],
+        ]);
+        for (const campo of conEnJson) {
+            expect(comun.identidad, `identidad no tiene ${campo.enJson}`).toHaveProperty(campo.enJson);
+        }
+    });
+});

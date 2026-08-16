@@ -93,7 +93,7 @@ export function Secciones({ estado, borrador, guardarPendientes }) {
         comun,
         contenidos,
         clave: bloqueNuevo,
-        forma: estado.tipos[tipoNombre].forma,
+        tipo: estado.tipos[tipoNombre],
       });
       borrador.poner('comun', nuevos.comun);
       borrador.poner('contenidos', nuevos.contenidos);

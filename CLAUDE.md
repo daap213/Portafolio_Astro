@@ -74,7 +74,7 @@ Assembly layer (all plain JS, no content):
 - **`iconos.js`** — just the icon NAMES, as strings. Exists so the admin and `validar.js` can check `icono` without importing `registro.js`. `tests/unit/components.test.js` asserts both lists stay identical.
 - **`registro.js`** — the only place a JSON name becomes a component: `ICONOS`, `COMPONENTES_WEB`, `COMPONENTES_CV`. This one *does* import `.astro`.
 - **`paginaWeb.js` / `paginaCv.js`** — build a language's page from its section list.
-- **`validar.js`** — schema + coherence checks, returning `{errores, avisos}`. No dependencies, importable from plain node (the admin uses it too).
+- **`validar.js`** — schema + coherence checks, returning `{errores, avisos}`. No dependencies, importable from plain node (the admin uses it too). It checks required fields at three levels: `perfil` (`identidad` + `meta`), block level (`forma` other than `lista`) and item level. A field whose stored key differs from the one the template receives declares it as `enJson` — don't reintroduce that mapping anywhere else.
 
 ### Pages
 
@@ -149,7 +149,11 @@ Separate app, never published. **It has its own `pnpm-workspace.yaml` on purpose
 
 - `admin/api/` — Express on 127.0.0.1 only. Reads/writes the JSON with **validate-then-backup-then-atomic-rename**; a rejected state returns 422 and nothing touches disk. Writes are always multi-file (all languages at once) because a half-written state breaks the site and the test suite. It also serves `public/` under `/api/archivos` so image previews don't depend on a third process.
 - `admin/comun/` — logic shared by the API and the UI, plain JS with no node imports: the section/block creation rules live here so `tests/unit/admin-secciones.test.js` can check that what the form produces actually validates.
-- `admin/src/` — React UI: Panel (diagnostics, tasks, git status), Contenido (perfil, blocks, items — forms generated from `tipos.js`, translatable fields side by side per language), Secciones (the two independent lists), Textos (`ui.*.json`), Medios, Idiomas, Vista previa (iframe onto `astro dev`).
+- `admin/src/` — React UI: Panel (diagnostics, tasks, git status), Contenido (perfil, blocks, items — forms generated from `tipos.js`, translatable fields side by side per language), Secciones (the two independent lists), Textos (`ui.*.json`), Medios, Idiomas. The preview is **not** a screen: it's an always-mounted pane docked beside the editor, so it never reloads when you switch screens.
+
+**Live preview writes to disk.** The preview is `astro dev` rendering the JSON files, so it can only ever show what has been saved. With "vista en vivo" on (the default), the admin writes every draft that validates ~1s after you stop typing and Vite reloads the iframe by itself; drafts that don't validate are held back and the reason is shown. That means editing generates a stream of small writes to the working tree — intended, since you review with `git diff` before committing. Turn the switch off to go back to saving by hand.
+
+This is also why `validar.js` had to grow: it only ever checked blocks with `items`, so the profile, the quote, the "sobre mí" and the certificates header were completely unvalidated. Harmless while nothing could edit them; with autosave, blanking a required field wrote it straight to disk.
 - Long tasks (GQR/GPDF/build/test) run through a **one-at-a-time queue**, and the PDF task aborts if an `astro preview` daemon is already alive rather than stealing it from the test suite. Detecting that is fiddly: `astro preview status` exits 0 either way and *both* messages contain the word "running" (`No preview server is running.` vs `Preview server running at …`).
 - It **does not** commit, push or deploy. It shows `git status` and you commit.
 

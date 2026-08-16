@@ -10,7 +10,14 @@
 // al bundle del sitio, cuyo runtime son cinco paquetes.
 //
 // No importa .astro: tiene que poder cargarse desde node puro.
-import { TIPOS, admiteDestino, camposComunes, camposTraducibles } from "./tipos.js";
+import {
+  TIPOS,
+  admiteDestino,
+  camposComunes,
+  camposDeBloque,
+  camposTraducibles,
+  claveEnJson,
+} from "./tipos.js";
 import { esIconoValido, NOMBRES_ICONO } from "./iconos.js";
 
 /** Un id que acaba siendo nombre de fichero o ancla de URL. */
@@ -264,11 +271,97 @@ export function validar({ locales, comun, contenidos, textos, seccionesWeb, secc
   // ---- campos requeridos y traducciones pendientes ------------------------
 
   const tipoDeBloque = new Map();
+  // Ojo: `tipoDeBloque` se queda con el ÚLTIMO tipo de cada bloque, así que no
+  // sirve para saber qué tipos están en uso. "sobremi" lo pintan `presentacion`
+  // en la web y `texto` en el CV, y el segundo tapaba al primero: los campos de
+  // `presentacion` (nombreTitulo, work_state…) se quedaban sin comprobar.
+  const tiposUsados = new Set();
   for (const configuracion of [seccionesWeb, seccionesCv]) {
     for (const entrada of configuracion?.secciones ?? []) {
-      if (TIPOS[entrada.tipo]) tipoDeBloque.set(entrada.bloque, entrada.tipo);
+      if (!TIPOS[entrada.tipo]) continue;
+      tipoDeBloque.set(entrada.bloque, entrada.tipo);
+      tiposUsados.add(entrada.tipo);
     }
   }
+
+  /**
+   * Comprueba un campo suelto: obligatorio relleno, comun donde toca, y aviso
+   * si esta traducido en el idioma base pero no en los demas.
+   *
+   * @param leerComun     () => valor guardado en comun.json
+   * @param leerTraducido (codigo) => valor guardado en contenido.<codigo>.json
+   */
+  const revisarCampo = (campo, { leerComun, leerTraducido, dondeComun, dondeTraducido }) => {
+    if (campo.generado) return;
+
+    if (campo.traducible === false) {
+      if (campo.requerido && esVacio(leerComun())) {
+        errores.push(problema("CAMPO_REQUERIDO", dondeComun(campo), "campo obligatorio vacío"));
+      }
+      // Un campo comun nunca debe aparecer en el contenido traducido
+      for (const codigo of codigos) {
+        if (leerTraducido(codigo, true)) {
+          errores.push(problema("CAMPO_MAL_UBICADO", dondeTraducido(campo, codigo), "es un campo común: debe vivir solo en comun.json"));
+        }
+      }
+      return;
+    }
+
+    for (const codigo of codigos) {
+      const valor = leerTraducido(codigo);
+      if (!esVacio(valor)) continue;
+      if (campo.requerido) {
+        errores.push(problema("CAMPO_REQUERIDO", dondeTraducido(campo, codigo), "campo obligatorio vacío"));
+      } else if (!esVacio(leerTraducido(predeterminado))) {
+        avisos.push(problema("SIN_TRADUCIR", dondeTraducido(campo, codigo), "vacío en este idioma y relleno en el predeterminado"));
+      }
+    }
+  };
+
+  // ---- perfil: identidad + meta -------------------------------------------
+  //
+  // Estos campos no viven en ningun bloque de items, asi que se quedaban FUERA
+  // de toda comprobacion: se podia dejar el nombre o la foto en blanco y el
+  // validador no decia nada. Se notaba al editarlos desde el administrador.
+  for (const [nombreTipo, tipo] of Object.entries(TIPOS)) {
+    if (tipo.origen !== "perfil" || !tiposUsados.has(nombreTipo)) continue;
+    for (const campo of tipo.campos ?? []) {
+      if (campo.deBloque) continue; // ese vive en otro bloque, se revisa alli
+      const clave = claveEnJson(campo);
+      revisarCampo(campo, {
+        leerComun: () => comun.identidad?.[clave],
+        leerTraducido: (codigo, existe) =>
+          existe ? clave in (contenidos[codigo]?.meta ?? {}) : contenidos[codigo]?.meta?.[clave],
+        dondeComun: () => `comun.json > identidad.${clave}`,
+        dondeTraducido: (_campo, codigo) => `contenido.${codigo}.json > meta.${clave}`,
+      });
+    }
+  }
+
+  // ---- campos de nivel de bloque ------------------------------------------
+  //
+  // Los de forma "objeto", "parrafos" y la cabecera de "objeto-lista": el
+  // enlace del que sale el QR de los certificados, la frase de la cita o los
+  // parrafos del "sobre mi" tampoco se comprobaban.
+  for (const [clave, nombreTipo] of tipoDeBloque) {
+    const tipo = TIPOS[nombreTipo];
+    if (!tipo || tipo.origen === "perfil") continue;
+    for (const campo of camposDeBloque(tipo)) {
+      if (campo.deBloque) continue;
+      const nombre = claveEnJson(campo);
+      revisarCampo(campo, {
+        leerComun: () => comun.bloques?.[clave]?.[nombre],
+        leerTraducido: (codigo, existe) =>
+          existe
+            ? nombre in (contenidos[codigo]?.bloques?.[clave] ?? {})
+            : contenidos[codigo]?.bloques?.[clave]?.[nombre],
+        dondeComun: () => `comun.json > ${clave}.${nombre}`,
+        dondeTraducido: (_campo, codigo) => `contenido.${codigo}.json > ${clave}.${nombre}`,
+      });
+    }
+  }
+
+  // ---- campos de cada item ------------------------------------------------
 
   for (const [clave, ids] of Object.entries(idsPorBloque)) {
     const nombreTipo = tipoDeBloque.get(clave);

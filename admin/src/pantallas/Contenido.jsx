@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { aSlug } from '../../comun/secciones.js';
+import { aSlug, camposDeBloque, camposDeItem, claveEnJson } from '../../comun/secciones.js';
 import { FormularioGenerado } from '../componentes/FormularioGenerado.jsx';
 
 // Edición del contenido. Se elige un ámbito (el perfil o un bloque de datos) y
@@ -20,26 +20,8 @@ import { FormularioGenerado } from '../componentes/FormularioGenerado.jsx';
 
 const AMBITO_PERFIL = '@perfil';
 
-/**
- * tipos.js llama a algunos campos del perfil como los recibe la plantilla, no
- * como se guardan (cv.js hace la traducción al componer). Sin esta tabla, el
- * formulario del perfil escribía en claves que no lee nadie.
- */
-const CLAVE_EN_JSON = { git_user: 'gitUser', linkedin_user: 'linkedinUser', mi_web: 'web' };
-const claveJson = (clave) => CLAVE_EN_JSON[clave] ?? clave;
-
 const LISTAS = ['listaTexto', 'listaHtml', 'etiquetas'];
 const valorVacio = (campo) => (LISTAS.includes(campo.tipo) ? [] : '');
-
-/** Campos que se editan en el bloque entero (no por ítem). */
-const camposDeBloque = (tipo) => (tipo.forma === 'lista' ? [] : (tipo.campos ?? []));
-
-/** Campos que se editan ítem a ítem. */
-const camposDeItem = (tipo) => {
-  if (tipo.forma === 'lista') return tipo.campos ?? [];
-  if (tipo.forma === 'objeto-lista') return tipo.camposItem ?? [];
-  return [];
-};
 
 export function Contenido({ estado, medios, borrador, guardarPendientes }) {
   const idiomas = estado.locales.map((idioma) => idioma.codigo);
@@ -181,14 +163,21 @@ function EditorPerfil({ estado, comun, contenidos, idiomas, predeterminado, medi
     }
   }
 
+  // Unos pocos campos del perfil se GUARDAN con otro nombre del que recibe la
+  // plantilla (git_user -> gitUser). El de guardar lo declara `enJson` en
+  // tipos.js, que es de donde tira `claveEnJson`: tenerlo apuntado aparte aquí
+  // hacía que el formulario escribiera en claves que no lee nadie.
+  const porClave = new Map(campos.map((campo) => [campo.clave, campo]));
+  const enJson = (clave) => claveEnJson(porClave.get(clave) ?? { clave });
+
   const valorComun = Object.fromEntries(
-    campos.filter((c) => c.traducible === false).map((c) => [c.clave, comun.identidad?.[claveJson(c.clave)]]),
+    campos.filter((c) => c.traducible === false).map((c) => [c.clave, comun.identidad?.[claveEnJson(c)]]),
   );
   const valoresPorIdioma = Object.fromEntries(
     idiomas.map((codigo) => [
       codigo,
       Object.fromEntries(
-        campos.filter((c) => c.traducible !== false).map((c) => [c.clave, contenidos[codigo]?.meta?.[claveJson(c.clave)]]),
+        campos.filter((c) => c.traducible !== false).map((c) => [c.clave, contenidos[codigo]?.meta?.[claveEnJson(c)]]),
       ),
     ]),
   );
@@ -196,12 +185,12 @@ function EditorPerfil({ estado, comun, contenidos, idiomas, predeterminado, medi
   const cambiar = ({ ambito, clave, valor }) => {
     if (ambito === 'comun') {
       const copia = structuredClone(comun);
-      (copia.identidad ??= {})[claveJson(clave)] = valor;
+      (copia.identidad ??= {})[enJson(clave)] = valor;
       ponerComun(copia);
       return;
     }
     const copia = structuredClone(contenidos);
-    (copia[ambito].meta ??= {})[claveJson(clave)] = valor;
+    (copia[ambito].meta ??= {})[enJson(clave)] = valor;
     ponerContenidos(copia);
   };
 
