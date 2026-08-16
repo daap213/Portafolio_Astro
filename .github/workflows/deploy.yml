@@ -23,7 +23,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }} # Salida para cambios en archivos fuente
     steps:
       - uses: actions/checkout@v6 # Clona el repositorio
-      - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
+      - uses: dorny/paths-filter@v4 # Filtra cambios en los archivos especificados
         id: changes
         with:
           base: cloud_version # Comparar con el último estado de cloud-test
