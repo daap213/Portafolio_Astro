@@ -35,11 +35,16 @@ const secciones = pagIndex.secciones;
       class={primeraSeccion.classSeccion}
     >
       <h2 class={primeraSeccion.classTittle}>
-        <primeraSeccion.icon class={primeraSeccion.classIcon} />
+        {
+          primeraSeccion.icon && (
+            <primeraSeccion.icon class={primeraSeccion.classIcon} />
+          )
+        }
         {primeraSeccion.name}
       </h2>
       <primeraSeccion.seccion
         infoSeccion={primeraSeccion.seccionInfo}
+        opciones={primeraSeccion.opciones}
         ui={ui}
       />
     </SectionContainer>
@@ -52,7 +57,11 @@ const secciones = pagIndex.secciones;
             {bloque.icon && <bloque.icon class={bloque.classIcon} />}
             {bloque.name}
           </h2>
-          <bloque.seccion infoSeccion={bloque.seccionInfo} ui={ui} />
+          <bloque.seccion
+            infoSeccion={bloque.seccionInfo}
+            opciones={bloque.opciones}
+            ui={ui}
+          />
         </SectionContainer>
       ))
     }

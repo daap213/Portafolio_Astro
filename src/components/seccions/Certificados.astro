@@ -4,11 +4,13 @@ import TimeHist from "@/components/otros/TimeHistItem.astro";
 import DropdownText from "@/components/otros/DropdownText.astro";
 interface Props {
   infoSeccion: any;
+  opciones?: Record<string, boolean>;
 }
-const { infoSeccion } = Astro.props;
+const { infoSeccion, opciones = {} } = Astro.props;
+const { desplegable = true } = opciones;
 ---
 
-<DropdownText titulo={infoSeccion.title + ":"}>
+<DropdownText titulo={infoSeccion.title + ":"} desplegable={desplegable}>
   <ol class="relative pt-3">
     {
       infoSeccion.items.map((certificado: any) => (

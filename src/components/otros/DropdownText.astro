@@ -1,31 +1,50 @@
 ---
-const { titulo } = Astro.props;
+// Bloque plegable. Con `desplegable={false}` pinta el mismo contenido siempre
+// abierto y sin la flecha: es la opcion `desplegable` de las secciones de
+// cronologia, habilidades y certificados.
+interface Props {
+  titulo: string;
+  desplegable?: boolean;
+}
+const { titulo, desplegable = true } = Astro.props;
+
+const claseCaja =
+  "relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3";
+const claseTitulo =
+  "text-xl flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-800 border border-b-0 border-gray-200 rounded-t-xl focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-900 gap-3";
 ---
 
-<div
-  class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
->
-  <details class="group">
-    <summary
-      class="text-xl flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-800 border border-b-0 border-gray-200 rounded-t-xl focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-900 gap-3"
-    >
-      <span>{titulo}</span>
-      <span class="transition group-open:rotate-180">
-        <svg
-          fill="none"
-          height="24"
-          shape-rendering="geometricPrecision"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.5"
-          viewBox="0 0 24 24"
-          width="24"
-        >
-          <path d="M6 9l6 6 6-6"></path>
-        </svg>
-      </span>
-    </summary>
-    <slot />
-  </details>
+<div class={claseCaja}>
+  {
+    desplegable ? (
+      <details class="group">
+        <summary class={claseTitulo}>
+          <span>{titulo}</span>
+          <span class="transition group-open:rotate-180">
+            <svg
+              fill="none"
+              height="24"
+              shape-rendering="geometricPrecision"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </span>
+        </summary>
+        <slot />
+      </details>
+    ) : (
+      <div>
+        <p class={claseTitulo}>
+          <span>{titulo}</span>
+        </p>
+        <slot />
+      </div>
+    )
+  }
 </div>

@@ -2,8 +2,10 @@
 import ExperienceItem from "@/components/otros/TimeHistItem.astro";
 interface Props {
   infoSeccion: any;
+  opciones?: Record<string, boolean>;
 }
-const { infoSeccion } = Astro.props;
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarValoracion = true } = opciones;
 ---
 
 <ol class="relative mt-16">
@@ -13,7 +15,7 @@ const { infoSeccion } = Astro.props;
         <ExperienceItem
           title={grados.title}
           company={grados.institution}
-          appreciation={grados.appreciation}
+          appreciation={mostrarValoracion ? grados.appreciation : undefined}
         >
           <time class="p-0 m-0 md:col-span-3 text-right text-sm text-gray-600/80 dark:text-white/80">
             {grados.date}

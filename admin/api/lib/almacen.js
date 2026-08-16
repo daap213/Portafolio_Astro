@@ -20,6 +20,23 @@ import { validar } from '../../../src/cv_info/validar.js';
 /** Cuántas copias se conservan por fichero. */
 const COPIAS_MAXIMAS = 20;
 
+/**
+ * Separador entre el nombre del fichero y la marca de tiempo de la copia.
+ *
+ * Antes se usaba un punto y la marca se troceaba con lastIndexOf('.'), pero la
+ * marca ISO TAMBIÉN lleva un punto (los milisegundos), así que "comun.json"
+ * salía como "comun.json.2026-08-15T18-47-11" y restaurar escribía un fichero
+ * basura dentro de src/cv_info/data en vez de recuperar nada.
+ */
+const SEPARADOR_MARCA = '@';
+
+/** Reconoce la marca al final del nombre, tanto la nueva como las antiguas. */
+const SUFIJO_MARCA = /[.@](\d{4}-\d{2}-\d{2}T[\d.:-]+Z)$/;
+
+/** Marca de tiempo válida como nombre de fichero (sin ':' ni '.'). */
+export const marcaDeTiempo = () =>
+  new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-');
+
 export const leerJson = async (ruta) => JSON.parse(await readFile(ruta, 'utf8'));
 
 /** Lee el estado completo del repositorio, siempre fresco (nunca cacheado). */
@@ -67,17 +84,30 @@ const serializar = (valor) => JSON.stringify(valor, null, 2) + '\n';
 async function copiar(ruta, marca) {
   if (!existsSync(ruta)) return null;
   mkdirSync(DIR_COPIAS, { recursive: true });
-  const nombre = `${basename(ruta)}.${marca}`;
+  const nombre = `${basename(ruta)}${SEPARADOR_MARCA}${marca}`;
   const destino = resolve(DIR_COPIAS, nombre);
   await copyFile(ruta, destino);
 
   const previas = readdirSync(DIR_COPIAS)
-    .filter((f) => f.startsWith(basename(ruta) + '.'))
+    .filter((f) => f.replace(SUFIJO_MARCA, '') === basename(ruta))
     .sort();
   for (const sobrante of previas.slice(0, Math.max(0, previas.length - COPIAS_MAXIMAS))) {
     rmSync(resolve(DIR_COPIAS, sobrante), { force: true });
   }
   return destino;
+}
+
+/**
+ * Barre los .tmp que hayan quedado de un guardado interrumpido. Viven junto al
+ * fichero destino a propósito (el rename solo es atómico dentro del mismo
+ * sistema de ficheros), pero ese directorio lo vigila `astro dev` y lo mira
+ * git, así que no pueden quedarse ahí.
+ */
+export function limpiarTemporales() {
+  if (!existsSync(DIR_DATOS)) return;
+  for (const nombre of readdirSync(DIR_DATOS)) {
+    if (nombre.endsWith('.tmp')) rmSync(resolve(DIR_DATOS, nombre), { force: true });
+  }
 }
 
 /** Escribe con fsync para que el contenido esté en disco antes del rename. */
@@ -113,16 +143,25 @@ async function renombrarConReintento(origen, destino, intentos = 3) {
  * Guarda un estado completo. Devuelve { ok, errores, avisos, escritos }.
  * Si `ok` es false no se ha tocado el disco.
  */
-export async function guardarEstado(estado, { marca }) {
+export async function guardarEstado(estado, { marca = marcaDeTiempo() } = {}) {
   const { errores, avisos } = validar(estado);
   if (errores.length) return { ok: false, errores, avisos, escritos: [] };
 
+  limpiarTemporales();
+
   const objetivos = ficherosDe(estado);
   const copias = new Map();
+  const nuevos = new Set();
   const temporales = [];
 
   try {
-    for (const ruta of objetivos.keys()) copias.set(ruta, await copiar(ruta, marca));
+    for (const ruta of objetivos.keys()) {
+      const copia = await copiar(ruta, marca);
+      copias.set(ruta, copia);
+      // copiar() devuelve null cuando el fichero no existía: al deshacer no hay
+      // nada que restaurar, hay que BORRARLO (antes se quedaba a medias)
+      if (!copia) nuevos.add(ruta);
+    }
 
     for (const [ruta, valor] of objetivos) {
       const texto = serializar(valor);
@@ -135,13 +174,21 @@ export async function guardarEstado(estado, { marca }) {
 
     return { ok: true, errores: [], avisos, escritos: temporales.map(([, ruta]) => basename(ruta)) };
   } catch (error) {
-    // Deshacer: restaurar desde las copias y limpiar los temporales
+    // Deshacer: limpiar temporales, restaurar lo que existía y borrar lo nuevo
     for (const [temporal] of temporales) rmSync(temporal, { force: true });
     for (const [ruta, copia] of copias) {
       if (copia && existsSync(copia)) await copyFile(copia, ruta);
+      else if (nuevos.has(ruta)) rmSync(ruta, { force: true });
     }
     throw error;
   }
+}
+
+/** Trocea el nombre de una copia en {fichero, marca}, o null si no lo es. */
+export function partirNombreDeCopia(nombre) {
+  const encontrado = nombre.match(SUFIJO_MARCA);
+  if (!encontrado) return null;
+  return { fichero: nombre.replace(SUFIJO_MARCA, ''), marca: encontrado[1] };
 }
 
 /** Lista las copias disponibles, de la más reciente a la más antigua. */
@@ -149,9 +196,10 @@ export function listarCopias() {
   if (!existsSync(DIR_COPIAS)) return [];
   return readdirSync(DIR_COPIAS)
     .map((nombre) => {
-      const corte = nombre.lastIndexOf('.');
-      return { nombre, fichero: nombre.slice(0, corte), marca: nombre.slice(corte + 1) };
+      const partes = partirNombreDeCopia(nombre);
+      return partes ? { nombre, ...partes } : null;
     })
+    .filter(Boolean)
     .sort((a, b) => b.marca.localeCompare(a.marca));
 }
 
@@ -159,7 +207,17 @@ export function listarCopias() {
 export async function restaurarCopia(nombre) {
   const origen = resolve(DIR_COPIAS, nombre);
   if (!existsSync(origen)) throw new Error(`no existe la copia ${nombre}`);
-  const destino = resolve(DIR_DATOS, nombre.slice(0, nombre.lastIndexOf('.')));
+
+  const partes = partirNombreDeCopia(nombre);
+  if (!partes) throw new Error(`"${nombre}" no parece una copia: falta la marca de tiempo`);
+
+  // Solo se restaura sobre un fichero de datos que ya exista: así una copia con
+  // el nombre manipulado no puede crear ficheros sueltos en src/cv_info/data
+  const destino = resolve(DIR_DATOS, partes.fichero);
+  if (basename(destino) !== partes.fichero || !existsSync(destino)) {
+    throw new Error(`la copia "${nombre}" no corresponde a ningún fichero de datos`);
+  }
+
   await copyFile(origen, destino);
   return destino;
 }

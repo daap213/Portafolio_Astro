@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { api, seguirTarea } from '../api.js';
 
 // Panel: diagnóstico, tareas largas y estado de git.
@@ -16,20 +16,31 @@ const TAREAS = [
 export function Panel({ estado, recargar }) {
   const [registro, setRegistro] = useState([]);
   const [tarea, setTarea] = useState(null);
+  const cerrarFlujo = useRef(null);
+
+  // Al salir del Panel con una tarea en marcha quedaba un EventSource abierto
+  // llamando a setRegistro sobre un componente ya desmontado
+  useEffect(() => () => cerrarFlujo.current?.(), []);
 
   const lanzar = async (tipo) => {
     setRegistro([]);
+    cerrarFlujo.current?.();
     try {
       const ficha = await api.lanzarTarea(tipo);
       setTarea(ficha);
-      seguirTarea(ficha.id, (evento) => {
+      cerrarFlujo.current = seguirTarea(ficha.id, (evento) => {
         if (evento.tipo === 'linea') setRegistro((previo) => [...previo, evento.texto]);
         if (evento.tipo === 'fin') {
+          // Sin esto, si el flujo se cortaba la tarea se quedaba "en curso" para
+          // siempre y los cuatro botones inhabilitados hasta recargar la página
           setTarea((previo) => ({ ...previo, estado: evento.estado }));
           recargar();
         }
       });
     } catch (fallo) {
+      // Un 409 ("ya hay una tarea en curso") no se veía: el registro solo se
+      // pinta dentro del bloque {tarea && …}, que en el primer fallo es null
+      setTarea({ tipo, estado: 'error' });
       setRegistro([`No se pudo lanzar: ${fallo.message}`]);
     }
   };

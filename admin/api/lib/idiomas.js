@@ -40,8 +40,11 @@ export function anadirIdioma(estado, { codigo, etiqueta, nombre, pdf, desde }) {
   for (const idioma of nuevo.locales) {
     idioma.botonCv = { ...idioma.botonCv, [codigo]: idioma.botonCv?.[origen] ?? `CV ${idioma.codigo.toUpperCase()}` };
   }
+  // Una etiqueta por CV, con el código del CV al que apunta cada botón. Antes
+  // usaba `codigo` (el idioma NUEVO) para todas, así que en el idioma recién
+  // creado los botones decían todos lo mismo: "CV FR", "CV FR", "CV FR"...
   const botonCv = Object.fromEntries(
-    [...nuevo.locales.map((i) => i.codigo), codigo].map((c) => [c, `CV ${codigo.toUpperCase()}`]),
+    [...nuevo.locales.map((i) => i.codigo), codigo].map((c) => [c, `CV ${c.toUpperCase()}`]),
   );
 
   nuevo.locales.push({ codigo, etiqueta: etiqueta || codigo, nombre: nombre || codigo, pdf: nombrePdf, botonCv });
@@ -58,6 +61,9 @@ export function anadirIdioma(estado, { codigo, etiqueta, nombre, pdf, desde }) {
     }
     if (configuracion.pie?.mencion) configuracion.pie.mencion[codigo] = configuracion.pie.mencion[origen];
     for (const seccion of configuracion.secciones ?? []) {
+      // Sin la guarda, una sección sin `textos` tumbaba el alta con un 500 en
+      // vez de dejar que validar.js lo contara como SECCION_SIN_TEXTOS
+      if (!seccion?.textos) continue;
       seccion.textos[codigo] = sembrarDesde(seccion.textos[origen]);
     }
   }

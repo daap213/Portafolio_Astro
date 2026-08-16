@@ -48,15 +48,26 @@ function ejecutar(comando, argumentos, tarea, entorno = {}) {
   });
 }
 
+// `astro preview status` sale siempre con código 0 y dice, literalmente:
+//   vivo   -> Preview server running at http://127.0.0.1:4331 (pid 19128, ...)
+//   parado -> No preview server is running.
+// Las dos frases contienen "running", así que la comprobación antigua
+// (/running|pid/i) daba SIEMPRE positivo y la tarea de PDF era imposible de
+// lanzar: abortaba diciendo que ya había un preview en marcha.
+const SIN_PREVIEW = /no preview server is running/i;
+const CON_PREVIEW = /preview server running at|\(pid \d+/i;
+
 /** ¿Hay un demonio de astro preview vivo ahora mismo? */
-async function hayPreviewVivo() {
-  const tarea = { registro: [] };
+async function hayPreviewVivo(tarea) {
+  const desde = tarea.registro.length;
   try {
     await ejecutar('pnpm', ['exec', 'astro', 'preview', 'status'], tarea);
-    return tarea.registro.some((linea) => /running|pid/i.test(linea));
   } catch {
     return false;
   }
+  const salida = tarea.registro.slice(desde).join('\n');
+  if (SIN_PREVIEW.test(salida)) return false;
+  return CON_PREVIEW.test(salida);
 }
 
 const PASOS = {
@@ -77,7 +88,7 @@ const PASOS = {
   },
 
   async pdf(tarea) {
-    if (await hayPreviewVivo()) {
+    if (await hayPreviewVivo(tarea)) {
       throw new Error(
         'ya hay un `astro preview` en marcha (probablemente de los tests). ' +
         'Es un demonio único por máquina: párala tú y vuelve a intentarlo.',

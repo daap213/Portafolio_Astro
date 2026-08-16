@@ -1,0 +1,25 @@
+---
+// Parrafos sueltos con HTML, para la web.
+//
+// Gemelo de components/cv/Texto.astro: el tipo "texto" declara alcance
+// ["cv","web"] pero durante un tiempo solo existio el componente de CV, asi
+// que una seccion de texto en la portada pasaba la validacion y reventaba en
+// build. Es ademas el tipo natural para una seccion de prosa nueva.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion } = Astro.props;
+const parrafos = Array.isArray(infoSeccion) ? infoSeccion : (infoSeccion?.parrafos ?? []);
+---
+
+<div class="[&>p]:mb-4 text-pretty">
+  {
+    parrafos.map((contenido: string) => (
+      <p
+        class="text-justify text-gray-700 dark:text-gray-300 [&>strong]:text-yellow-600 dark:[&>strong]:text-yellow-100 [&>strong]:font-semibold"
+        set:html={contenido}
+      />
+    ))
+  }
+</div>

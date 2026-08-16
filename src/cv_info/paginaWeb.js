@@ -5,7 +5,7 @@
 // data/secciones.web.json y aqui solo se ensambla.
 //
 // Anadir, quitar o reordenar una seccion de la portada = editar ese JSON.
-import { DATOS, raizApp } from "./cv.js";
+import { CLAVES_BLOQUE, DATOS, raizApp } from "./cv.js";
 import { IDIOMAS } from "./locales.js";
 import { componenteWebDe, iconoDe, ICONOS } from "./registro.js";
 import { TEXTOS } from "./data/indice.js";
@@ -79,9 +79,9 @@ export function construirPagina(codigo) {
       navitems: entrada.enNav ? navItemDe(entrada) : contactObj,
       name: textosDe(entrada).titulo,
       icon: iconoDe(entrada.icono),
-      classSeccion: entrada.clases.seccion,
-      classTittle: entrada.clases.titulo,
-      classIcon: entrada.clases.icono,
+      classSeccion: entrada.clases?.seccion ?? "",
+      classTittle: entrada.clases?.titulo ?? "",
+      classIcon: entrada.clases?.icono ?? "",
       seccion: componente,
       seccionInfo: datosDe(entrada),
       opciones: entrada.opciones,
@@ -102,14 +102,9 @@ export function construirPagina(codigo) {
     sobreMi,
     footerInfor,
     ui,
-    // Bloques sueltos, tal y como los exportaban es.js / en.js
-    experiencias: datos.experiencias,
-    gradosCompletados: datos.gradosCompletados,
-    certificados: datos.certificados,
-    publicaciones: datos.publicaciones,
-    habilidades: datos.habilidades,
-    proyectos: datos.proyectos,
-    previewFooter: datos.previewFooter,
+    // Bloques sueltos, tal y como los exportaban es.js / en.js. Ya no se
+    // enumeran: un bloque nuevo aparece aqui solo, sin tocar este fichero.
+    ...Object.fromEntries(CLAVES_BLOQUE.map((clave) => [clave, datos[clave]])),
     pagIndex: {
       title: datos.titleWeb,
       description: datos.descriptionWeb,

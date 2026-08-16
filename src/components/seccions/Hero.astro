@@ -9,8 +9,10 @@ function isPdfUrl(url: string): boolean {
 
 interface Props {
   infoSeccion: any;
+  opciones?: Record<string, boolean>;
 }
-const { infoSeccion } = Astro.props;
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarBotones = true } = opciones;
 ---
 
 <div class="max-w-4xl">
@@ -44,17 +46,19 @@ const { infoSeccion } = Astro.props;
     ))
   }
 
-  <nav class="flex flex-wrap gap-4 mt-8">
-    {
-      infoSeccion.botones.map((boton: any) => (
-        <SocialPill
-          href={boton.url}
-          download={isPdfUrl(boton.url) ? boton.url.split("/").pop() : ""}
-        >
-          <boton.icon class="size-5" />
-          {boton.title}
-        </SocialPill>
-      ))
-    }
-  </nav>
+  {
+    mostrarBotones && (
+      <nav class="flex flex-wrap gap-4 mt-8">
+        {infoSeccion.botones.map((boton: any) => (
+          <SocialPill
+            href={boton.url}
+            download={isPdfUrl(boton.url) ? boton.url.split("/").pop() : ""}
+          >
+            <boton.icon class="size-5" />
+            {boton.title}
+          </SocialPill>
+        ))}
+      </nav>
+    )
+  }
 </div>

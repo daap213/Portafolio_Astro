@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from './api.js';
 import { Panel } from './pantallas/Panel.jsx';
 import { Contenido } from './pantallas/Contenido.jsx';
 import { Secciones } from './pantallas/Secciones.jsx';
+import { Textos } from './pantallas/Textos.jsx';
 import { Medios } from './pantallas/Medios.jsx';
 import { Idiomas } from './pantallas/Idiomas.jsx';
 import { Vista } from './pantallas/Vista.jsx';
@@ -11,6 +12,7 @@ const PANTALLAS = [
   { id: 'panel', titulo: 'Panel', componente: Panel },
   { id: 'contenido', titulo: 'Contenido', componente: Contenido },
   { id: 'secciones', titulo: 'Secciones', componente: Secciones },
+  { id: 'textos', titulo: 'Textos', componente: Textos },
   { id: 'medios', titulo: 'Medios', componente: Medios },
   { id: 'idiomas', titulo: 'Idiomas', componente: Idiomas },
   { id: 'vista', titulo: 'Vista previa', componente: Vista },
@@ -23,6 +25,26 @@ export default function App() {
   const [error, setError] = useState(null);
   const [guardando, setGuardando] = useState(false);
   const [mensaje, setMensaje] = useState(null);
+
+  // Los borradores viven AQUÍ, no en cada pantalla: al cambiar de pestaña el
+  // componente se desmonta, y con su estado dentro se perdía todo lo editado
+  // sin avisar de nada.
+  const [borradores, setBorradores] = useState({});
+
+  const borrador = useMemo(
+    () => ({
+      leer: (clave) => borradores[clave],
+      poner: (clave, valor) => setBorradores((previos) => ({ ...previos, [clave]: valor })),
+      limpiar: (...claves) =>
+        setBorradores((previos) => {
+          const copia = { ...previos };
+          for (const clave of claves) delete copia[clave];
+          return copia;
+        }),
+      claves: Object.keys(borradores),
+    }),
+    [borradores],
+  );
 
   const recargar = useCallback(async () => {
     try {
@@ -39,7 +61,19 @@ export default function App() {
     recargar();
   }, [recargar]);
 
-  /** Guarda y recarga. Si la validación rechaza, muestra los errores y no toca disco. */
+  // Un refresco del navegador sí se lleva los borradores por delante
+  useEffect(() => {
+    if (!borrador.claves.length) return undefined;
+    const avisar = (evento) => evento.preventDefault();
+    window.addEventListener('beforeunload', avisar);
+    return () => window.removeEventListener('beforeunload', avisar);
+  }, [borrador.claves.length]);
+
+  /**
+   * Guarda y recarga. Si la validación rechaza, muestra los errores y no toca
+   * disco. Devuelve true/false: quien llama necesita saberlo (el alta de idioma
+   * limpiaba su formulario también cuando el alta había fallado).
+   */
   const guardar = useCallback(
     async (accion, descripcion) => {
       setGuardando(true);
@@ -47,17 +81,43 @@ export default function App() {
       try {
         const resultado = await accion();
         await recargar();
-        setMensaje({ tipo: 'ok', texto: resultado?.nota ?? `${descripcion}: guardado` });
+        const avisos = resultado?.avisos?.length ? `\n${resultado.avisos.length} aviso(s) pendientes` : '';
+        setMensaje({ tipo: 'ok', texto: (resultado?.nota ?? `${descripcion}: guardado`) + avisos });
+        return true;
       } catch (fallo) {
         const detalle = fallo.errores?.length
           ? fallo.errores.map((e) => `${e.ruta}: ${e.mensaje}`).join('\n')
           : fallo.message;
         setMensaje({ tipo: 'error', texto: `${descripcion} rechazado (no se ha escrito nada):\n${detalle}` });
+        return false;
       } finally {
         setGuardando(false);
       }
     },
     [recargar],
+  );
+
+  /**
+   * Guarda TODOS los borradores pendientes en una sola transacción validada.
+   *
+   * Es un único botón, y vive en la cabecera a propósito. Antes cada pantalla
+   * tenía el suyo dentro del bloque que pintaba el elemento seleccionado: al
+   * borrar el último ítem de un bloque el botón desaparecía con él y el borrado
+   * no había forma de confirmarlo.
+   */
+  const guardarPendientes = useCallback(
+    () =>
+      guardar(async () => {
+        const parcial = {};
+        for (const clave of ['comun', 'contenidos', 'textos', 'seccionesWeb', 'seccionesCv']) {
+          if (borradores[clave] !== undefined) parcial[clave] = borradores[clave];
+        }
+        if (!Object.keys(parcial).length) return null;
+        const resultado = await api.guardarEstado(parcial);
+        setBorradores({});
+        return resultado;
+      }, 'Cambios'),
+    [borradores, guardar],
   );
 
   if (error) {
@@ -68,6 +128,9 @@ export default function App() {
         <p className="mt-4 text-sm text-gray-600">
           Arranca el administrador completo con <code>pnpm run admin</code>.
         </p>
+        <button className="mt-4 px-3 py-1 rounded bg-gray-900 text-white text-sm" onClick={recargar}>
+          Reintentar
+        </button>
       </div>
     );
   }
@@ -105,6 +168,25 @@ export default function App() {
               rama {estado.git?.rama} {estado.git?.sucio ? '· con cambios sin commitear' : '· limpia'}
             </span>
             {guardando && <span className="text-blue-600">guardando…</span>}
+
+            {borrador.claves.length > 0 && (
+              <>
+                <span className="text-amber-600 font-medium">sin guardar: {borrador.claves.join(', ')}</span>
+                <button
+                  className="underline text-gray-500"
+                  onClick={() => borrador.limpiar(...borrador.claves)}
+                >
+                  descartar
+                </button>
+              </>
+            )}
+            <button
+              className="rounded bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900 px-3 py-1 text-sm disabled:opacity-40"
+              disabled={!borrador.claves.length || guardando}
+              onClick={guardarPendientes}
+            >
+              Guardar
+            </button>
           </div>
         </div>
       </header>
@@ -125,7 +207,14 @@ export default function App() {
       )}
 
       <main className="p-4">
-        <Actual estado={estado} medios={medios} guardar={guardar} recargar={recargar} />
+        <Actual
+          estado={estado}
+          medios={medios}
+          guardar={guardar}
+          recargar={recargar}
+          borrador={borrador}
+          guardarPendientes={guardarPendientes}
+        />
       </main>
     </div>
   );

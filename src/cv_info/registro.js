@@ -29,6 +29,7 @@ import Tailwind from "@/components/icons/Tailwind.astro";
 
 // Renderizadores de la web
 import Hero from "@/components/seccions/Hero.astro";
+import Texto from "@/components/seccions/Texto.astro";
 import Experience from "@/components/seccions/Experience.astro";
 import Projects from "@/components/seccions/Projects.astro";
 import Publications from "@/components/seccions/Publications.astro";
@@ -48,7 +49,10 @@ import HabilidadesCv from "@/components/cv/Habilidades.astro";
 import CertificadosCv from "@/components/cv/Certificados.astro";
 import ReferenciasCv from "@/components/cv/Referencias.astro";
 
-/** Iconos disponibles para `icono` en secciones.*.json y para los enlaces del hero. */
+/** Iconos disponibles para `icono` en secciones.*.json y para los enlaces del hero.
+ *  Los NOMBRES viven aparte en iconos.js, que si pueden cargar el administrador
+ *  y validar.js; aqui solo se les pone cara. La prueba de esquema comprueba que
+ *  las dos listas coincidan. */
 export const ICONOS = {
   ProfileCheck,
   Briefcase,
@@ -68,6 +72,7 @@ export const ICONOS = {
 /** tipo de seccion -> componente que la pinta en la web. */
 export const COMPONENTES_WEB = {
   presentacion: Hero,
+  texto: Texto,
   cronologia: Experience,
   formacion: EducationSeccion,
   proyectos: Projects,

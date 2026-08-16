@@ -36,3 +36,7 @@ blob-report/
 admin/node_modules/
 admin/dist/
 admin/.copias/
+
+# temporales de la escritura atómica del administrador (viven junto al fichero
+# destino porque el rename solo es atómico dentro del mismo sistema de ficheros)
+src/cv_info/data/*.tmp

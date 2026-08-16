@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 const AQUI = dirname(fileURLToPath(import.meta.url));
 
 export const RAIZ = resolve(AQUI, '../..');
+export const DIR_FUENTE = resolve(RAIZ, 'src');
 export const DIR_DATOS = resolve(RAIZ, 'src/cv_info/data');
 export const DIR_PUBLICO = resolve(RAIZ, 'public');
 export const DIR_IMAGENES = resolve(DIR_PUBLICO, 'img');

@@ -45,12 +45,16 @@ export function Idiomas({ estado, guardar }) {
       contarIguales(estado.textos[idioma.codigo], estado.textos[predeterminado.codigo]);
   }
 
-  const anadir = (evento) => {
+  const anadir = async (evento) => {
     evento.preventDefault();
-    guardar(
+    // `guardar` nunca rechaza: devuelve si ha ido bien. Encadenando un .then()
+    // el formulario se vaciaba también cuando el alta había sido rechazada, y
+    // había que volver a teclearlo todo.
+    const correcto = await guardar(
       () => api.anadirIdioma({ ...nuevo, desde: nuevo.desde || predeterminado.codigo }),
       `Idioma ${nuevo.codigo}`,
-    ).then(() => setNuevo({ codigo: '', etiqueta: '', nombre: '', pdf: '', desde: '' }));
+    );
+    if (correcto) setNuevo({ codigo: '', etiqueta: '', nombre: '', pdf: '', desde: '' });
   };
 
   const quitar = (codigo) => {

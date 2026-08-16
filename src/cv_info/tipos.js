@@ -28,6 +28,11 @@
  *
  * `traducible: false` significa que el valor es el mismo en todos los idiomas
  * y por tanto vive en comun.json: el administrador lo muestra una sola vez.
+ *
+ * En `opciones`, `alcance` limita el interruptor a una de las dos listas. Sin
+ * el, el administrador ofrecia opciones que la web no puede cumplir (el QR es
+ * de impresion: ningun componente de seccions/ lo pinta) y quedaban como
+ * casillas que no hacian nada.
  */
 
 /** Campo comun a todos los items de lista: su identificador estable. */
@@ -43,6 +48,7 @@ export const TIPOS = {
     origen: "perfil", // lee de identidad + meta, no de un bloque de items
     campos: [
       { clave: "nombre", tipo: "texto", requerido: true, traducible: false },
+      { clave: "siglas", tipo: "texto", requerido: true, traducible: false },
       { clave: "correo", tipo: "correo", requerido: true, traducible: false },
       { clave: "git_user", tipo: "texto", requerido: true, traducible: false },
       { clave: "linkedin_user", tipo: "texto", requerido: true, traducible: false },
@@ -68,6 +74,10 @@ export const TIPOS = {
       { clave: "work_state", tipo: "texto" },
       { clave: "nombreTitulo", tipo: "texto", requerido: true },
       { clave: "foto", tipo: "imagen", requerido: true, traducible: false },
+      // Cabecera de la portada. Estaban en meta pero no en ningun tipo, asi que
+      // no habia forma de tocarlos desde el administrador.
+      { clave: "titleWeb", tipo: "texto", requerido: true },
+      { clave: "descriptionWeb", tipo: "textoLargo", requerido: true },
     ],
     opciones: [{ clave: "mostrarBotones", tipo: "booleano", defecto: true }],
   },
@@ -131,7 +141,7 @@ export const TIPOS = {
     opciones: [
       { clave: "mostrarImagen", tipo: "booleano", defecto: true },
       { clave: "mostrarEnlace", tipo: "booleano", defecto: true },
-      { clave: "mostrarQr", tipo: "booleano", defecto: false },
+      { clave: "mostrarQr", tipo: "booleano", defecto: false, alcance: ["cv"] },
       { clave: "mostrarEtiquetas", tipo: "booleano", defecto: true },
     ],
   },
@@ -149,7 +159,7 @@ export const TIPOS = {
       { clave: "link", tipo: "url", requerido: true, traducible: false, generaQr: true },
       { clave: "image", tipo: "imagen", traducible: false },
     ],
-    opciones: [{ clave: "mostrarQr", tipo: "booleano", defecto: false }],
+    opciones: [{ clave: "mostrarQr", tipo: "booleano", defecto: false, alcance: ["cv"] }],
   },
 
   habilidades: {
@@ -201,7 +211,7 @@ export const TIPOS = {
     ],
     opciones: [
       { clave: "desplegable", tipo: "booleano", defecto: true },
-      { clave: "mostrarQr", tipo: "booleano", defecto: false },
+      { clave: "mostrarQr", tipo: "booleano", defecto: false, alcance: ["cv"] },
     ],
   },
 
@@ -241,3 +251,11 @@ export const camposTraducibles = (campos) => campos.filter((campo) => campo.trad
 
 /** Campos de los que se deriva un QR. */
 export const camposConQr = (campos) => campos.filter((campo) => campo.generaQr);
+
+/** Opciones que tienen sentido en esa lista ("web" o "cv"). */
+export const opcionesDe = (nombre, destino) =>
+  (tipoDe(nombre).opciones ?? []).filter((opcion) => !opcion.alcance || opcion.alcance.includes(destino));
+
+/** Valores por defecto de las opciones de un tipo en esa lista. */
+export const opcionesPorDefecto = (nombre, destino) =>
+  Object.fromEntries(opcionesDe(nombre, destino).map((opcion) => [opcion.clave, opcion.defecto]));

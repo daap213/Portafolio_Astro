@@ -1,6 +1,7 @@
 // Campos del formulario, uno por tipo declarado en src/cv_info/tipos.js.
 //
-import { PUERTOS_WEB } from '../constantes.js';
+import { useState } from 'react';
+import { urlDeImagen } from '../constantes.js';
 
 // El formulario NO conoce las secciones: se genera enteramente desde `campos[]`
 // del tipo. Añadir un tipo de campo nuevo es añadir una entrada a REGISTRO.
@@ -63,19 +64,47 @@ function Lista({ valor, alCambiar, multilinea }) {
   );
 }
 
+/** Miniatura que dice cuándo el fichero no está, en vez de dejar el hueco roto. */
+export function Miniatura({ ruta, clase = 'h-12 w-12' }) {
+  const [falla, setFalla] = useState(false);
+  if (!ruta) return null;
+  if (falla) {
+    return (
+      <span
+        className={`${clase} shrink-0 grid place-items-center rounded border border-dashed border-red-400 text-[10px] text-red-600 text-center leading-tight`}
+        title={`no se pudo cargar ${ruta}`}
+      >
+        no
+        <br />
+        carga
+      </span>
+    );
+  }
+  return (
+    <img
+      src={urlDeImagen(ruta)}
+      alt={ruta}
+      loading="lazy"
+      onError={() => setFalla(true)}
+      className={`${clase} shrink-0 object-cover rounded border border-gray-300 bg-gray-100 dark:bg-gray-700`}
+    />
+  );
+}
+
 function Imagen({ valor, alCambiar, medios }) {
+  // El valor guardado puede no estar en el inventario (fichero renombrado o
+  // borrado). Sin añadirlo como opción, el <select> se quedaba sin selección y
+  // parecía que el dato se hubiera perdido, cuando seguía ahí.
+  const rutas = medios.map((imagen) => imagen.ruta);
+  const huerfana = valor && !rutas.includes(valor);
+
   return (
     <div className="space-y-1">
       <div className="flex gap-2 items-center">
-        {valor && (
-          <img
-            src={`${PUERTOS_WEB}/${valor}`}
-            alt=""
-            className="h-12 w-12 object-cover rounded border border-gray-300"
-          />
-        )}
+        <Miniatura ruta={valor} />
         <select className={claseEntrada} value={valor ?? ''} onChange={(e) => alCambiar(e.target.value)}>
           <option value="">(ninguna)</option>
+          {huerfana && <option value={valor}>{valor} — ¡no existe en public/img!</option>}
           {medios.map((imagen) => (
             <option key={imagen.ruta} value={imagen.ruta}>
               {imagen.ruta}
@@ -83,6 +112,11 @@ function Imagen({ valor, alCambiar, medios }) {
           ))}
         </select>
       </div>
+      {huerfana && (
+        <p className="text-xs text-red-600">
+          El fichero <code>{valor}</code> no está en public/img: súbelo desde Medios o elige otro.
+        </p>
+      )}
       <p className="text-xs text-gray-500">Sube imágenes nuevas desde la pestaña Medios.</p>
     </div>
   );

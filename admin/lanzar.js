@@ -55,10 +55,19 @@ function lanzar(etiqueta, comando, argumentos, cwd) {
 }
 
 function pararTodo() {
+  // `astro dev` es un DEMONIO desde Astro 7: se desengancha y el proceso que
+  // lanzamos termina enseguida con código 0, así que matar el árbol de ese pid
+  // no lo toca y el servidor se quedaba vivo ocupando el 4322 después de Ctrl+C.
+  // Se para con su propio subcomando.
+  spawn('pnpm', ['exec', 'astro', 'dev', 'stop'], {
+    cwd: RAIZ,
+    shell: process.platform === 'win32',
+    stdio: 'ignore',
+  });
+
   for (const hijo of procesos) {
     if (!hijo.pid || hijo.killed) continue;
     if (process.platform === 'win32') {
-      // kill() no se lleva el árbol: astro dev quedaría huérfano ocupando el puerto
       spawn('taskkill', ['/pid', String(hijo.pid), '/T', '/F'], { stdio: 'ignore' });
     } else {
       hijo.kill('SIGTERM');
@@ -66,7 +75,11 @@ function pararTodo() {
   }
 }
 
-lanzar('web', 'pnpm', ['exec', 'astro', 'dev', '--port', String(PUERTOS.web)], RAIZ);
+// El `--host 127.0.0.1` NO es decorativo: sin él, astro dev escucha en el
+// "localhost" que resuelva el sistema, y en Windows eso suele ser ::1 (IPv6)
+// antes que 127.0.0.1. La interfaz pide la vista previa por IPv4, así que el
+// iframe salía en blanco y no cargaba ninguna imagen.
+lanzar('web', 'pnpm', ['exec', 'astro', 'dev', '--host', '127.0.0.1', '--port', String(PUERTOS.web)], RAIZ);
 lanzar('api', 'node', ['api/servidor.js'], AQUI);
 lanzar('ui', 'pnpm', ['exec', 'vite', '--port', String(PUERTOS.ui)], AQUI);
 
@@ -84,6 +97,7 @@ Ctrl+C para parar los tres procesos.
 for (const senal of ['SIGINT', 'SIGTERM']) {
   process.on(senal, () => {
     pararTodo();
-    process.exit(0);
+    // Un respiro para que `astro dev stop` llegue a hablar con el demonio
+    setTimeout(() => process.exit(0), 800);
   });
 }

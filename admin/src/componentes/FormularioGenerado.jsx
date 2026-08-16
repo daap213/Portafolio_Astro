@@ -9,10 +9,20 @@ import { Campo } from './Campos.jsx';
 // Los campos comunes (traducible: false) se muestran una sola vez, con candado:
 // viven en comun.json y son iguales en todos los idiomas por construcción.
 
-export function FormularioGenerado({ campos, idiomas, valorComun, valoresPorIdioma, alCambiar, medios }) {
-  const comunes = campos.filter((campo) => campo.traducible === false && !campo.generado);
+export function FormularioGenerado({
+  campos,
+  idiomas,
+  predeterminado = idiomas[0],
+  valorComun,
+  valoresPorIdioma,
+  alCambiar,
+  medios,
+  soloTraducibles = false,
+}) {
+  const comunes = soloTraducibles
+    ? []
+    : campos.filter((campo) => campo.traducible === false && !campo.generado);
   const traducibles = campos.filter((campo) => campo.traducible !== false && !campo.generado);
-  const predeterminado = idiomas[0];
 
   return (
     <div className="space-y-5">

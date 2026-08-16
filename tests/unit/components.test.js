@@ -148,3 +148,87 @@ describe('componentes compartidos', () => {
         expect(html.includes(configEs.footerInfor.itemcontact.url)).toBe(true);
     });
 });
+
+// ---------------------------------------------------------------------------
+
+describe('el catálogo de tipos y el registro de componentes van a la par', () => {
+    it('todo tipo tiene componente en las listas que dice admitir', async () => {
+        // `texto` declaraba alcance ["cv","web"] pero no tenía renderizador web:
+        // la sección pasaba la validación y el build reventaba al pintarla.
+        const { COMPONENTES_WEB, COMPONENTES_CV } = await import('@cv/registro.js');
+        const { TIPOS } = await import('@cv/tipos.js');
+        const porDestino = { web: COMPONENTES_WEB, cv: COMPONENTES_CV };
+
+        for (const [nombre, tipo] of Object.entries(TIPOS)) {
+            for (const destino of tipo.alcance) {
+                expect(
+                    porDestino[destino][nombre],
+                    `el tipo "${nombre}" admite ${destino} pero no tiene componente de ${destino}`,
+                ).toBeTruthy();
+            }
+        }
+    });
+
+    it('no hay componentes registrados para tipos que no existen', async () => {
+        const { COMPONENTES_WEB, COMPONENTES_CV } = await import('@cv/registro.js');
+        const { TIPOS } = await import('@cv/tipos.js');
+        for (const [destino, mapa] of [['web', COMPONENTES_WEB], ['cv', COMPONENTES_CV]]) {
+            for (const nombre of Object.keys(mapa)) {
+                expect(TIPOS[nombre], `${destino}: "${nombre}" no es un tipo`).toBeDefined();
+                expect(
+                    TIPOS[nombre].alcance.includes(destino),
+                    `${destino}: "${nombre}" tiene componente pero su alcance no incluye ${destino}`,
+                ).toBe(true);
+            }
+        }
+    });
+
+    it('los nombres de icono del catálogo son exactamente los del registro', async () => {
+        // iconos.js existe para que el administrador y validar.js puedan
+        // comprobar `icono` sin importar registro.js, que arrastra .astro
+        const { ICONOS } = await import('@cv/registro.js');
+        const { NOMBRES_ICONO } = await import('@cv/iconos.js');
+        expect([...NOMBRES_ICONO].sort()).toEqual(Object.keys(ICONOS).sort());
+    });
+});
+
+describe('las opciones de sección llegan al componente', () => {
+    // paginaWeb.js calculaba `opciones` para cada sección, pero index.astro no
+    // las pasaba y ningún componente las declaraba: todos los interruptores del
+    // administrador se guardaban y no hacían absolutamente nada.
+    // Por POSICIÓN, como el resto del fichero: los ids están traducidos
+    const proyectos = [configEs.pagIndex.primeraSeccion, ...configEs.pagIndex.secciones][PROYECTOS];
+
+    const pintar = (opciones) =>
+        container.renderToString(proyectos.seccion, {
+            props: { infoSeccion: proyectos.seccionInfo, ui: configEs.ui, opciones },
+        });
+
+    it('mostrarImagen=false quita las imágenes de los proyectos', async () => {
+        expect((await pintar({})).includes(configEs.proyectos[0].image)).toBe(true);
+        const sinImagen = await pintar({ mostrarImagen: false });
+        for (const proyecto of configEs.proyectos) {
+            expect(sinImagen.includes(proyecto.image), `sigue la imagen de ${proyecto.title}`).toBe(false);
+        }
+        // pero los proyectos siguen ahí
+        expect((sinImagen.match(/<article/g) || []).length).toBe(configEs.proyectos.length);
+    });
+
+    it('mostrarEnlace=false quita los enlaces a GitHub', async () => {
+        const conEnlace = await pintar({});
+        const sinEnlace = await pintar({ mostrarEnlace: false });
+        const conGithub = configEs.proyectos.filter((p) => p.github);
+        expect(conGithub.length).toBeGreaterThan(0);
+        for (const proyecto of conGithub) {
+            expect(conEnlace.includes(proyecto.github)).toBe(true);
+            expect(sinEnlace.includes(proyecto.github), `sigue el repo de ${proyecto.title}`).toBe(false);
+        }
+    });
+
+    it('sin opciones se comporta como antes de que existieran', async () => {
+        const sinProp = await container.renderToString(proyectos.seccion, {
+            props: { infoSeccion: proyectos.seccionInfo, ui: configEs.ui },
+        });
+        expect(sinProp).toBe(await pintar({}));
+    });
+});

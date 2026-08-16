@@ -10,6 +10,8 @@ There is also `admin/`, a **local-only** editor (Express + React) that reads and
 
 Active branch is `cloud_version` — both GitHub workflows trigger on it, not on `main`.
 
+`.gitattributes` pins `src/cv_info/data/*.json` to `eol=lf`. The admin serializes with `\n`, and with `core.autocrlf=true` those files come out of a clone as CRLF: the first save rewrote each one whole and `git status` — which the admin's own panel displays — reported files as modified that were byte-identical.
+
 Content, identifiers, folder names and comments are in Spanish (`proyectos`, `seccions/`, `raizApp`, `sobremi`). Match that when adding code.
 
 ## Commands
@@ -66,9 +68,10 @@ The split is the point: an item's `image`/`github`/`link`/`tags` live once in `c
 
 Assembly layer (all plain JS, no content):
 
-- **`cv.js`** — loads the JSON, prefixes asset paths with `raizApp`, merges común + translated by `id`, derives QR paths, and exports `DATOS` (indexed by language code) plus `es`/`en` aliases.
+- **`cv.js`** — loads the JSON, prefixes asset paths with `raizApp`, merges común + translated by `id`, derives QR paths, and exports `DATOS` (indexed by language code) plus `es`/`en` aliases. It composes **every** block generically — the shape comes from the data (`items` alone → list, `items` + more keys → object-with-list, no `items` → plain object, a lone `parrafos` → the bare array) — so adding a block reaches the pages without touching this file. The keys to prefix come from `tipos.js` (`tipo: "imagen"`), not a hand-written list.
 - **`locales.js`** — helpers over `locales.json` (`IDIOMAS`, `CODIGOS`, `IDIOMA_PREDETERMINADO`, `otrosIdiomas`). Imported by `astro.config.mjs`, the node scripts, the tests and Playwright, so **it must never import `.astro`**.
-- **`tipos.js`** — the catalogue of section TYPES. Each declares `alcance` (web/cv), `forma`, `campos[]` and `opciones[]`. `campos[]` drives both the admin's generated form and `validar.js`. **Must never import `.astro`.**
+- **`tipos.js`** — the catalogue of section TYPES. Each declares `alcance` (web/cv), `forma`, `campos[]` and `opciones[]`. `campos[]` drives both the admin's generated form and `validar.js`; an `opciones[]` entry may carry its own `alcance` when the switch only makes sense in one list (`mostrarQr` is print-only). **Must never import `.astro`.**
+- **`iconos.js`** — just the icon NAMES, as strings. Exists so the admin and `validar.js` can check `icono` without importing `registro.js`. `tests/unit/components.test.js` asserts both lists stay identical.
 - **`registro.js`** — the only place a JSON name becomes a component: `ICONOS`, `COMPONENTES_WEB`, `COMPONENTES_CV`. This one *does* import `.astro`.
 - **`paginaWeb.js` / `paginaCv.js`** — build a language's page from its section list.
 - **`validar.js`** — schema + coherence checks, returning `{errores, avisos}`. No dependencies, importable from plain node (the admin uses it too).
@@ -77,7 +80,9 @@ Assembly layer (all plain JS, no content):
 
 `src/pages/[lang]/index.astro` and `[lang]/cv.astro` use `getStaticPaths()` over `locales.js`; `src/pages/index.astro` renders the default language at the site root. There are no per-language page files.
 
-**Adding, removing or reordering a section means editing `secciones.web.json` or `secciones.cv.json` — no code.** Adding a section *type* does need code: a component in `src/components/seccions/` or `src/components/cv/`, an entry in `tipos.js` and one in `registro.js`.
+**Adding, removing or reordering a section means editing `secciones.web.json` or `secciones.cv.json` — no code.** Adding a section *type* does need code: a component in `src/components/seccions/` or `src/components/cv/`, an entry in `tipos.js` and one in `registro.js`. A type must have a component for **every** destination in its `alcance`, or the build throws when it renders — `components.test.js` checks that pairing (`texto` shipped web-capable without a web component for a while).
+
+Both index pages pass `opciones` down to the section component, and each component destructures it with defaults (`const { mostrarImagen = true } = opciones`). Anything you add to a type's `opciones[]` must be honoured somewhere, or it becomes a switch in the admin that does nothing — which is exactly what every web option was.
 
 ### The CV pages are a separate world
 
@@ -142,10 +147,15 @@ pnpm run idiomas
 
 Separate app, never published. **It has its own `pnpm-workspace.yaml` on purpose** so `pnpm install` at the repo root — which is exactly what Cloudflare Pages runs — never installs React or Express. Install it with `pnpm -C admin install`.
 
-- `admin/api/` — Express on 127.0.0.1 only. Reads/writes the JSON with **validate-then-backup-then-atomic-rename**; a rejected state returns 422 and nothing touches disk. Writes are always multi-file (all languages at once) because a half-written state breaks the site and the test suite.
-- `admin/src/` — React UI: Panel (diagnostics, tasks, git status), Contenido (forms generated from `tipos.js`, translatable fields side by side per language), Secciones (the two independent lists), Medios, Idiomas, Vista previa (iframe onto `astro dev`).
-- Long tasks (GQR/GPDF/build/test) run through a **one-at-a-time queue**, and the PDF task aborts if an `astro preview` daemon is already alive rather than stealing it from the test suite.
+- `admin/api/` — Express on 127.0.0.1 only. Reads/writes the JSON with **validate-then-backup-then-atomic-rename**; a rejected state returns 422 and nothing touches disk. Writes are always multi-file (all languages at once) because a half-written state breaks the site and the test suite. It also serves `public/` under `/api/archivos` so image previews don't depend on a third process.
+- `admin/comun/` — logic shared by the API and the UI, plain JS with no node imports: the section/block creation rules live here so `tests/unit/admin-secciones.test.js` can check that what the form produces actually validates.
+- `admin/src/` — React UI: Panel (diagnostics, tasks, git status), Contenido (perfil, blocks, items — forms generated from `tipos.js`, translatable fields side by side per language), Secciones (the two independent lists), Textos (`ui.*.json`), Medios, Idiomas, Vista previa (iframe onto `astro dev`).
+- Long tasks (GQR/GPDF/build/test) run through a **one-at-a-time queue**, and the PDF task aborts if an `astro preview` daemon is already alive rather than stealing it from the test suite. Detecting that is fiddly: `astro preview status` exits 0 either way and *both* messages contain the word "running" (`No preview server is running.` vs `Preview server running at …`).
 - It **does not** commit, push or deploy. It shows `git status` and you commit.
+
+**Everything that crosses files goes through one `PUT /api/estado`.** Adding or removing an item touches `comun.json` and every `contenido.<lang>.json` at once; sent as separate requests each one is validated against what's still on disk, so the first fails with `ITEM_SIN_TRADUCCION` and the reverse order fails with `ITEM_HUERFANO` — they reject each other and nothing can ever be added. The UI keeps all pending edits as drafts in `App.jsx` (so switching screens doesn't lose them) and saves them together.
+
+`astro dev` and `astro preview` are **both daemons** in Astro 7. `lanzar.js` starts the dev server with an explicit `--host 127.0.0.1` (without it Vite binds whatever `localhost` resolves to, which on Windows is usually `::1`, and every preview and thumbnail then fails against the hardcoded IPv4 URL) and stops it with `astro dev stop` on exit, since the spawned process detaches and killing its pid does nothing.
 
 ## CI/CD
 
@@ -166,6 +176,7 @@ Despite its name, this workflow does **not** deploy — the Cloudflare deploy is
 The tests that earn their keep are the ones guarding this repo's specific traps:
 
 - `esquema.test.js` — validates every JSON against `tipos.js` via `validar.js`, and proves the validator works by deliberately breaking one thing at a time (unknown type, orphan item, absolute asset path, duplicate anchor, common field leaking into a translation…).
+- `admin-*.test.js` — plain node, no build, no `admin/node_modules` (they only touch libs that import node builtins and repo modules, so CI's root-only install is enough). They cover the admin's traps: media marked unused when the favicon and the derived QR names are in use (that flag gates deletion), a rejected state leaving the disk untouched, and — the important one — a newly created section *with a new data block* validating clean in both lists.
 - `qr-sync.test.js` — QR filenames come from item ids; it byte-compares the committed PNGs against freshly generated ones and rejects any filename outside `[a-z0-9_.-]`.
 - `ui-keys.test.js` — scans sources for `ui.*` accesses and asserts each key exists in every language. `ui` travels as an untyped prop, so nothing else catches a typo.
 - `dist.test.js` — link-checks every local `src`/`href` against `dist/`, asserts the language switcher links to *every* other language, and guards the two CV print traps above.

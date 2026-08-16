@@ -12,6 +12,7 @@
 // depende del entorno (import.meta.env.PROD) y no puede vivir en un JSON.
 import { config } from "./../../config.js";
 import { CODIGOS } from "./locales.js";
+import { TIPOS } from "./tipos.js";
 import { CONTENIDOS } from "./data/indice.js";
 import comun from "./data/comun.json" with { type: "json" };
 
@@ -19,8 +20,22 @@ const isPROD = import.meta.env?.PROD ?? false;
 export const raizApp = isPROD ? config.prod.RAIZAPP + "/" : config.dev.RAIZAPP;
 export const rutaQR = raizApp + "img/qr/";
 
-// Campos cuyo valor es una ruta de activo y hay que prefijar con la base
-const RUTAS = new Set(["image", "qr", "logo"]);
+/**
+ * Campos cuyo valor es una ruta de activo y hay que prefijar con la base.
+ * Sale del catalogo de tipos en vez de estar escrito a mano: declarar un campo
+ * `tipo: "imagen"` nuevo basta para que su ruta se prefije. Antes esta lista
+ * vivia duplicada aqui, en validar.js y en el administrador, y las tres se
+ * separaron: un campo imagen con otra clave se publicaba sin prefijo.
+ */
+export const CLAVES_IMAGEN = new Set(
+  Object.values(TIPOS)
+    .flatMap((tipo) => [...(tipo.campos ?? []), ...(tipo.camposItem ?? [])])
+    .filter((campo) => campo.tipo === "imagen")
+    .map((campo) => campo.clave),
+);
+
+// El `qr` no es un campo declarado: lo inyecta este fichero ya resuelto.
+const RUTAS = new Set([...CLAVES_IMAGEN, "qr"]);
 
 const conBase = (ruta) => (ruta ? raizApp + ruta : ruta);
 
@@ -53,18 +68,53 @@ const fusionarItems = (bloque, itemsComunes, itemsTraducidos, qr) =>
     return item;
   });
 
+/** Un bloque cuyo unico contenido son parrafos se expone como el array suelto:
+ *  es lo que consumen los tipos de forma "parrafos" (el "sobre mi"). */
+const soloParrafos = (objeto) => {
+  const claves = Object.keys(objeto);
+  return claves.length === 1 && claves[0] === "parrafos" && Array.isArray(objeto.parrafos);
+};
+
+/**
+ * Compone TODOS los bloques declarados, sin lista escrita a mano: anadir un
+ * bloque a comun.json (o solo a los contenidos, como "sobremi") basta para que
+ * llegue a las paginas, que ya lo buscan por nombre (paginaWeb.js, paginaCv.js).
+ *
+ * La forma sale de los propios datos, no del tipo, porque este fichero no sabe
+ * que seccion lo va a pintar:
+ *   con `items` y nada mas          -> lista suelta
+ *   con `items` y mas campos        -> objeto con `items` dentro (certificados)
+ *   sin `items`                     -> objeto plano (o sus parrafos)
+ */
+const componerBloques = (bloques, traducidos) => {
+  const salida = {};
+
+  for (const clave of new Set([...Object.keys(bloques ?? {}), ...Object.keys(traducidos ?? {})])) {
+    const { items, qr, ...comunes } = bloques?.[clave] ?? {};
+    const { items: itemsTraducidos, ...traducciones } = traducidos?.[clave] ?? {};
+
+    if (!items) {
+      const objeto = { ...expandirRutas(comunes), ...traducciones };
+      salida[clave] = soloParrafos(objeto) ? objeto.parrafos : objeto;
+      continue;
+    }
+
+    const lista = fusionarItems(clave, items, itemsTraducidos ?? {}, qr);
+    const envoltorio = { ...expandirRutas(comunes), ...traducciones };
+    // El QR puede ser de cada item (lo pone fusionarItems) o del bloque entero
+    if (qr && !qr.porItem && comunes[qr.desde]) envoltorio.qr = rutaQrDe(clave);
+
+    salida[clave] = Object.keys(envoltorio).length ? { ...envoltorio, items: lista } : lista;
+  }
+
+  return salida;
+};
+
 const componer = (codigo) => {
   const { identidad, bloques } = comun;
   const contenido = CONTENIDOS[codigo];
   if (!contenido) throw new Error(`cv.js: falta el contenido del idioma "${codigo}"`);
   const { meta, bloques: traducidos } = contenido;
-
-  const { items: certificadosComunes, qr: qrCertificados, ...certificadosBase } = bloques.certificados;
-  const { items: certificadosTraducidos, ...certificadosTextos } = traducidos.certificados;
-
-  // Atajo: cada bloque se fusiona con su declaracion de QR (si la tiene)
-  const bloque = (clave) =>
-    fusionarItems(clave, bloques[clave].items, traducidos[clave].items, bloques[clave].qr);
 
   return {
     raizApp: raizApp,
@@ -82,28 +132,21 @@ const componer = (codigo) => {
     git_user: identidad.gitUser,
     linkedin_user: identidad.linkedinUser,
     work_state: meta.work_state,
-    sobremi: traducidos.sobremi.parrafos,
-    experiencias: bloque("experiencias"),
-    gradosCompletados: bloque("gradosCompletados"),
-    certificados: {
-      ...expandirRutas(certificadosBase),
-      ...certificadosTextos,
-      // El QR de los certificados es del bloque entero, no de cada curso
-      ...(qrCertificados && certificadosBase[qrCertificados.desde]
-        ? { qr: rutaQrDe("certificados") }
-        : {}),
-      items: fusionarItems("certificados", certificadosComunes, certificadosTraducidos),
-    },
-    publicaciones: bloque("publicaciones"),
-    habilidades: bloque("habilidades"),
-    proyectos: bloque("proyectos"),
-    referencias: bloque("referencias"),
-    previewFooter: {
-      ...expandirRutas(bloques.previewFooter),
-      ...traducidos.previewFooter,
-    },
+    ...componerBloques(bloques, traducidos),
   };
 };
+
+/**
+ * Nombres de todos los bloques de datos, vengan de comun.json o solo de los
+ * contenidos traducidos (como "sobremi"). Lo usa paginaWeb.js para volcarlos
+ * sin tener que enumerarlos.
+ */
+export const CLAVES_BLOQUE = [
+  ...new Set([
+    ...Object.keys(comun.bloques ?? {}),
+    ...Object.values(CONTENIDOS).flatMap((contenido) => Object.keys(contenido?.bloques ?? {})),
+  ]),
+];
 
 /**
  * Datos de todos los idiomas declarados, indexados por codigo.

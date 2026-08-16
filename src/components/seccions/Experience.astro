@@ -5,8 +5,10 @@ import DropdownText from "@/components/otros/DropdownText.astro";
 interface Props {
   infoSeccion: any;
   ui: any;
+  opciones?: Record<string, boolean>;
 }
-const { infoSeccion, ui } = Astro.props;
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const { desplegable = true, mostrarEnlace = true } = opciones;
 ---
 
 <ol class="relative mt-16">
@@ -14,7 +16,10 @@ const { infoSeccion, ui } = Astro.props;
     infoSeccion.map((experiencie: any) => (
       <li class="">
         <ExperienceItem {...experiencie}>
-          <DropdownText titulo={ui.experience_dropdownText_title}>
+          <DropdownText
+            titulo={ui.experience_dropdownText_title}
+            desplegable={desplegable}
+          >
             <ul class="border border-gray-200 rounded overflow-hidden shadow-md">
               {experiencie.description.map((activity: any) => (
                 <li class="w-full px-4 py-2 border-b text-justify hover:bg-sky-100 hover:text-gray-900 border-gray-300 dark:border-gray-200 last:border-none transition-all duration-300 ease-in-out">
@@ -23,7 +28,7 @@ const { infoSeccion, ui } = Astro.props;
               ))}
             </ul>
 
-            {experiencie.link && (
+            {mostrarEnlace && experiencie.link && (
               <LinkInline href={experiencie.link}>
                 {ui.experiencia_saber_mas}{" "}
                 <svg

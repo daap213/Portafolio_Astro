@@ -1,0 +1,15 @@
+# Los JSON de datos los escribe el administrador local siempre con finales LF
+# (almacen.js serializa con "\n"). Con core.autocrlf=true —lo habitual en
+# Windows— git los saca en CRLF al clonar, así que el primer guardado reescribía
+# el fichero entero y `git status` los marcaba como modificados aunque no
+# hubiera cambiado ni un carácter. El panel del administrador enseña justo esa
+# salida de `git status`, así que la confusión llegaba hasta la interfaz.
+src/cv_info/data/*.json text eol=lf
+
+# Los PDF y las imágenes son binarios: que git no los toque nunca
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary

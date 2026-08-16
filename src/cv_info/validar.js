@@ -11,6 +11,10 @@
 //
 // No importa .astro: tiene que poder cargarse desde node puro.
 import { TIPOS, admiteDestino, camposComunes, camposTraducibles } from "./tipos.js";
+import { esIconoValido, NOMBRES_ICONO } from "./iconos.js";
+
+/** Un id que acaba siendo nombre de fichero o ancla de URL. */
+const ES_SLUG = /^[a-z0-9-]+$/;
 
 /** Estructura de un problema encontrado. */
 const problema = (codigo, ruta, mensaje) => ({ codigo, ruta, mensaje });
@@ -36,12 +40,19 @@ const esVacio = (valor) =>
 export function validar({ locales, comun, contenidos, textos, seccionesWeb, seccionesCv }) {
   const errores = [];
   const avisos = [];
-  const codigos = locales.map((idioma) => idioma.codigo);
-  const predeterminado = (locales.find((idioma) => idioma.predeterminado) ?? locales[0]).codigo;
+  const codigos = (locales ?? []).map((idioma) => idioma.codigo);
 
   // ---- idiomas ------------------------------------------------------------
 
-  if (!codigos.length) errores.push(problema("SIN_IDIOMAS", "locales.json", "no hay ningún idioma declarado"));
+  // Sin idiomas no hay nada mas que comprobar, y todo lo de abajo da por hecho
+  // que existe un predeterminado: se sale aqui en vez de reventar con un
+  // TypeError, que el administrador convertiria en un 500 en vez de un 422.
+  if (!codigos.length) {
+    errores.push(problema("SIN_IDIOMAS", "locales.json", "no hay ningún idioma declarado"));
+    return { errores, avisos };
+  }
+
+  const predeterminado = (locales.find((idioma) => idioma.predeterminado) ?? locales[0]).codigo;
   if (new Set(codigos).size !== codigos.length) {
     errores.push(problema("IDIOMA_DUPLICADO", "locales.json", `códigos repetidos: ${codigos.join(", ")}`));
   }
@@ -101,7 +112,7 @@ export function validar({ locales, comun, contenidos, textos, seccionesWeb, secc
     for (const [i, id] of ids.entries()) {
       if (!id) {
         errores.push(problema("ITEM_SIN_ID", `comun.json > ${clave}[${i}]`, "todo ítem necesita un id estable"));
-      } else if (!/^[a-z0-9-]+$/.test(id)) {
+      } else if (!ES_SLUG.test(id)) {
         errores.push(problema("ID_NO_PORTABLE", `comun.json > ${clave}.${id}`, "el id debe ser un slug ASCII (a-z, 0-9, guiones): de él salen los nombres de fichero"));
       }
     }
@@ -145,24 +156,50 @@ export function validar({ locales, comun, contenidos, textos, seccionesWeb, secc
 
   // ---- listas de secciones ------------------------------------------------
 
+  // Un bloque puede vivir solo en los contenidos traducidos (el "sobre mí" es
+  // el caso de siempre, y cualquier seccion de prosa nueva lo sera tambien), asi
+  // que se recogen de los dos sitios en vez de tener "sobremi" escrito a mano.
   const clavesDeDatos = new Set(Object.keys(comun.bloques ?? {}));
-  clavesDeDatos.add("sobremi");
+  for (const contenido of Object.values(contenidos ?? {})) {
+    for (const clave of Object.keys(contenido?.bloques ?? {})) clavesDeDatos.add(clave);
+  }
   clavesDeDatos.add("perfil");
 
   const usados = { web: new Set(), cv: new Set() };
 
   const revisarLista = (configuracion, destino, fichero) => {
+    // `null` no es "no hay lista": es un fichero que se escribiria con el texto
+    // literal `null` y dejaria la pagina sin secciones sin decir nada.
+    if (configuracion === null) {
+      errores.push(problema("LISTA_INVALIDA", fichero, "la lista de secciones es null"));
+      return;
+    }
     if (!configuracion) return;
+    if (!Array.isArray(configuracion.secciones)) {
+      errores.push(problema("LISTA_INVALIDA", fichero, 'falta el array "secciones"'));
+      return;
+    }
     const idsVistos = new Set();
 
-    for (const entrada of configuracion.secciones ?? []) {
+    for (const entrada of configuracion.secciones) {
       const donde = `${fichero} > ${entrada.id}`;
 
-      if (!entrada.id) errores.push(problema("SECCION_SIN_ID", fichero, "toda sección necesita un id"));
+      if (!entrada.id) {
+        errores.push(problema("SECCION_SIN_ID", fichero, "toda sección necesita un id"));
+      } else if (!ES_SLUG.test(entrada.id)) {
+        // El id de seccion se usa como ancla en la URL de la portada
+        errores.push(problema("ID_NO_PORTABLE", donde, "el id debe ser un slug ASCII (a-z, 0-9, guiones)"));
+      }
       if (idsVistos.has(entrada.id)) {
         errores.push(problema("SECCION_DUPLICADA", donde, "id repetido dentro de la misma lista"));
       }
       idsVistos.add(entrada.id);
+
+      if (!esIconoValido(entrada.icono)) {
+        avisos.push(
+          problema("ICONO_DESCONOCIDO", donde, `icono "${entrada.icono}"; disponibles: ${NOMBRES_ICONO.join(", ")}`),
+        );
+      }
 
       if (!TIPOS[entrada.tipo]) {
         errores.push(problema("TIPO_DESCONOCIDO", donde, `tipo "${entrada.tipo}"; disponibles: ${Object.keys(TIPOS).join(", ")}`));
