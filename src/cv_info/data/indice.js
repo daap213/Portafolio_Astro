@@ -7,19 +7,15 @@ import contenido_es from "./contenido.es.json" with { type: "json" };
 import ui_es from "./ui.es.json" with { type: "json" };
 import contenido_en from "./contenido.en.json" with { type: "json" };
 import ui_en from "./ui.en.json" with { type: "json" };
-import contenido_fr from "./contenido.fr.json" with { type: "json" };
-import ui_fr from "./ui.fr.json" with { type: "json" };
 
 /** contenido.<codigo>.json indexado por codigo de idioma. */
 export const CONTENIDOS = {
   es: contenido_es,
   en: contenido_en,
-  fr: contenido_fr,
 };
 
 /** ui.<codigo>.json indexado por codigo de idioma. */
 export const TEXTOS = {
   es: ui_es,
   en: ui_en,
-  fr: ui_fr,
 };

@@ -7,8 +7,7 @@
     "predeterminado": true,
     "botonCv": {
       "es": "CV Esp",
-      "en": "CV Spa",
-      "fr": "CV Esp"
+      "en": "CV Spa"
     }
   },
   {
@@ -18,19 +17,7 @@
     "pdf": "CV_EN.pdf",
     "botonCv": {
       "es": "CV En",
-      "en": "CV En",
-      "fr": "CV En"
-    }
-  },
-  {
-    "codigo": "fr",
-    "etiqueta": "fr",
-    "nombre": "fr",
-    "pdf": "fr.pdf",
-    "botonCv": {
-      "es": "CV ES",
-      "en": "CV EN",
-      "fr": "CV FR"
+      "en": "CV En"
     }
   }
 ]
