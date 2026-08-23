@@ -19,6 +19,7 @@ export const FICHEROS = {
   comun: resolve(DIR_DATOS, 'comun.json'),
   seccionesWeb: resolve(DIR_DATOS, 'secciones.web.json'),
   seccionesCv: resolve(DIR_DATOS, 'secciones.cv.json'),
+  disenos: resolve(DIR_DATOS, 'disenos.json'),
   contenido: (codigo) => resolve(DIR_DATOS, `contenido.${codigo}.json`),
   ui: (codigo) => resolve(DIR_DATOS, `ui.${codigo}.json`),
 };

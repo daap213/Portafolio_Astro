@@ -21,6 +21,7 @@ import {
   origenesQr,
 } from "./tipos.js";
 import { esIconoValido, NOMBRES_ICONO } from "./iconos.js";
+import { admiteVariante, CLAVES_TOKEN, TOKENS, TIPOS_WEB, VARIANTES } from "./disenos.js";
 
 /** Un id que acaba siendo nombre de fichero o ancla de URL. */
 const ES_SLUG = /^[a-z0-9-]+$/;
@@ -44,9 +45,10 @@ const esVacio = (valor) =>
  * @param {object} estado.textos         { <codigo>: ui.<codigo>.json }
  * @param {object} estado.seccionesWeb   data/secciones.web.json
  * @param {object} estado.seccionesCv    data/secciones.cv.json
+ * @param {object} estado.disenos        data/disenos.json
  * @returns {{errores: Array, avisos: Array}}
  */
-export function validar({ locales, comun, contenidos, textos, seccionesWeb, seccionesCv }) {
+export function validar({ locales, comun, contenidos, textos, seccionesWeb, seccionesCv, disenos }) {
   const errores = [];
   const avisos = [];
   const codigos = (locales ?? []).map((idioma) => idioma.codigo);
@@ -166,6 +168,74 @@ export function validar({ locales, comun, contenidos, textos, seccionesWeb, secc
     }
   }
 
+  // ---- disenos ------------------------------------------------------------
+  //
+  // Un diseno es tokens + variantes + presets de clases. Se comprueba lo mismo
+  // que en las secciones y por la misma razon: que el administrador no pueda
+  // escribir un estado que el build no sabe pintar. Un token fuera del catalogo
+  // es un error por el mismo motivo que una opcion que nadie lee: seria un
+  // campo en el panel que no cambia nada.
+  const CLASES_DE_DISENO = ["contenedor", "seccion", "titulo", "icono"];
+
+  if (!disenos || typeof disenos !== "object" || !Array.isArray(disenos.disenos)) {
+    errores.push(problema("DISENOS_INVALIDOS", "disenos.json", 'falta el fichero o su array "disenos"'));
+  } else if (!disenos.disenos.length) {
+    errores.push(problema("SIN_DISENOS", "disenos.json", "no hay ningún diseño declarado"));
+  } else {
+    const idsVistos = new Set();
+
+    for (const diseno of disenos.disenos) {
+      const donde = `disenos.json > ${diseno.id}`;
+
+      if (!diseno.id) {
+        errores.push(problema("DISENO_SIN_ID", "disenos.json", "todo diseño necesita un id"));
+      } else if (!ES_SLUG.test(diseno.id)) {
+        errores.push(problema("ID_NO_PORTABLE", donde, "el id debe ser un slug ASCII (a-z, 0-9, guiones)"));
+      }
+      if (idsVistos.has(diseno.id)) {
+        errores.push(problema("DISENO_DUPLICADO", donde, "id repetido"));
+      }
+      idsVistos.add(diseno.id);
+
+      if (esVacio(diseno.nombre)) {
+        avisos.push(problema("DISENO_SIN_NOMBRE", donde, "sin nombre: el panel lo listará por su id"));
+      }
+
+      for (const clave of Object.keys(diseno.tokens ?? {})) {
+        if (!CLAVES_TOKEN.includes(clave)) {
+          errores.push(problema("TOKEN_DESCONOCIDO", `${donde}.tokens.${clave}`, `token "${clave}"; disponibles: ${CLAVES_TOKEN.join(", ")}`));
+        }
+      }
+      // Un token por tema guardado como objeto sin "claro" no pinta nada en el
+      // tema claro y el fallo se ve como un color heredado, no como un error
+      for (const token of TOKENS) {
+        const valor = diseno.tokens?.[token.clave];
+        if (valor === undefined || valor === null) continue;
+        if (token.porTema && typeof valor === "object" && esVacio(valor.claro)) {
+          avisos.push(problema("TOKEN_SIN_VALOR", `${donde}.tokens.${token.clave}`, "sin valor para el tema claro"));
+        }
+      }
+
+      for (const [tipo, variante] of Object.entries(diseno.variantes ?? {})) {
+        if (!TIPOS_WEB.includes(tipo)) {
+          errores.push(problema("TIPO_FUERA_DE_ALCANCE", `${donde}.variantes.${tipo}`, `"${tipo}" no es un tipo de sección de la web`));
+        } else if (!admiteVariante(tipo, variante)) {
+          errores.push(problema("VARIANTE_DESCONOCIDA", `${donde}.variantes.${tipo}`, `variante "${variante}"; para "${tipo}" existen: ${(VARIANTES[tipo] ?? []).join(", ")}`));
+        }
+      }
+
+      for (const clave of Object.keys(diseno.clases ?? {})) {
+        if (!CLASES_DE_DISENO.includes(clave)) {
+          avisos.push(problema("CLASE_DESCONOCIDA", `${donde}.clases.${clave}`, `nadie lee "${clave}"; se usan: ${CLASES_DE_DISENO.join(", ")}`));
+        }
+      }
+    }
+
+    if (!idsVistos.has(disenos.activo)) {
+      errores.push(problema("DISENO_ACTIVO_DESCONOCIDO", "disenos.json > activo", `"${disenos.activo}" no es ninguno de los diseños declarados`));
+    }
+  }
+
   // ---- listas de secciones ------------------------------------------------
 
   // Un bloque puede vivir solo en los contenidos traducidos (el "sobre mí" es
@@ -217,6 +287,16 @@ export function validar({ locales, comun, contenidos, textos, seccionesWeb, secc
         errores.push(problema("TIPO_DESCONOCIDO", donde, `tipo "${entrada.tipo}"; disponibles: ${Object.keys(TIPOS).join(", ")}`));
       } else if (!admiteDestino(entrada.tipo, destino)) {
         errores.push(problema("TIPO_FUERA_DE_ALCANCE", donde, `el tipo "${entrada.tipo}" no se puede usar en la lista de ${destino}`));
+      }
+
+      // La variante es opcional: sin ella manda la del diseno activo. Solo la
+      // web tiene disenos, asi que en el CV es un campo que nadie leeria.
+      if (!esVacio(entrada.variante)) {
+        if (destino !== "web") {
+          errores.push(problema("VARIANTE_FUERA_DE_ALCANCE", donde, "solo las secciones de la web pueden fijar variante"));
+        } else if (TIPOS[entrada.tipo] && !admiteVariante(entrada.tipo, entrada.variante)) {
+          errores.push(problema("VARIANTE_DESCONOCIDA", donde, `variante "${entrada.variante}"; para "${entrada.tipo}" existen: ${(VARIANTES[entrada.tipo] ?? []).join(", ")}`));
+        }
       }
 
       if (!clavesDeDatos.has(entrada.bloque)) {

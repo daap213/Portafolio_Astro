@@ -6,6 +6,7 @@ import { CONTENIDOS, TEXTOS } from '@cv/data/indice.js';
 import comun from '@cv/data/comun.json' with { type: 'json' };
 import seccionesWeb from '@cv/data/secciones.web.json' with { type: 'json' };
 import seccionesCv from '@cv/data/secciones.cv.json' with { type: 'json' };
+import disenos from '@cv/data/disenos.json' with { type: 'json' };
 
 // Dar de alta un idioma toca los seis sitios donde vive: locales.json, un
 // contenido, unos textos y los `textos.<idioma>` de las dos listas de secciones.
@@ -18,6 +19,7 @@ const estadoBase = () => structuredClone({
     textos: TEXTOS,
     seccionesWeb,
     seccionesCv,
+    disenos,
 });
 
 // Un código que NO esté ya dado de alta: fijar "fr" a fuego hacía que la suite

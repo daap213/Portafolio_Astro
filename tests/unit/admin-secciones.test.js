@@ -16,6 +16,7 @@ import { CONTENIDOS, TEXTOS } from '@cv/data/indice.js';
 import comun from '@cv/data/comun.json' with { type: 'json' };
 import seccionesWeb from '@cv/data/secciones.web.json' with { type: 'json' };
 import seccionesCv from '@cv/data/secciones.cv.json' with { type: 'json' };
+import disenos from '@cv/data/disenos.json' with { type: 'json' };
 
 // Crear una sección desde el administrador era imposible: validar.js rechaza
 // cualquier sección que apunte a un bloque inexistente, y el formulario no
@@ -30,6 +31,7 @@ const estadoBase = () => structuredClone({
     textos: TEXTOS,
     seccionesWeb,
     seccionesCv,
+    disenos,
 });
 
 /** Aplica un alta completa (bloque nuevo + sección) sobre un estado. */

@@ -15,13 +15,16 @@ interface Props {
   /** Los demas idiomas disponibles: [{ codigo, etiqueta, ruta }] */
   idiomas: { codigo: string; etiqueta: string; ruta: string }[];
   ui: any;
+  /** Diseno ya resuelto por paginaWeb.js: { id, nombre, css, contenedor } */
+  diseno: { id: string; nombre: string; css: string; contenedor: string };
 }
 
-const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
+const { description, title, navItems, footerInfor, idiomas, ui, diseno } =
+  Astro.props;
 ---
 
 <!doctype html>
-<html lang={currentLocale}>
+<html lang={currentLocale} data-diseno={diseno.id}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -29,6 +32,20 @@ const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
     <link rel="icon" type="image/svg+xml" href={raizApp + "img/logo.webp"} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    {/*
+      Tokens del diseno activo, en :root y :root.dark.
+
+      Va `is:inline` porque el contenido es dinamico: Astro no puede analizar ni
+      empaquetar un <style> que se rellena con set:html, y con `is:inline` lo
+      emite tal cual. Tiene que estar en el <head> y antes que nada del cuerpo,
+      igual que el script del tema: si llegara despues, el primer pintado usaria
+      los valores heredados y se corregiria a continuacion.
+
+      Nunca @media (prefers-color-scheme) aqui dentro: eso seguiria al sistema
+      operativo y contradiria el interruptor de tema.
+    */}
+    <style is:inline set:html={diseno.css}></style>
 
     {/*
       El tema se decide AQUI, en el <head> y sin `defer`, para que la clase
@@ -91,24 +108,17 @@ const { description, title, navItems, footerInfor, idiomas, ui } = Astro.props;
         color-scheme: dark;
       }
 
-      /* Lo unico que cambia entre temas en las animaciones de la barra.
-         Van aqui, en un ambito global, porque el <style> de NavBar.astro es
-         scoped: alli Astro convertiria `.dark` en `.dark[data-astro-cid-...]`,
-         que nunca casa con el <html class="dark">. Las variables si se heredan
+      /* Lo unico que cambia entre temas en las animaciones de la barra ya NO se
+         declara aqui: `--nav-fondo`, `--nav-desenfoque-fondo` y `--nav-sombra`
+         son tokens del diseno y los emite el <style is:inline> del <head>.
+         Conservan su nombre historico porque los @keyframes de NavBar.astro los
+         referencian, y alli no se pueden declarar: ese <style> es scoped y
+         Astro convertiria `.dark` en `.dark[data-astro-cid-...]`, que nunca casa
+         con el <html class="dark">. Las variables, en cambio, si se heredan
          hacia dentro de los estilos scoped. */
-      :root {
-        --nav-fondo: rgb(229, 229, 229);
-        --nav-desenfoque-fondo: rgb(209 213 219 / 0.6);
-        --nav-sombra: 0px 5px 50px -5px rgba(0, 0, 0, 0.1), 0px 0px 0 1px rgba(0, 0, 0, 0.3);
-      }
-      :root.dark {
-        --nav-fondo: rgba(0, 0, 0, 0.3);
-        --nav-desenfoque-fondo: rgb(31 41 55 / 0.6);
-        --nav-sombra: 0px 5px 50px -5px rgba(0, 0, 0, 0.4), 0px 0px 0 1px rgba(0, 0, 0, 0.5);
-      }
 
       html {
-        font-family: "Onest Variable", system-ui, sans-serif;
+        font-family: var(--dis-fuente);
         scroll-behavior: smooth;
       }
 

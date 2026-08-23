@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "activo": "clasico",
+  "disenos": [
+    {
+      "id": "clasico",
+      "nombre": "Clásico",
+      "tokens": {
+        "fondo": {
+          "claro": "oklch(98.5% .002 247.839)",
+          "oscuro": "oklch(13% .028 261.692)"
+        },
+        "fondoDegradado": {
+          "claro": "radial-gradient(ellipse 80% 80% at 50% -20%, rgba(217,216,255,0.5), rgba(255,255,255,0.9))",
+          "oscuro": "radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120,119,198,0.3), rgba(255,255,255,0))"
+        },
+        "texto": {
+          "claro": "#000",
+          "oscuro": "#fff"
+        },
+        "textoSuave": {
+          "claro": "oklch(37.3% .034 259.733)",
+          "oscuro": "oklch(87.2% .01 258.338)"
+        },
+        "acento": {
+          "claro": "oklch(79.5% .184 86.047)",
+          "oscuro": "oklch(85.2% .199 91.936)"
+        },
+        "enlace": {
+          "claro": "oklch(68.5% .169 237.323)",
+          "oscuro": "oklch(90.1% .058 230.902)"
+        },
+        "superficie": {
+          "claro": "#fff",
+          "oscuro": "oklch(27.8% .033 256.848)"
+        },
+        "superficieFuerte": {
+          "claro": "oklch(27.8% .033 256.848)",
+          "oscuro": "oklch(27.8% .033 256.848)"
+        },
+        "borde": {
+          "claro": "oklch(92.8% .006 264.531)",
+          "oscuro": "oklch(37.3% .034 259.733)"
+        },
+        "fuente": "\"Onest Variable\", system-ui, sans-serif",
+        "fuenteTitulos": "\"Onest Variable\", system-ui, sans-serif",
+        "radio": "0.75rem",
+        "sombra": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        "navFondo": {
+          "claro": "rgb(229, 229, 229)",
+          "oscuro": "rgba(0, 0, 0, 0.3)"
+        },
+        "navDesenfoqueFondo": {
+          "claro": "rgb(209 213 219 / 0.6)",
+          "oscuro": "rgb(31 41 55 / 0.6)"
+        },
+        "navSombra": {
+          "claro": "0px 5px 50px -5px rgba(0, 0, 0, 0.1), 0px 0px 0 1px rgba(0, 0, 0, 0.3)",
+          "oscuro": "0px 5px 50px -5px rgba(0, 0, 0, 0.4), 0px 0px 0 1px rgba(0, 0, 0, 0.5)"
+        }
+      },
+      "variantes": {},
+      "clases": {
+        "contenedor": "w-full mx-auto container lg:max-w-4xl md:max-w-2xl",
+        "seccion": "",
+        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
+        "icono": "size-8"
+      }
+    }
+  ]
+}

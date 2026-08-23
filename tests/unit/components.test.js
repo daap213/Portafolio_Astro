@@ -155,15 +155,26 @@ describe('el catálogo de tipos y el registro de componentes van a la par', () =
     it('todo tipo tiene componente en las listas que dice admitir', async () => {
         // `texto` declaraba alcance ["cv","web"] pero no tenía renderizador web:
         // la sección pasaba la validación y el build reventaba al pintarla.
+        //
+        // En la web el mapa tiene dos niveles (tipo -> variante -> componente) y
+        // lo que se exige es la variante base: es a la que cae un diseño que no
+        // trae la suya, así que sin ella el tipo no se puede pintar con NINGÚN
+        // diseño.
         const { COMPONENTES_WEB, COMPONENTES_CV } = await import('@cv/registro.js');
         const { TIPOS } = await import('@cv/tipos.js');
-        const porDestino = { web: COMPONENTES_WEB, cv: COMPONENTES_CV };
+        const { VARIANTE_BASE } = await import('@cv/disenos.js');
 
         for (const [nombre, tipo] of Object.entries(TIPOS)) {
-            for (const destino of tipo.alcance) {
+            if (tipo.alcance.includes('web')) {
                 expect(
-                    porDestino[destino][nombre],
-                    `el tipo "${nombre}" admite ${destino} pero no tiene componente de ${destino}`,
+                    COMPONENTES_WEB[nombre]?.[VARIANTE_BASE],
+                    `el tipo "${nombre}" admite web pero no tiene componente "${VARIANTE_BASE}"`,
+                ).toBeTruthy();
+            }
+            if (tipo.alcance.includes('cv')) {
+                expect(
+                    COMPONENTES_CV[nombre],
+                    `el tipo "${nombre}" admite cv pero no tiene componente de cv`,
                 ).toBeTruthy();
             }
         }
@@ -180,6 +191,23 @@ describe('el catálogo de tipos y el registro de componentes van a la par', () =
                     `${destino}: "${nombre}" tiene componente pero su alcance no incluye ${destino}`,
                 ).toBe(true);
             }
+        }
+    });
+
+    it('las variantes del catálogo son exactamente las del registro', async () => {
+        // Mismo reparto que iconos.js / ICONOS: disenos.js solo tiene los
+        // NOMBRES (lo cargan el administrador, validar.js y Playwright, que no
+        // saben parsear .astro) y registro.js les pone cara. Si se separan, el
+        // panel ofrece una variante que revienta el build al guardarla, o hay un
+        // componente que nadie puede elegir.
+        const { COMPONENTES_WEB } = await import('@cv/registro.js');
+        const { VARIANTES } = await import('@cv/disenos.js');
+
+        expect(Object.keys(VARIANTES).sort()).toEqual(Object.keys(COMPONENTES_WEB).sort());
+        for (const [tipo, nombres] of Object.entries(VARIANTES)) {
+            expect([...nombres].sort(), `variantes de "${tipo}"`).toEqual(
+                Object.keys(COMPONENTES_WEB[tipo] ?? {}).sort(),
+            );
         }
     });
 

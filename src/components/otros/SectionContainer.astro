@@ -1,11 +1,25 @@
 ---
-const { class: className, id } = Astro.props;
+// Envoltorio de cada seccion de la portada.
+//
+// El ancho ya no esta escrito aqui: lo pone el diseno activo (`clases.contenedor`
+// en data/disenos.json), que es lo que permite que un diseno sea una columna
+// estrecha de lectura y otro ocupe todo el ancho. La reserva reproduce el valor
+// historico para que el componente siga sirviendo si alguien lo usa suelto.
+//
+// `id` y `data-section` NO son decorativos: las anclas del menu apuntan a ese
+// id y hay pruebas de build y end-to-end que lo comprueban. Ninguna variante de
+// diseno puede dejar de emitirlos.
+const {
+  class: className,
+  id,
+  contenedor = "w-full mx-auto container lg:max-w-4xl md:max-w-2xl",
+} = Astro.props;
 ---
 
 <section
   id={id}
   data-section={id}
-  class={`section ${className} scroll-m-20 w-full mx-auto container lg:max-w-4xl md:max-w-2xl`}
+  class={`section ${className} scroll-m-20 ${contenedor}`}
 >
   <slot />
 </section>

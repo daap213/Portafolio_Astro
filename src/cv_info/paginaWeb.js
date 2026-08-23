@@ -8,18 +8,26 @@
 import { CLAVES_BLOQUE, DATOS, raizApp } from "./cv.js";
 import { IDIOMAS } from "./locales.js";
 import { componenteWebDe, iconoDe, ICONOS } from "./registro.js";
+import { clasesDe, contenedorDe, cssDeTokens, disenoActivo, varianteDe } from "./disenos.js";
 import { TEXTOS } from "./data/indice.js";
 import configuracion from "./data/secciones.web.json" with { type: "json" };
+import catalogoDisenos from "./data/disenos.json" with { type: "json" };
 
 /**
  * Devuelve todo lo que la pagina index.astro necesita para un idioma:
  * navItems, sobreMi, footerInfor, pagIndex, ui y los bloques de datos sueltos.
+ *
+ * `opciones.diseno` fuerza un diseno concreto en vez del activo. Solo lo usa la
+ * vista previa del administrador y solo bajo `astro dev`, donde cada peticion
+ * se renderiza: en el build estatico no hay parametros de consulta que leer.
  */
-export function construirPagina(codigo) {
+export function construirPagina(codigo, { diseno: disenoPedido } = {}) {
   const datos = DATOS[codigo];
   const ui = TEXTOS[codigo];
   if (!datos) throw new Error(`paginaWeb: no hay datos del idioma "${codigo}"`);
   if (!ui) throw new Error(`paginaWeb: falta data/ui.${codigo}.json`);
+
+  const diseno = disenoActivo(catalogoDisenos, disenoPedido);
 
   const urlCorreo = "mailto:" + datos.correo;
   const urlGithub = "https://github.com/" + datos.git_user;
@@ -71,17 +79,21 @@ export function construirPagina(codigo) {
   const datosDe = (entrada) => (entrada.tipo === "presentacion" ? sobreMi : datos[entrada.bloque]);
 
   const seccionItems = configuracion.secciones.map((entrada) => {
-    const componente = componenteWebDe(entrada.tipo);
+    // La variante de la seccion manda sobre la del diseno; sin ninguna de las
+    // dos, `clasico`. componenteWebDe ya cae solo si la variante no existe.
+    const variante = entrada.variante ?? varianteDe(diseno, entrada.tipo);
+    const componente = componenteWebDe(entrada.tipo, variante);
     if (!componente) {
       throw new Error(`secciones.web.json: el tipo "${entrada.tipo}" no tiene componente web`);
     }
+    const clases = clasesDe(diseno, entrada);
     return {
       navitems: entrada.enNav ? navItemDe(entrada) : contactObj,
       name: textosDe(entrada).titulo,
       icon: iconoDe(entrada.icono),
-      classSeccion: entrada.clases?.seccion ?? "",
-      classTittle: entrada.clases?.titulo ?? "",
-      classIcon: entrada.clases?.icono ?? "",
+      classSeccion: clases.seccion,
+      classTittle: clases.titulo,
+      classIcon: clases.icono,
       seccion: componente,
       seccionInfo: datosDe(entrada),
       opciones: entrada.opciones,
@@ -102,6 +114,14 @@ export function construirPagina(codigo) {
     sobreMi,
     footerInfor,
     ui,
+    // El diseno viaja ya resuelto: Layout.astro solo tiene que volcar su CSS y
+    // las paginas repartir las clases del contenedor.
+    diseno: {
+      id: diseno.id,
+      nombre: diseno.nombre,
+      css: cssDeTokens(diseno),
+      contenedor: contenedorDe(diseno),
+    },
     // Bloques sueltos, tal y como los exportaban es.js / en.js. Ya no se
     // enumeran: un bloque nuevo aparece aqui solo, sin tocar este fichero.
     ...Object.fromEntries(CLAVES_BLOQUE.map((clave) => [clave, datos[clave]])),

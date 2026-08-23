@@ -1,0 +1,97 @@
+---
+// Cuerpo de la portada, para cualquier idioma.
+//
+// Estaba copiado palabra por palabra en pages/index.astro y en
+// pages/[lang]/index.astro. Mientras solo hubo un diseno la copia era
+// inofensiva; ahora hay que repartir el diseno (clases del contenedor, tokens,
+// atributo data-diseno) y mantener dos copias en sincronia es justo el tipo de
+// deriva que este repositorio ya ha pagado antes.
+import Layout from "@/layouts/Layout.astro";
+import SectionContainer from "@/components/otros/SectionContainer.astro";
+import { construirPagina } from "@cv/paginaWeb";
+import { raizApp } from "@cv/cv";
+import { otrosIdiomas } from "@cv/locales";
+
+interface Props {
+  /** Codigo del idioma que se va a pintar. */
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+// Cambiar de diseno sin activarlo, solo para la vista previa del administrador.
+//
+// Funciona porque `astro dev` renderiza cada peticion: en el build estatico no
+// hay parametros de consulta, asi que ni se lee. El guardia deja escrito que
+// esto no es una funcion del sitio publicado.
+const disenoPedido = import.meta.env.DEV
+  ? (Astro.url.searchParams.get("diseno") ?? undefined)
+  : undefined;
+
+const { pagIndex, navItems, footerInfor, ui, diseno } = construirPagina(lang, {
+  diseno: disenoPedido,
+});
+
+// Un enlace por cada uno de los demas idiomas
+const idiomas = otrosIdiomas(lang).map((idioma) => ({
+  codigo: idioma.codigo,
+  etiqueta: idioma.etiqueta,
+  ruta: raizApp + idioma.codigo + "/",
+}));
+
+const primeraSeccion = pagIndex.primeraSeccion;
+const secciones = pagIndex.secciones;
+---
+
+<Layout
+  title={pagIndex.title}
+  description={pagIndex.description}
+  navItems={navItems}
+  footerInfor={footerInfor}
+  idiomas={idiomas}
+  ui={ui}
+  diseno={diseno}
+>
+  <main class="px-4">
+    <SectionContainer
+      id={primeraSeccion.navitems.id}
+      class={primeraSeccion.classSeccion}
+      contenedor={diseno.contenedor}
+    >
+      <h2 class={primeraSeccion.classTittle}>
+        {
+          primeraSeccion.icon && (
+            <primeraSeccion.icon class={primeraSeccion.classIcon} />
+          )
+        }
+        {primeraSeccion.name}
+      </h2>
+      <primeraSeccion.seccion
+        infoSeccion={primeraSeccion.seccionInfo}
+        opciones={primeraSeccion.opciones}
+        ui={ui}
+      />
+    </SectionContainer>
+  </main>
+  <div class="space-y-24 px-4">
+    {
+      secciones.map((bloque) => (
+        <SectionContainer
+          id={bloque.navitems.id}
+          class={bloque.classSeccion}
+          contenedor={diseno.contenedor}
+        >
+          <h2 class={bloque.classTittle}>
+            {bloque.icon && <bloque.icon class={bloque.classIcon} />}
+            {bloque.name}
+          </h2>
+          <bloque.seccion
+            infoSeccion={bloque.seccionInfo}
+            opciones={bloque.opciones}
+            ui={ui}
+          />
+        </SectionContainer>
+      ))
+    }
+  </div>
+</Layout>
