@@ -1,0 +1,43 @@
+---
+// Habilidades del diseño "terminal": todo a la vista en columnas, sin
+// acordeones. La lista se lee como la salida de un `ls`.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarRelacionadas = true } = opciones;
+---
+
+<div
+  class="grid gap-6"
+  style="grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr))"
+>
+  {
+    infoSeccion.map((habilidad: any) => (
+      <section class="border border-[var(--dis-borde)] bg-[var(--dis-superficie)] text-sm">
+        <h3 class="flex items-center gap-2 px-3 py-1.5 border-b border-[var(--dis-borde)] font-bold text-[var(--dis-texto)]">
+          <span class="text-[var(--dis-acento)]">&gt;</span>
+          {habilidad.name}
+        </h3>
+
+        <ul class="p-3 space-y-1">
+          {habilidad.skills.map((skill: any) => (
+            <li class="flex gap-2 text-[var(--dis-texto-suave)]">
+              <span class="text-[var(--dis-acento)] select-none">·</span>
+              <span>{skill}</span>
+            </li>
+          ))}
+        </ul>
+
+        {mostrarRelacionadas && habilidad.related?.length > 0 && (
+          <ul class="px-3 pb-3 pt-2 border-t border-[var(--dis-borde)] flex flex-wrap gap-x-3 gap-y-1">
+            {habilidad.related.map((relacionada: any) => (
+              <li class="text-[var(--dis-enlace)]">{relacionada}</li>
+            ))}
+          </ul>
+        )}
+      </section>
+    ))
+  }
+</div>

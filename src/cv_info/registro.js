@@ -40,6 +40,28 @@ import AllSkills from "@/components/seccions/AllSkills.astro";
 import Certificados from "@/components/seccions/Certificados.astro";
 import PreviewFooter from "@/components/seccions/PreviewFooter.astro";
 
+// Variantes de diseño. Viven en components/disenos/<variante>/ para no tener que
+// renombrar nada de seccions/, que sigue siendo la variante "clasico".
+import PresentacionEditorial from "@/components/disenos/editorial/Presentacion.astro";
+import ProyectosEditorial from "@/components/disenos/editorial/Proyectos.astro";
+import PublicacionesEditorial from "@/components/disenos/editorial/Publicaciones.astro";
+import CitaEditorial from "@/components/disenos/editorial/Cita.astro";
+
+import PresentacionTerminal from "@/components/disenos/terminal/Presentacion.astro";
+import ProyectosTerminal from "@/components/disenos/terminal/Proyectos.astro";
+import HabilidadesTerminal from "@/components/disenos/terminal/Habilidades.astro";
+import CronologiaTerminal from "@/components/disenos/terminal/Cronologia.astro";
+
+import PresentacionTarjetas from "@/components/disenos/tarjetas/Presentacion.astro";
+import ProyectosTarjetas from "@/components/disenos/tarjetas/Proyectos.astro";
+import HabilidadesTarjetas from "@/components/disenos/tarjetas/Habilidades.astro";
+import CertificadosTarjetas from "@/components/disenos/tarjetas/Certificados.astro";
+
+import PresentacionNeon from "@/components/disenos/neon/Presentacion.astro";
+import ProyectosNeon from "@/components/disenos/neon/Proyectos.astro";
+import PublicacionesNeon from "@/components/disenos/neon/Publicaciones.astro";
+import CitaNeon from "@/components/disenos/neon/Cita.astro";
+
 // Renderizadores de impresion del CV (mundo aparte: sin Tailwind ni Layout)
 import PerfilCv from "@/components/cv/DatosPersonales.astro";
 import TextoCv from "@/components/cv/Texto.astro";
@@ -81,15 +103,35 @@ export const ICONOS = {
  *  Todo tipo debe traer al menos `clasico`: es la variante a la que se cae
  *  cuando un diseno no tiene la suya. */
 export const COMPONENTES_WEB = {
-  presentacion: { clasico: Hero },
+  presentacion: {
+    clasico: Hero,
+    editorial: PresentacionEditorial,
+    terminal: PresentacionTerminal,
+    tarjetas: PresentacionTarjetas,
+    neon: PresentacionNeon,
+  },
   texto: { clasico: Texto },
-  cronologia: { clasico: Experience },
+  cronologia: { clasico: Experience, terminal: CronologiaTerminal },
   formacion: { clasico: EducationSeccion },
-  proyectos: { clasico: Projects },
-  publicaciones: { clasico: Publications },
-  habilidades: { clasico: AllSkills },
-  certificados: { clasico: Certificados },
-  cita: { clasico: PreviewFooter },
+  proyectos: {
+    clasico: Projects,
+    editorial: ProyectosEditorial,
+    terminal: ProyectosTerminal,
+    tarjetas: ProyectosTarjetas,
+    neon: ProyectosNeon,
+  },
+  publicaciones: {
+    clasico: Publications,
+    editorial: PublicacionesEditorial,
+    neon: PublicacionesNeon,
+  },
+  habilidades: {
+    clasico: AllSkills,
+    terminal: HabilidadesTerminal,
+    tarjetas: HabilidadesTarjetas,
+  },
+  certificados: { clasico: Certificados, tarjetas: CertificadosTarjetas },
+  cita: { clasico: PreviewFooter, editorial: CitaEditorial, neon: CitaNeon },
 };
 
 /** tipo de seccion -> componente de impresion del CV. */

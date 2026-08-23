@@ -39,7 +39,18 @@ export function VistaPrevia({ estado, abierta, alAlternar }) {
   const anchoVivo = useRef(ancho);
   const cuadro = useRef(null);
 
-  const url = `${PUERTOS_WEB}/${idioma}/${vista}`;
+  // Ver un diseño SIN activarlo, para comparar antes de decidir.
+  //
+  // Va por la ruta /vista/<diseno>/<idioma>, que solo existe en `astro dev`: una
+  // página prerenderizada no recibe la cadena de consulta ni en desarrollo, así
+  // que `?diseno=` no serviría. El CV no lo lleva porque no tiene diseños.
+  const [disenoPedido, setDisenoPedido] = useState('');
+  const disenos = estado.disenos?.disenos ?? [];
+  const comparando = disenoPedido && !vista;
+
+  const url = comparando
+    ? `${PUERTOS_WEB}/vista/${encodeURIComponent(disenoPedido)}/${idioma}`
+    : `${PUERTOS_WEB}/${idioma}/${vista}`;
 
   const limitar = (valor) =>
     Math.max(ANCHO_MINIMO, Math.min(valor, window.innerWidth - EDITOR_MINIMO));
@@ -184,6 +195,22 @@ export function VistaPrevia({ estado, abierta, alAlternar }) {
             {opcion.titulo}
           </button>
         ))}
+
+        {!vista && disenos.length > 1 && (
+          <select
+            className="rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-1.5 py-0.5 text-xs"
+            value={disenoPedido}
+            onChange={(e) => setDisenoPedido(e.target.value)}
+            title="Previsualizar otro diseño sin activarlo"
+          >
+            <option value="">diseño activo</option>
+            {disenos.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.nombre || d.id}
+              </option>
+            ))}
+          </select>
+        )}
 
         <button
           className="px-2 py-0.5 rounded text-xs border border-gray-300 dark:border-gray-600"

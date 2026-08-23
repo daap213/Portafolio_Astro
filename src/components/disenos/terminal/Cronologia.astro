@@ -1,0 +1,56 @@
+---
+// Cronologia del diseño "terminal": entradas de registro, con la fecha delante
+// como una marca de tiempo. Sin viñeta ni linea vertical.
+import DropdownText from "@/components/otros/DropdownText.astro";
+
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const { desplegable = true, mostrarEnlace = true } = opciones;
+---
+
+<ol class="space-y-6 text-sm">
+  {
+    infoSeccion.map((experiencia: any) => (
+      <li class="border-l-2 border-[var(--dis-borde)] pl-4">
+        <p class="text-[var(--dis-texto-suave)]">
+          <span class="text-[var(--dis-acento)]">[</span>
+          {experiencia.date}
+          <span class="text-[var(--dis-acento)]">]</span>
+        </p>
+        <h3 class="text-lg font-bold text-[var(--dis-texto)]">
+          {experiencia.title}
+        </h3>
+        <p class="text-[var(--dis-texto-suave)]">{experiencia.company}</p>
+
+        <DropdownText
+          titulo={ui.experience_dropdownText_title}
+          desplegable={desplegable}
+        >
+          <ul class="space-y-1">
+            {experiencia.description.map((actividad: any) => (
+              <li class="flex gap-2 text-[var(--dis-texto-suave)]">
+                <span class="text-[var(--dis-acento)] select-none">-</span>
+                <span>{actividad}</span>
+              </li>
+            ))}
+          </ul>
+
+          {mostrarEnlace && experiencia.link && (
+            <a
+              href={experiencia.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block mt-2 text-[var(--dis-enlace)] hover:underline"
+            >
+              [{ui.experiencia_saber_mas}]
+            </a>
+          )}
+        </DropdownText>
+      </li>
+    ))
+  }
+</ol>

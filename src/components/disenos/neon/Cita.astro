@@ -1,0 +1,34 @@
+---
+// Cita del diseño "neon": tarjeta de cristal con halo de color y la imagen
+// recortada en circulo.
+interface Props {
+  infoSeccion: any;
+}
+const { infoSeccion } = Astro.props;
+---
+
+<div class="relative">
+  <div
+    class="absolute -bottom-16 right-0 -z-10 size-64 rounded-full blur-3xl opacity-40 bg-[var(--dis-acento)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <figure
+    class="flex flex-col items-center gap-8 p-8 border border-[var(--dis-borde)] bg-[var(--dis-superficie)] backdrop-blur-xl md:flex-row"
+    style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
+  >
+    <img
+      src={infoSeccion.logo}
+      alt={infoSeccion.name}
+      class="order-1 object-cover rounded-full size-28 shrink-0 ring-2 ring-[var(--dis-acento)] md:order-2"
+      style="object-position: 100% 60%"
+    />
+
+    <blockquote
+      class="order-2 text-xl font-semibold leading-snug text-[var(--dis-texto)] md:order-1 [&>p>strong]:text-[var(--dis-acento)] [&>p>strong]:font-mono [&>p>strong]:font-normal"
+    >
+      {infoSeccion.frase}
+    </blockquote>
+  </figure>
+</div>

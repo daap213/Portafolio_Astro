@@ -70,6 +70,302 @@
         "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
         "icono": "size-8"
       }
+    },
+    {
+      "id": "editorial",
+      "nombre": "Editorial",
+      "tokens": {
+        "fondo": {
+          "claro": "#fbfaf7",
+          "oscuro": "#14110e"
+        },
+        "fondoDegradado": {
+          "claro": "none",
+          "oscuro": "none"
+        },
+        "texto": {
+          "claro": "#1a1714",
+          "oscuro": "#f2ece2"
+        },
+        "textoSuave": {
+          "claro": "#57504a",
+          "oscuro": "#bdb3a5"
+        },
+        "acento": {
+          "claro": "#9a3412",
+          "oscuro": "#fb923c"
+        },
+        "enlace": {
+          "claro": "#1d4ed8",
+          "oscuro": "#93c5fd"
+        },
+        "superficie": {
+          "claro": "#ffffff",
+          "oscuro": "#1c1917"
+        },
+        "superficieSuave": {
+          "claro": "rgba(26, 23, 20, 0.04)",
+          "oscuro": "rgba(242, 236, 226, 0.06)"
+        },
+        "superficieFuerte": {
+          "claro": "#1a1714",
+          "oscuro": "#f2ece2"
+        },
+        "borde": {
+          "claro": "rgba(26, 23, 20, 0.15)",
+          "oscuro": "rgba(242, 236, 226, 0.16)"
+        },
+        "fuente": "ui-serif, Georgia, \"Times New Roman\", serif",
+        "fuenteTitulos": "ui-serif, Georgia, \"Times New Roman\", serif",
+        "radio": "0px",
+        "sombra": "none",
+        "navFondo": {
+          "claro": "#f2ece2",
+          "oscuro": "rgba(28, 25, 23, 0.85)"
+        },
+        "navDesenfoqueFondo": {
+          "claro": "rgba(251, 250, 247, 0.85)",
+          "oscuro": "rgba(20, 17, 14, 0.85)"
+        },
+        "navSombra": {
+          "claro": "0px 1px 0 0 rgba(26, 23, 20, 0.15)",
+          "oscuro": "0px 1px 0 0 rgba(242, 236, 226, 0.16)"
+        }
+      },
+      "variantes": {
+        "presentacion": "editorial",
+        "proyectos": "editorial",
+        "publicaciones": "editorial",
+        "cita": "editorial"
+      },
+      "clases": {
+        "contenedor": "w-full mx-auto max-w-2xl",
+        "seccion": "",
+        "titulo": "flex items-baseline mb-8 gap-x-3 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--dis-texto-suave)]",
+        "icono": "size-4"
+      }
+    },
+    {
+      "id": "terminal",
+      "nombre": "Terminal",
+      "tokens": {
+        "fondo": {
+          "claro": "#f3f5f2",
+          "oscuro": "#0a0f0a"
+        },
+        "fondoDegradado": {
+          "claro": "none",
+          "oscuro": "none"
+        },
+        "texto": {
+          "claro": "#14261a",
+          "oscuro": "#b9f6ca"
+        },
+        "textoSuave": {
+          "claro": "#3d5245",
+          "oscuro": "#7fbf8f"
+        },
+        "acento": {
+          "claro": "#166534",
+          "oscuro": "#4ade80"
+        },
+        "enlace": {
+          "claro": "#b45309",
+          "oscuro": "#fbbf24"
+        },
+        "superficie": {
+          "claro": "#ffffff",
+          "oscuro": "#0f150f"
+        },
+        "superficieSuave": {
+          "claro": "rgba(22, 101, 52, 0.08)",
+          "oscuro": "rgba(74, 222, 128, 0.08)"
+        },
+        "superficieFuerte": {
+          "claro": "#14261a",
+          "oscuro": "#b9f6ca"
+        },
+        "borde": {
+          "claro": "rgba(22, 101, 52, 0.35)",
+          "oscuro": "rgba(74, 222, 128, 0.3)"
+        },
+        "fuente": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "fuenteTitulos": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "radio": "0px",
+        "sombra": "none",
+        "navFondo": {
+          "claro": "#e3e9e3",
+          "oscuro": "rgba(15, 21, 15, 0.9)"
+        },
+        "navDesenfoqueFondo": {
+          "claro": "rgba(243, 245, 242, 0.9)",
+          "oscuro": "rgba(10, 15, 10, 0.9)"
+        },
+        "navSombra": {
+          "claro": "0 0 0 1px rgba(22, 101, 52, 0.35)",
+          "oscuro": "0 0 0 1px rgba(74, 222, 128, 0.3)"
+        }
+      },
+      "variantes": {
+        "presentacion": "terminal",
+        "proyectos": "terminal",
+        "habilidades": "terminal",
+        "cronologia": "terminal"
+      },
+      "clases": {
+        "contenedor": "w-full mx-auto max-w-3xl",
+        "seccion": "",
+        "titulo": "flex items-center mb-6 gap-x-2 text-xl font-bold text-[var(--dis-acento)] before:content-['$'] before:mr-1",
+        "icono": "size-5"
+      }
+    },
+    {
+      "id": "tarjetas",
+      "nombre": "Tarjetas",
+      "tokens": {
+        "fondo": {
+          "claro": "#eef2f7",
+          "oscuro": "#0f172a"
+        },
+        "fondoDegradado": {
+          "claro": "radial-gradient(ellipse 90% 60% at 50% -10%, rgba(124,58,237,0.18), rgba(255,255,255,0))",
+          "oscuro": "radial-gradient(ellipse 90% 60% at 50% -10%, rgba(124,58,237,0.28), rgba(255,255,255,0))"
+        },
+        "texto": {
+          "claro": "#0f172a",
+          "oscuro": "#f8fafc"
+        },
+        "textoSuave": {
+          "claro": "#475569",
+          "oscuro": "#cbd5e1"
+        },
+        "acento": {
+          "claro": "#7c3aed",
+          "oscuro": "#a78bfa"
+        },
+        "enlace": {
+          "claro": "#0284c7",
+          "oscuro": "#7dd3fc"
+        },
+        "superficie": {
+          "claro": "#ffffff",
+          "oscuro": "#1e293b"
+        },
+        "superficieSuave": {
+          "claro": "rgba(15, 23, 42, 0.06)",
+          "oscuro": "rgba(255, 255, 255, 0.07)"
+        },
+        "superficieFuerte": {
+          "claro": "#0f172a",
+          "oscuro": "#f8fafc"
+        },
+        "borde": {
+          "claro": "rgba(15, 23, 42, 0.08)",
+          "oscuro": "rgba(255, 255, 255, 0.1)"
+        },
+        "fuente": "\"Onest Variable\", system-ui, sans-serif",
+        "fuenteTitulos": "\"Onest Variable\", system-ui, sans-serif",
+        "radio": "1.25rem",
+        "sombra": "0 18px 40px -20px rgba(15, 23, 42, 0.35)",
+        "navFondo": {
+          "claro": "#ffffff",
+          "oscuro": "rgba(30, 41, 59, 0.85)"
+        },
+        "navDesenfoqueFondo": {
+          "claro": "rgba(255, 255, 255, 0.75)",
+          "oscuro": "rgba(30, 41, 59, 0.7)"
+        },
+        "navSombra": {
+          "claro": "0 18px 40px -20px rgba(15, 23, 42, 0.35)",
+          "oscuro": "0 18px 40px -20px rgba(0, 0, 0, 0.6)"
+        }
+      },
+      "variantes": {
+        "presentacion": "tarjetas",
+        "proyectos": "tarjetas",
+        "habilidades": "tarjetas",
+        "certificados": "tarjetas"
+      },
+      "clases": {
+        "contenedor": "w-full mx-auto container lg:max-w-5xl md:max-w-3xl",
+        "seccion": "",
+        "titulo": "flex items-center mb-8 text-3xl font-bold gap-x-3 text-[var(--dis-texto)]",
+        "icono": "size-8"
+      }
+    },
+    {
+      "id": "neon",
+      "nombre": "Neón",
+      "tokens": {
+        "fondo": {
+          "claro": "#f7f4ff",
+          "oscuro": "#07060f"
+        },
+        "fondoDegradado": {
+          "claro": "radial-gradient(ellipse 70% 60% at 20% 0%, rgba(219,39,119,0.16), rgba(255,255,255,0)), radial-gradient(ellipse 60% 50% at 90% 20%, rgba(8,145,178,0.16), rgba(255,255,255,0))",
+          "oscuro": "radial-gradient(ellipse 70% 60% at 20% 0%, rgba(219,39,119,0.35), rgba(255,255,255,0)), radial-gradient(ellipse 60% 50% at 90% 20%, rgba(34,211,238,0.22), rgba(255,255,255,0))"
+        },
+        "texto": {
+          "claro": "#1e1b4b",
+          "oscuro": "#ede9fe"
+        },
+        "textoSuave": {
+          "claro": "#4c1d95",
+          "oscuro": "#c4b5fd"
+        },
+        "acento": {
+          "claro": "#db2777",
+          "oscuro": "#f472b6"
+        },
+        "enlace": {
+          "claro": "#0891b2",
+          "oscuro": "#22d3ee"
+        },
+        "superficie": {
+          "claro": "rgba(255, 255, 255, 0.65)",
+          "oscuro": "rgba(255, 255, 255, 0.05)"
+        },
+        "superficieSuave": {
+          "claro": "rgba(219, 39, 119, 0.08)",
+          "oscuro": "rgba(244, 114, 182, 0.12)"
+        },
+        "superficieFuerte": {
+          "claro": "#1e1b4b",
+          "oscuro": "#ede9fe"
+        },
+        "borde": {
+          "claro": "rgba(219, 39, 119, 0.25)",
+          "oscuro": "rgba(244, 114, 182, 0.28)"
+        },
+        "fuente": "\"Onest Variable\", system-ui, sans-serif",
+        "fuenteTitulos": "\"Onest Variable\", system-ui, sans-serif",
+        "radio": "1rem",
+        "sombra": "0 0 40px -12px rgba(219, 39, 119, 0.45)",
+        "navFondo": {
+          "claro": "rgba(255, 255, 255, 0.7)",
+          "oscuro": "rgba(255, 255, 255, 0.06)"
+        },
+        "navDesenfoqueFondo": {
+          "claro": "rgba(255, 255, 255, 0.6)",
+          "oscuro": "rgba(7, 6, 15, 0.6)"
+        },
+        "navSombra": {
+          "claro": "0 0 30px -10px rgba(219, 39, 119, 0.45)",
+          "oscuro": "0 0 30px -10px rgba(244, 114, 182, 0.5)"
+        }
+      },
+      "variantes": {
+        "presentacion": "neon",
+        "proyectos": "neon",
+        "publicaciones": "neon",
+        "cita": "neon"
+      },
+      "clases": {
+        "contenedor": "w-full mx-auto container lg:max-w-4xl md:max-w-2xl",
+        "seccion": "",
+        "titulo": "flex items-center mb-8 text-3xl font-extrabold gap-x-3 text-[var(--dis-texto)]",
+        "icono": "size-8"
+      }
     }
   ]
 }

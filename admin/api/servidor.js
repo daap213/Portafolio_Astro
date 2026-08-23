@@ -15,6 +15,7 @@ import { anadirIdioma, borrarFicherosDeIdioma, quitarIdioma } from './lib/idioma
 import { buscar, cancelar, ficha, lanzar, tareaEnCurso, TIPOS_TAREA } from './lib/tareas.js';
 import { TIPOS } from '../../src/cv_info/tipos.js';
 import { NOMBRES_ICONO } from '../../src/cv_info/iconos.js';
+import { TOKENS, VARIANTES } from '../../src/cv_info/disenos.js';
 import { validar } from '../../src/cv_info/validar.js';
 
 const ejecutar = promisify(execFile);
@@ -67,6 +68,11 @@ aplicacion.get('/api/estado', ruta(async (_peticion, respuesta) => {
     // El catálogo de iconos viaja al cliente porque registro.js (que los une a
     // su .astro) no se puede importar desde aquí: arrastra componentes
     iconos: NOMBRES_ICONO,
+    // Y por lo mismo, el catálogo de tokens y los NOMBRES de variante: la
+    // pantalla de diseños genera su formulario a partir de ellos, igual que la
+    // de contenido lo genera a partir de `tipos`
+    tokens: TOKENS,
+    variantes: VARIANTES,
     diagnostico: { errores, avisos },
     tarea: tareaEnCurso(),
     git: await estadoGit(),

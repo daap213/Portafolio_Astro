@@ -1,0 +1,93 @@
+---
+// Presentacion del diseño "terminal": cabecera con aire de consola.
+//
+// CONTRATO (igual para toda variante de `presentacion`): un <a href> por boton
+// con su URL intacta, la foto de `imagenRuta` y el nombre visible. Las pruebas
+// de build y las end-to-end cuelgan de eso.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarBotones = true } = opciones;
+
+const esPdf = (url: string) => url.split(".").pop()?.toLowerCase() === "pdf";
+---
+
+<div class="max-w-3xl">
+  <div
+    class="border border-[var(--dis-borde)] bg-[var(--dis-superficie)] text-sm"
+  >
+    <div
+      class="flex items-center gap-2 px-3 py-1.5 border-b border-[var(--dis-borde)] text-[var(--dis-texto-suave)]"
+    >
+      <span class="size-2 rounded-full bg-[var(--dis-acento)]"></span>
+      <span class="truncate">~/portafolio</span>
+    </div>
+
+    <div class="p-4 space-y-1">
+      <p class="text-[var(--dis-texto-suave)]">
+        <span class="text-[var(--dis-acento)]">$</span> whoami
+      </p>
+      <div class="flex items-center gap-4 pt-1 pb-3">
+        <img
+          class="object-cover size-12 border border-[var(--dis-borde)]"
+          style="object-position: 10% 30%"
+          src={infoSeccion.imagenRuta}
+          alt={infoSeccion.nombre}
+        />
+        <div class="min-w-0">
+          <h1 class="text-2xl font-bold text-[var(--dis-texto)] sm:text-3xl">
+            {infoSeccion.nombreTitulo}
+          </h1>
+          <p class="text-[var(--dis-texto-suave)]">{infoSeccion.titulo}</p>
+        </div>
+      </div>
+
+      <p class="text-[var(--dis-texto-suave)]">
+        <span class="text-[var(--dis-acento)]">$</span> cat estado.txt
+      </p>
+      <p class="pb-3">
+        <a
+          href={infoSeccion.estado.url}
+          target="_blank"
+          rel="noopener"
+          class="text-[var(--dis-enlace)] hover:underline"
+        >
+          {infoSeccion.estado.est}
+        </a>
+      </p>
+
+      <p class="text-[var(--dis-texto-suave)]">
+        <span class="text-[var(--dis-acento)]">$</span> cat sobre-mi.md
+      </p>
+      {
+        infoSeccion.contenido.map((content: any) => (
+          <p
+            class="pt-2 leading-relaxed text-[var(--dis-texto-suave)] [&>strong]:text-[var(--dis-acento)] [&>strong]:font-bold"
+            set:html={content}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    mostrarBotones && (
+      <nav class="flex flex-wrap gap-2 mt-4 text-sm">
+        {infoSeccion.botones.map((boton: any) => (
+          <a
+            href={boton.url}
+            download={esPdf(boton.url) ? boton.url.split("/").pop() : ""}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-3 py-1 border border-[var(--dis-borde)] text-[var(--dis-texto)] hover:bg-[var(--dis-superficie-suave)] hover:text-[var(--dis-acento)] transition"
+          >
+            <boton.icon class="size-4" />
+            {boton.title}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</div>

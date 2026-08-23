@@ -15,18 +15,18 @@ import { otrosIdiomas } from "@cv/locales";
 interface Props {
   /** Codigo del idioma que se va a pintar. */
   lang: string;
+  /**
+   * Diseno a usar en vez del activo. Solo lo pasa la ruta /vista/, que existe
+   * unicamente en `astro dev` (ver src/pages/vista/[diseno]/[lang].astro).
+   *
+   * NO se puede hacer con `?diseno=`: en una pagina prerenderizada Astro
+   * descarta la cadena de consulta, tambien en desarrollo, asi que
+   * `Astro.url.searchParams` llega siempre vacio.
+   */
+  diseno?: string;
 }
 
-const { lang } = Astro.props;
-
-// Cambiar de diseno sin activarlo, solo para la vista previa del administrador.
-//
-// Funciona porque `astro dev` renderiza cada peticion: en el build estatico no
-// hay parametros de consulta, asi que ni se lee. El guardia deja escrito que
-// esto no es una funcion del sitio publicado.
-const disenoPedido = import.meta.env.DEV
-  ? (Astro.url.searchParams.get("diseno") ?? undefined)
-  : undefined;
+const { lang, diseno: disenoPedido } = Astro.props;
 
 const { pagIndex, navItems, footerInfor, ui, diseno } = construirPagina(lang, {
   diseno: disenoPedido,
@@ -52,7 +52,13 @@ const secciones = pagIndex.secciones;
   ui={ui}
   diseno={diseno}
 >
-  <main class="px-4">
+  {/*
+    El aire que separa la primera seccion de la barra fija es ESTRUCTURAL, no
+    del diseno: estaba en `clases.seccion` de la seccion de presentacion, y
+    desde alli ganaba al preset del diseno y le imponia tambien su tipografia de
+    titulo. Aqui vale para los cinco disenos y ninguno tiene que repetirlo.
+  */}
+  <main class="px-4 py-16 md:py-32">
     <SectionContainer
       id={primeraSeccion.navitems.id}
       class={primeraSeccion.classSeccion}

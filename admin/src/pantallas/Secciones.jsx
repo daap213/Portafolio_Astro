@@ -255,6 +255,32 @@ export function Secciones({ estado, borrador, guardarPendientes, idiomasVisibles
 
                 {lista === 'web' && (
                   <>
+                    {/* La variante de la sección manda sobre la del diseño. Sirve
+                        para la excepción ("esta sección siempre en tarjetas"),
+                        no para vestir el sitio: eso se hace en Diseños. */}
+                    <label className="block">
+                      <span className="text-xs uppercase tracking-wide text-gray-500">Variante</span>
+                      <select
+                        className={claseEntrada}
+                        value={seccion.variante ?? ''}
+                        onChange={(e) =>
+                          mutar((c) => {
+                            const valor = e.target.value;
+                            if (valor) c.secciones[seleccion].variante = valor;
+                            else delete c.secciones[seleccion].variante;
+                          })
+                        }
+                      >
+                        <option value="">(la del diseño activo)</option>
+                        {(estado.variantes?.[seccion.tipo] ?? []).map((nombre) => (
+                          <option key={nombre} value={nombre}>{nombre}</option>
+                        ))}
+                      </select>
+                      <span className="text-xs text-gray-500">
+                        Fija el componente pase lo que pase con el diseño.
+                      </span>
+                    </label>
+
                     <label className="block">
                       <span className="text-xs uppercase tracking-wide text-gray-500">Icono</span>
                       <select

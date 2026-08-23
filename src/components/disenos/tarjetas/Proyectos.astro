@@ -1,0 +1,92 @@
+---
+// Proyectos del diseño "tarjetas": rejilla de dos columnas, imagen de cabecera
+// y todo dentro de la tarjeta.
+//
+// CONTRATO: el titulo va en un encabezado; las pruebas end-to-end lo buscan por
+// rol y con el texto exacto.
+import DropdownText from "@/components/otros/DropdownText.astro";
+
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const {
+  mostrarImagen = true,
+  mostrarEnlace = true,
+  mostrarEtiquetas = true,
+} = opciones;
+---
+
+<div
+  class="grid gap-6"
+  style="grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr))"
+>
+  {
+    infoSeccion.map(({ image, title, description, tags, link, github }: any) => (
+      <article
+        class="group flex flex-col overflow-hidden bg-[var(--dis-superficie)] border border-[var(--dis-borde)] transition duration-300 hover:-translate-y-1"
+        style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
+      >
+        {mostrarImagen && image && (
+          <img
+            alt={title}
+            class="object-cover object-top w-full h-44 transition duration-500 group-hover:scale-105"
+            loading="eager"
+            decoding="async"
+            src={image}
+          />
+        )}
+
+        <div class="flex flex-col flex-1 p-5">
+          <h3 class="text-xl font-bold text-[var(--dis-texto)]">{title}</h3>
+
+          {mostrarEtiquetas && tags?.length > 0 && (
+            <ul class="flex flex-wrap gap-2 mt-2">
+              {tags.map((tag: any) => (
+                <li class="px-2 py-0.5 text-xs rounded-full bg-[var(--dis-superficie-suave)] text-[var(--dis-texto-suave)]">
+                  {tag.name}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <DropdownText titulo={ui.project_dropdownText_title}>
+            {description.map((content: any) => (
+              <p
+                class="mt-2 text-[var(--dis-texto-suave)] leading-relaxed"
+                set:html={content}
+              />
+            ))}
+          </DropdownText>
+
+          {mostrarEnlace && (github || link) && (
+            <footer class="flex flex-wrap gap-2 mt-auto pt-4">
+              {github && (
+                <a
+                  href={github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-3 py-1 text-sm rounded-full bg-[var(--dis-superficie-suave)] text-[var(--dis-texto)] hover:bg-[var(--dis-acento)] hover:text-[var(--dis-superficie)] transition"
+                >
+                  {ui.proyectos_codigo}
+                </a>
+              )}
+              {link && (
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-3 py-1 text-sm rounded-full bg-[var(--dis-superficie-suave)] text-[var(--dis-texto)] hover:bg-[var(--dis-acento)] hover:text-[var(--dis-superficie)] transition"
+                >
+                  {ui.proyectos_vista_previa}
+                </a>
+              )}
+            </footer>
+          )}
+        </div>
+      </article>
+    ))
+  }
+</div>

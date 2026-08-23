@@ -105,15 +105,15 @@ export const tokenDe = (clave) => TOKENS.find((token) => token.clave === clave);
  * componente seria ofrecer una eleccion que rompe el build al guardarla.
  */
 export const VARIANTES = {
-  presentacion: ["clasico"],
+  presentacion: ["clasico", "editorial", "terminal", "tarjetas", "neon"],
   texto: ["clasico"],
-  cronologia: ["clasico"],
+  cronologia: ["clasico", "terminal"],
   formacion: ["clasico"],
-  proyectos: ["clasico"],
-  publicaciones: ["clasico"],
-  habilidades: ["clasico"],
-  certificados: ["clasico"],
-  cita: ["clasico"],
+  proyectos: ["clasico", "editorial", "terminal", "tarjetas", "neon"],
+  publicaciones: ["clasico", "editorial", "neon"],
+  habilidades: ["clasico", "terminal", "tarjetas"],
+  certificados: ["clasico", "tarjetas"],
+  cita: ["clasico", "editorial", "neon"],
 };
 
 /** true si ese tipo admite esa variante. */
@@ -167,8 +167,10 @@ export const clasesDe = (diseno, seccion) => {
 /** Clases del contenedor de seccion; solo las pone el diseno. */
 export const contenedorDe = (diseno) => diseno?.clases?.contenedor ?? "";
 
-/** Valor de un token en un tema ("claro" | "oscuro"). */
-const valorDeToken = (diseno, token, tema) => {
+/** Valor de un token en un tema ("claro" | "oscuro"). Lo usa el administrador
+ *  para rellenar el formulario, asi que hay una sola implementacion de la regla
+ *  "una cadena suelta vale para los dos temas". */
+export const valorDeToken = (diseno, token, tema) => {
   const guardado = diseno?.tokens?.[token.clave];
   if (guardado === undefined || guardado === null) return null;
   if (!token.porTema) return guardado;

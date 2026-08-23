@@ -1,0 +1,88 @@
+---
+// Proyectos del diseño "terminal": un bloque por proyecto, con cabecera de
+// fichero y bordes de un pixel. Sin sombras y sin esquinas redondeadas.
+//
+// CONTRATO: el titulo va en un encabezado de verdad; las pruebas end-to-end lo
+// buscan por rol.
+import DropdownText from "@/components/otros/DropdownText.astro";
+
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const {
+  mostrarImagen = true,
+  mostrarEnlace = true,
+  mostrarEtiquetas = true,
+} = opciones;
+---
+
+<div class="space-y-6">
+  {
+    infoSeccion.map(({ image, title, description, tags, link, github }: any) => (
+      <article class="border border-[var(--dis-borde)] bg-[var(--dis-superficie)]">
+        <header class="flex items-center gap-2 px-3 py-1.5 border-b border-[var(--dis-borde)] text-sm">
+          <span class="text-[var(--dis-acento)]">$</span>
+          <h3 class="font-bold text-[var(--dis-texto)]">{title}</h3>
+        </header>
+
+        <div class="p-4 flex flex-col gap-4 md:flex-row">
+          {mostrarImagen && image && (
+            <img
+              alt={title}
+              class="shrink-0 object-cover w-full md:w-48 h-32 border border-[var(--dis-borde)]"
+              loading="eager"
+              decoding="async"
+              src={image}
+            />
+          )}
+
+          <div class="min-w-0 flex-1 text-sm">
+            {mostrarEtiquetas && tags?.length > 0 && (
+              <p class="mb-2 text-[var(--dis-texto-suave)]">
+                <span class="text-[var(--dis-acento)]">#</span>{" "}
+                {tags.map((tag: any) => tag.name).join(" ")}
+              </p>
+            )}
+
+            <DropdownText titulo={ui.project_dropdownText_title}>
+              {description.map((content: any) => (
+                <p
+                  class="mt-2 leading-relaxed text-[var(--dis-texto-suave)]"
+                  set:html={content}
+                />
+              ))}
+            </DropdownText>
+
+            {mostrarEnlace && (github || link) && (
+              <footer class="flex flex-wrap gap-x-4 mt-3">
+                {github && (
+                  <a
+                    href={github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--dis-enlace)] hover:underline"
+                  >
+                    [{ui.proyectos_codigo}]
+                  </a>
+                )}
+                {link && (
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--dis-enlace)] hover:underline"
+                  >
+                    [{ui.proyectos_vista_previa}]
+                  </a>
+                )}
+              </footer>
+            )}
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>

@@ -1,0 +1,80 @@
+---
+// Presentacion del diseño "neon": cristal esmerilado, degradado en el nombre y
+// un halo de color detras.
+//
+// CONTRATO (igual para toda variante de `presentacion`): un <a href> por boton
+// con su URL intacta, la foto de `imagenRuta` y el nombre visible.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarBotones = true } = opciones;
+
+const esPdf = (url: string) => url.split(".").pop()?.toLowerCase() === "pdf";
+---
+
+<div class="relative max-w-4xl">
+  <div
+    class="absolute -top-24 -left-16 -z-10 size-72 rounded-full blur-3xl opacity-40 bg-[var(--dis-acento)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="p-8 border border-[var(--dis-borde)] bg-[var(--dis-superficie)] backdrop-blur-xl"
+    style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
+  >
+    <div class="flex flex-wrap items-center gap-4">
+      <img
+        class="object-cover rounded-full size-16 ring-2 ring-[var(--dis-acento)]"
+        style="object-position: 10% 30%"
+        src={infoSeccion.imagenRuta}
+        alt={infoSeccion.nombre}
+      />
+      <a
+        href={infoSeccion.estado.url}
+        target="_blank"
+        rel="noopener"
+        class="px-3 py-1 text-sm rounded-full border border-[var(--dis-acento)] text-[var(--dis-acento)] hover:bg-[var(--dis-superficie-suave)] transition"
+      >
+        {infoSeccion.estado.est}
+      </a>
+    </div>
+
+    <h1
+      class="mt-6 text-4xl font-extrabold tracking-tight text-[var(--dis-texto)] sm:text-6xl"
+    >
+      {infoSeccion.nombreTitulo}
+    </h1>
+    <p class="mt-2 text-lg text-[var(--dis-acento)]">{infoSeccion.titulo}</p>
+
+    {
+      infoSeccion.contenido.map((content: any) => (
+        <p
+          class="mt-5 text-lg leading-relaxed text-[var(--dis-texto-suave)] [&>strong]:text-[var(--dis-acento)] [&>strong]:font-semibold"
+          set:html={content}
+        />
+      ))
+    }
+
+    {
+      mostrarBotones && (
+        <nav class="flex flex-wrap gap-3 mt-8">
+          {infoSeccion.botones.map((boton: any) => (
+            <a
+              href={boton.url}
+              download={esPdf(boton.url) ? boton.url.split("/").pop() : ""}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full border border-[var(--dis-borde)] bg-[var(--dis-superficie-suave)] text-[var(--dis-texto)] hover:border-[var(--dis-acento)] hover:text-[var(--dis-acento)] transition"
+            >
+              <boton.icon class="size-5" />
+              {boton.title}
+            </a>
+          ))}
+        </nav>
+      )
+    }
+  </div>
+</div>

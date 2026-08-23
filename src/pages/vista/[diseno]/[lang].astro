@@ -1,0 +1,31 @@
+---
+// Vista previa de un diseño SIN activarlo. Solo existe en `astro dev`.
+//
+// Es la pantalla de comparación del administrador: /vista/<diseno>/<idioma>.
+//
+// `getStaticPaths` devuelve [] fuera de desarrollo, así que el build no genera
+// ni una sola de estas páginas y no se publica nada. La aserción de
+// dist.test.js que enumera las páginas esperadas es justo la que lo vigila.
+//
+// Por qué una ruta y no `?diseno=`: en una página prerenderizada Astro descarta
+// la cadena de consulta —también en desarrollo—, así que `Astro.url` llega sin
+// parámetros y no hay nada que leer.
+//
+// Dentro de la vista previa, el menú y el conmutador de idioma apuntan al sitio
+// normal: al pulsarlos se sale de la comparación y se vuelve al diseño activo.
+// Es una herramienta para mirar, no para navegar.
+import Portada from "@/components/otros/Portada.astro";
+import { CODIGOS } from "@cv/locales";
+import catalogo from "@cv/data/disenos.json";
+
+export function getStaticPaths() {
+  if (!import.meta.env.DEV) return [];
+  return catalogo.disenos.flatMap((diseno) =>
+    CODIGOS.map((lang) => ({ params: { diseno: diseno.id, lang } })),
+  );
+}
+
+const { diseno, lang } = Astro.params;
+---
+
+<Portada lang={lang!} diseno={diseno} />

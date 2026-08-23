@@ -6,6 +6,7 @@ import { VistaPrevia } from './componentes/VistaPrevia.jsx';
 import { Panel } from './pantallas/Panel.jsx';
 import { Contenido } from './pantallas/Contenido.jsx';
 import { Secciones } from './pantallas/Secciones.jsx';
+import { Disenos } from './pantallas/Disenos.jsx';
 import { Textos } from './pantallas/Textos.jsx';
 import { Medios } from './pantallas/Medios.jsx';
 import { Idiomas } from './pantallas/Idiomas.jsx';
@@ -17,13 +18,15 @@ const PANTALLAS = [
   { id: 'panel', titulo: 'Panel', componente: Panel },
   { id: 'contenido', titulo: 'Contenido', componente: Contenido, porIdioma: true },
   { id: 'secciones', titulo: 'Secciones', componente: Secciones, porIdioma: true },
+  // Diseños no lleva `porIdioma`: un diseño no tiene nada traducido
+  { id: 'disenos', titulo: 'Diseños', componente: Disenos },
   { id: 'textos', titulo: 'Textos', componente: Textos, porIdioma: true },
   { id: 'medios', titulo: 'Medios', componente: Medios },
   { id: 'idiomas', titulo: 'Idiomas', componente: Idiomas },
 ];
 
 /** Claves de borrador que sabe guardar `PUT /api/estado`, en un solo viaje. */
-const CLAVES_GUARDABLES = ['comun', 'contenidos', 'textos', 'seccionesWeb', 'seccionesCv'];
+const CLAVES_GUARDABLES = ['comun', 'contenidos', 'textos', 'seccionesWeb', 'seccionesCv', 'disenos'];
 
 /** Espera tras la última tecla antes de escribir, con la vista en vivo puesta. */
 const RETARDO_EN_VIVO = 900;
