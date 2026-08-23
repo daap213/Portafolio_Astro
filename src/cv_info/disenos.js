@@ -56,6 +56,7 @@ export const TOKENS = [
 
   // ---- cajas -------------------------------------------------------------
   { clave: "superficie", etiqueta: "Superficie (tarjetas)", tipo: "color", porTema: true },
+  { clave: "superficieSuave", etiqueta: "Superficie translúcida", tipo: "color", porTema: true },
   { clave: "superficieFuerte", etiqueta: "Superficie de contraste", tipo: "color", porTema: true },
   { clave: "borde", etiqueta: "Bordes", tipo: "color", porTema: true },
 

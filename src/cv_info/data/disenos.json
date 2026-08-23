@@ -34,6 +34,10 @@
           "claro": "#fff",
           "oscuro": "oklch(27.8% .033 256.848)"
         },
+        "superficieSuave": {
+          "claro": "rgba(0, 0, 0, 0.05)",
+          "oscuro": "rgba(255, 255, 255, 0.1)"
+        },
         "superficieFuerte": {
           "claro": "oklch(27.8% .033 256.848)",
           "oscuro": "oklch(27.8% .033 256.848)"

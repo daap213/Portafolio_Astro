@@ -87,11 +87,20 @@ const { description, title, navItems, footerInfor, idiomas, ui, diseno } =
     </script>
   </head>
 
-  <body class="relative text-black dark:text-white">
+  {/*
+    El color y el degradado del fondo son tokens, asi que aqui ya no hay ni
+    `bg-gray-50 dark:bg-gray-950` ni las dos variantes del degradado: el tema
+    oscuro lo resuelve :root.dark redefiniendo los tokens.
+
+    Regla general de la tokenizacion: una propiedad se gobierna con token O con
+    `dark:`, nunca con las dos. Dejar las dos cosas sobre la misma propiedad es
+    tener dos mecanismos peleandose, y gana el que mas especificidad saque ese
+    dia.
+  */}
+  <body class="relative text-[var(--dis-texto)]">
     <div
-      class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-gray-50 dark:bg-gray-950
-      bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
-      dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
+      class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-[var(--dis-fondo)]
+      bg-[image:var(--dis-fondo-degradado)]"
     >
     </div>
     <Header navItems={navItems} idiomas={idiomas} ui={ui} />

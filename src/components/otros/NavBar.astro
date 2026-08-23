@@ -15,12 +15,12 @@ const { navItems, idiomas, ui } = Astro.props;
   <!-- Navbar -->
   <nav
     id="navbar"
-    class="hidden menu grid-hidden md:flex md:flex-wrap px-3 text-sm font-medium md:rounded-full rounded-lg text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="hidden menu grid-hidden md:flex md:flex-wrap px-3 text-sm font-medium md:rounded-full rounded-lg text-[var(--dis-texto-suave)] justify-center items-center"
   >
     {
       navItems.map((link: Props["navItems"]) => (
         <a
-          class={`px-2 py-2 md:px-4 md:py-2  md:ml-0 transition hover:text-yellow-500 dark:hover:text-yellow-400`}
+          class={`px-2 py-2 md:px-4 md:py-2  md:ml-0 transition hover:text-[var(--dis-acento)]`}
           aria-label={link.label}
           href={link.url}
         >
@@ -44,7 +44,7 @@ const { navItems, idiomas, ui } = Astro.props;
   <!-- Botón para mostrar/ocultar el navbar en pantallas pequeñas -->
   <button
     id="toggleButton"
-    class="block md:hidden rounded-full px-4 py-2 text-gray-600 hover:text-gray-900 transition"
+    class="block md:hidden rounded-full px-4 py-2 text-[var(--dis-texto-suave)] hover:text-[var(--dis-texto)] transition"
   >
     <!-- Ícono de menú (puedes cambiarlo según tu preferencia) -->
     <svg
@@ -86,9 +86,14 @@ const { navItems, idiomas, ui } = Astro.props;
       })
       .filter(({ section }) => section != null);
 
+    // El enlace activo se marca con una clase propia, no con utilidades de
+    // color: el color lo pone --dis-acento, que cambia con el diseño. Con
+    // `text-yellow-500` escrito aquí, cambiar de diseño dejaba la marca amarilla
+    // sobre cualquier paleta, y además esas clases solo existían en el CSS
+    // porque este script las menciona.
     const clearActiveLinks = () => {
       menuLinks.forEach((menuLink) => {
-        menuLink.classList.remove("text-yellow-500", "dark:text-yellow-400");
+        menuLink.classList.remove("nav-activo");
       });
     };
 
@@ -111,7 +116,7 @@ const { navItems, idiomas, ui } = Astro.props;
       });
 
       clearActiveLinks();
-      activeItem.link.classList.add("text-yellow-500", "dark:text-yellow-400");
+      activeItem.link.classList.add("nav-activo");
     };
 
     let ticking = false;
@@ -163,6 +168,13 @@ const { navItems, idiomas, ui } = Astro.props;
     animation: nav-shadown 1s linear both;
     animation-timeline: scroll();
     animation-range: 0 100px;
+  }
+
+  /* Enlace de la sección que se está mirando. La pone y la quita el script de
+     abajo. El color sale del diseño activo, así que sigue a la paleta en vez de
+     estar clavado en amarillo. */
+  .nav-activo {
+    color: var(--dis-acento);
   }
 
   button {

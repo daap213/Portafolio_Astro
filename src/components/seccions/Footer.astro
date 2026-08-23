@@ -1,4 +1,6 @@
 ---
+// Pie del sitio. Es de Layout.astro, no de la lista de secciones, asi que lo
+// comparten todos los diseños: por eso su color sale de los tokens.
 const currentYear = new Date().getFullYear();
 interface Props {
   footerInfor: any;
@@ -7,12 +9,13 @@ const { footerInfor } = Astro.props;
 ---
 
 <footer
-  class="rounded-lg shadow m-4 p-2 bg-black/5 dark:bg-white/10 dark:shadow-white/20 backdrop-blur-lg w-full mx-auto container lg:max-w-4xl md:max-w-2xl mb-5 flex justify-center"
+  class="shadow m-4 p-2 bg-[var(--dis-superficie-suave)] backdrop-blur-lg w-full mx-auto container lg:max-w-4xl md:max-w-2xl mb-5 flex justify-center"
+  style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
 >
   <div
     class="w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between"
   >
-    <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90"
+    <span class="text-sm sm:text-center text-[var(--dis-texto-suave)]"
       >© {currentYear}
       <a href={footerInfor.url} class="hover:underline">{footerInfor.name}</a>.
       <a href={footerInfor.urlMencion} class="pl-2 hover:underline"
@@ -20,7 +23,7 @@ const { footerInfor } = Astro.props;
       >
     </span>
     <ul
-      class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
+      class="flex flex-wrap items-center mt-3 text-sm font-medium text-[var(--dis-texto-suave)] sm:mt-0"
     >
       <li>
         <a href={footerInfor.itemInfo.url} class="hover:underline me-4 md:me-6"

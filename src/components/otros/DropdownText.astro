@@ -8,17 +8,23 @@ interface Props {
 }
 const { titulo, desplegable = true } = Astro.props;
 
+// Colores y radio salen del diseño activo. El radio va como estilo en línea
+// porque `rounded-t-[var(--dis-radio)]` no existe como utilidad: Tailwind sí
+// admite un valor arbitrario, pero solo para las dos esquinas de arriba hace
+// falta escribir las dos propiedades.
 const claseCaja =
-  "relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3";
+  "relative flex flex-col gap-2 pb-4 text-[var(--dis-texto-suave)] md:col-span-3";
 const claseTitulo =
-  "text-xl flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-800 border border-b-0 border-gray-200 rounded-t-xl focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-900 gap-3";
+  "text-xl flex items-center justify-between w-full p-5 font-medium rtl:text-right text-[var(--dis-texto)] border border-b-0 border-[var(--dis-borde)] focus:ring-2 focus:ring-[var(--dis-borde)] hover:bg-[var(--dis-superficie-suave)] gap-3";
+const estiloTitulo =
+  "border-top-left-radius: var(--dis-radio); border-top-right-radius: var(--dis-radio);";
 ---
 
 <div class={claseCaja}>
   {
     desplegable ? (
       <details class="group">
-        <summary class={claseTitulo}>
+        <summary class={claseTitulo} style={estiloTitulo}>
           <span>{titulo}</span>
           <span class="transition group-open:rotate-180">
             <svg
@@ -40,7 +46,7 @@ const claseTitulo =
       </details>
     ) : (
       <div>
-        <p class={claseTitulo}>
+        <p class={claseTitulo} style={estiloTitulo}>
           <span>{titulo}</span>
         </p>
         <slot />

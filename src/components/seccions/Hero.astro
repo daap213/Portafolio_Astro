@@ -33,14 +33,14 @@ const { mostrarBotones = true } = opciones;
     </a>
   </div>
   <h1
-    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
+    class="text-4xl font-bold tracking-tight text-[var(--dis-texto)] sm:text-5xl"
   >
     {infoSeccion.nombreTitulo}
   </h1>
   {
     infoSeccion.contenido.map((content: any) => (
       <p
-        class="mt-6 text-xl text-justify text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
+        class="mt-6 text-xl text-justify text-[var(--dis-texto-suave)] [&>strong]:text-[var(--dis-acento)] [&>strong]:font-semibold"
         set:html={content}
       />
     ))

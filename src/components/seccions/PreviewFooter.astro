@@ -6,13 +6,13 @@ const { infoSeccion } = Astro.props;
 ---
 
 <article
-  class="flex flex-col items-center justify-center gap-8 text-gray-700 dark:text-gray-300 md:flex-row"
+  class="flex flex-col items-center justify-center gap-8 text-[var(--dis-texto-suave)] md:flex-row"
 >
   <div
-    class="[&>p]:mb-4 [&>p>strong]:text-yellow-500 dark:[&>p>strong]:text-yellow-100 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
+    class="[&>p]:mb-4 [&>p>strong]:text-[var(--dis-acento)] [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
   >
     <h3
-      class="text-justify text-xl font-bold tracking-tight text-gray-800 sm:text-2xl dark:text-gray-300"
+      class="text-justify text-xl font-bold tracking-tight text-[var(--dis-texto)] sm:text-2xl"
     >
       {infoSeccion.frase}
     </h3>
@@ -21,7 +21,7 @@ const { infoSeccion } = Astro.props;
   <img
     src={infoSeccion.logo}
     alt={infoSeccion.name}
-    class="order-1 object-cover w-80 h-full p-1 md:order-2 rotate-2 lg:w-45 lg:aspect-square rounded-2xl bg-black/20 dark:bg-yellow-500/5 ring-1 ring-black/70 dark:ring-white/20"
+    class="order-1 object-cover w-80 h-full p-1 md:order-2 rotate-2 lg:w-45 lg:aspect-square rounded-2xl bg-[var(--dis-superficie-suave)] ring-1 ring-[var(--dis-borde)]"
     style="object-position: 100% 60%"
   />
 </article>
