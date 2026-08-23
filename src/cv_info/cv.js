@@ -12,7 +12,7 @@
 // depende del entorno (import.meta.env.PROD) y no puede vivir en un JSON.
 import { config } from "./../../config.js";
 import { CODIGOS } from "./locales.js";
-import { TIPOS } from "./tipos.js";
+import { TIPOS, enlaceQr } from "./tipos.js";
 import { CONTENIDOS } from "./data/indice.js";
 import comun from "./data/comun.json" with { type: "json" };
 
@@ -64,7 +64,7 @@ const fusionarItems = (bloque, itemsComunes, itemsTraducidos, qr) =>
   itemsComunes.map(({ id, ...comunes }) => {
     const item = { ...expandirRutas(comunes), ...(itemsTraducidos[id] ?? {}) };
     // El QR no se guarda en los datos: se deriva de que el campo de origen tenga valor
-    if (qr?.porItem && comunes[qr.desde]) item.qr = rutaQrDe(bloque, id);
+    if (qr?.porItem && enlaceQr(comunes, qr.desde)) item.qr = rutaQrDe(bloque, id);
     return item;
   });
 
@@ -102,7 +102,7 @@ const componerBloques = (bloques, traducidos) => {
     const lista = fusionarItems(clave, items, itemsTraducidos ?? {}, qr);
     const envoltorio = { ...expandirRutas(comunes), ...traducciones };
     // El QR puede ser de cada item (lo pone fusionarItems) o del bloque entero
-    if (qr && !qr.porItem && comunes[qr.desde]) envoltorio.qr = rutaQrDe(clave);
+    if (qr && !qr.porItem && enlaceQr(comunes, qr.desde)) envoltorio.qr = rutaQrDe(clave);
 
     salida[clave] = Object.keys(envoltorio).length ? { ...envoltorio, items: lista } : lista;
   }

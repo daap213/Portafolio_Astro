@@ -75,10 +75,23 @@ describe('QR commiteados sincronizados con los datos', () => {
         }
     });
 
-    it('cada proyecto con github tiene su QR y ninguno sin github lo tiene de más', () => {
-        const conGithub = comun.bloques.proyectos.items.filter((p) => p.github);
+    it('cada proyecto con enlace tiene su QR y ninguno sin enlace lo tiene de más', () => {
+        // El bloque declara `desde: ["github", "link"]`: los de repositorio
+        // privado no llevan github y sacan el QR del enlace a la aplicación.
+        const conEnlace = comun.bloques.proyectos.items.filter((p) => p.github || p.link);
         const jobsDeProyectos = buildQrJobs().filter((j) => j.bloque === 'proyectos');
-        expect(jobsDeProyectos).toHaveLength(conGithub.length);
+        expect(jobsDeProyectos).toHaveLength(conEnlace.length);
+    });
+
+    it('el proyecto sin github saca su QR del enlace, no se queda sin ninguno', () => {
+        // La regresión concreta: al añadir dos proyectos de repositorio privado
+        // sus PNG salían como huérfanos y el CV los imprimía sin QR.
+        const porNombre = new Map(buildQrJobs().map((j) => [j.nombre, j.link]));
+        for (const item of comun.bloques.proyectos.items) {
+            if (item.github || !item.link) continue;
+            expect(porNombre.get(qrFileName('proyectos', item.id)), `${item.id} sin QR`)
+                .toBe(item.link);
+        }
     });
 });
 
@@ -125,6 +138,31 @@ describe('buildQrJobs', () => {
             { bloque: 'certificados', id: null, link: 'https://example.com/certs', nombre: 'qr_certificados.png' },
             { bloque: 'publicaciones', id: 'paper-a', link: 'https://example.com/paper', nombre: 'qr_publicaciones_paper-a.png' },
             { bloque: 'proyectos', id: 'proyecto-a', link: 'https://github.com/x/a', nombre: 'qr_proyectos_proyecto-a.png' },
+        ]);
+    });
+
+    it('con `desde` en lista, manda el primer campo que tenga valor', () => {
+        const fixture = {
+            bloques: {
+                proyectos: {
+                    qr: { desde: ['github', 'link'], porItem: true },
+                    items: [
+                        // repositorio público: gana github aunque también haya link
+                        { id: 'publico', github: 'https://github.com/x/a', link: 'https://a.example' },
+                        // repositorio privado: cae al enlace de la aplicación
+                        { id: 'privado', link: 'https://b.example' },
+                        // github vacío cuenta como ausente, no como valor
+                        { id: 'vacio', github: '   ', link: 'https://c.example' },
+                        // sin ningún candidato no hay QR que generar
+                        { id: 'sin-nada' },
+                    ],
+                },
+            },
+        };
+        expect(buildQrJobs(fixture).map((j) => [j.id, j.link])).toEqual([
+            ['publico', 'https://github.com/x/a'],
+            ['privado', 'https://b.example'],
+            ['vacio', 'https://c.example'],
         ]);
     });
 });

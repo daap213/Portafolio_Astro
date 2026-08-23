@@ -291,6 +291,18 @@
     },
     "proyectos": {
       "items": {
+        "super-molar-plaque-attack": {
+          "title": "Super Molar: Plaque Attack",
+          "description": [
+            "Juego de plataformas y acción «run 'n gun» de estética retro ambientado dentro de una boca, donde un diente heroico combate bacterias, caries y jefes a lo largo de cinco fases. Todo el pixel art se dibuja por código sobre un Canvas 2D —no hay ni un solo archivo de imagen— y los efectos de sonido y la música se sintetizan en vivo con la Web Audio API. Encima monta una progresión roguelike con mejoras aleatorias, cuatro clases de diente jugables y ocho armas que evolucionan hasta el nivel 5. Funciona entero sin conexión, sin telemetría ni peticiones de red, y está localizado en español e inglés. Desarrollado con React 19, TypeScript, Tailwind v4 y Vite."
+          ]
+        },
+        "raphael-el-gran-maestro": {
+          "title": "RAPHAEL — El Gran Maestro",
+          "description": [
+            "Entidad de conocimiento que se presenta como una construcción de anillos de luz en vez de como una interfaz de chat. Es una pantalla única y sin enrutado: la escena se dibuja entera en WebGL2 desde un solo bucle de render, así que React nunca se re-renderiza por causa de una animación. Responde con Gemini cuando hay clave de API y, sin ella, desde un oráculo local que habla con la misma voz —la interfaz siempre distingue una fuente de la otra—. Incluye un panel de 107 parámetros para ajustar la escena en vivo y límites de accesibilidad verificados por pruebas (WCAG 2.3.1 y movimiento reducido en tres registros). Desarrollado con React 19, TypeScript, Tailwind v4 y Vite."
+          ]
+        },
         "dron-para-monitoreo-termico": {
           "title": "Dron para monitoreo Térmico",
           "description": [

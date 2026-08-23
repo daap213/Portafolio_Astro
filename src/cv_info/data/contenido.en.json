@@ -291,6 +291,18 @@
     },
     "proyectos": {
       "items": {
+        "super-molar-plaque-attack": {
+          "title": "Super Molar: Plaque Attack",
+          "description": [
+            "Retro-styled run-and-gun platformer set inside a mouth, where a heroic tooth fights bacteria, cavities and bosses across five stages. All the pixel art is drawn in code on a 2D Canvas —there is not a single image file— and the sound effects and music are synthesised live with the Web Audio API. On top of that it runs a roguelike progression with random perks, four playable tooth classes and eight weapons that evolve up to level 5. It works entirely offline, with no telemetry and no network requests, and is localised in Spanish and English. Built with React 19, TypeScript, Tailwind v4 and Vite."
+          ]
+        },
+        "raphael-el-gran-maestro": {
+          "title": "RAPHAEL — The Grand Master",
+          "description": [
+            "A knowledge entity presented as a construct of rings of light rather than as a chat interface. It is a single screen with no routing: the whole scene is drawn in WebGL2 from one render loop, so React never re-renders because of an animation. It answers through Gemini when an API key is present and, without one, from a local oracle that speaks in the same voice —the interface always tells one source from the other—. It includes a 107-parameter panel for tuning the scene live and accessibility limits enforced by tests (WCAG 2.3.1 and reduced motion in three registers). Built with React 19, TypeScript, Tailwind v4 and Vite."
+          ]
+        },
         "dron-para-monitoreo-termico": {
           "title": "Thermal Monitoring Drone",
           "description": [

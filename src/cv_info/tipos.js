@@ -255,6 +255,28 @@ export const camposTraducibles = (campos) => campos.filter((campo) => campo.trad
 /** Campos de los que se deriva un QR. */
 export const camposConQr = (campos) => campos.filter((campo) => campo.generaQr);
 
+/**
+ * Enlace del que sale un QR, resolviendo el `desde` de la declaracion.
+ *
+ * `desde` admite un solo campo ("link") o una LISTA por orden de preferencia
+ * (["github", "link"]): se coge el primero que tenga valor. La lista existe
+ * porque un proyecto de repositorio privado no lleva `github`, y con un unico
+ * origen se quedaba sin QR aunque tuviese enlace publico a la aplicacion.
+ *
+ * Devuelve null si ningun candidato tiene valor: quien llama decide si eso es
+ * un error (QR de bloque) o simplemente un item sin QR.
+ */
+export const enlaceQr = (fuente, desde) => {
+  for (const clave of [desde ?? []].flat()) {
+    const valor = fuente?.[clave];
+    if (typeof valor === "string" && valor.trim() !== "") return valor;
+  }
+  return null;
+};
+
+/** Campos que un `desde` nombra, siempre como lista (acepta cadena o array). */
+export const origenesQr = (desde) => [desde ?? []].flat().filter(Boolean);
+
 /** Clave con la que un campo se guarda en el JSON (a veces no es `clave`). */
 export const claveEnJson = (campo) => campo.enJson ?? campo.clave;
 

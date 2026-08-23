@@ -139,10 +139,25 @@
     },
     "proyectos": {
       "qr": {
-        "desde": "github",
+        "desde": [
+          "github",
+          "link"
+        ],
         "porItem": true
       },
       "items": [
+        {
+          "id": "super-molar-plaque-attack",
+          "image": "img/projects/superMolar.webp",
+          "link": "https://supermolar.daaptech.org/",
+          "tags": []
+        },
+        {
+          "id": "raphael-el-gran-maestro",
+          "image": "img/projects/granMaestro.webp",
+          "link": "https://gran-sabio.daaptech.org/",
+          "tags": []
+        },
         {
           "id": "dron-para-monitoreo-termico",
           "image": "img/projects/dron.webp",

@@ -17,6 +17,8 @@ import {
   camposDeBloque,
   camposTraducibles,
   claveEnJson,
+  enlaceQr,
+  origenesQr,
 } from "./tipos.js";
 import { esIconoValido, NOMBRES_ICONO } from "./iconos.js";
 
@@ -152,12 +154,15 @@ export function validar({ locales, comun, contenidos, textos, seccionesWeb, secc
   for (const [clave, contenido] of Object.entries(comun.bloques ?? {})) {
     const qr = contenido.qr;
     if (!qr) continue;
-    if (!qr.desde) {
+    // `desde` puede nombrar un campo o una lista de candidatos por orden de
+    // preferencia, asi que se normaliza antes de mirar si trae alguno.
+    const origenes = origenesQr(qr.desde);
+    if (!origenes.length) {
       errores.push(problema("QR_SIN_ORIGEN", `comun.json > ${clave}.qr`, 'falta "desde": de qué campo sale el enlace'));
       continue;
     }
-    if (!qr.porItem && esVacio(contenido[qr.desde])) {
-      errores.push(problema("QR_SIN_ENLACE", `comun.json > ${clave}.${qr.desde}`, "declara QR de bloque pero el enlace está vacío"));
+    if (!qr.porItem && esVacio(enlaceQr(contenido, qr.desde))) {
+      errores.push(problema("QR_SIN_ENLACE", `comun.json > ${clave}.${origenes.join("/")}`, "declara QR de bloque pero el enlace está vacío"));
     }
   }
 

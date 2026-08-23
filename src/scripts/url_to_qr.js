@@ -1,6 +1,7 @@
 import { writeFileSync, mkdirSync } from 'fs'; // Importar módulo 'fs'
 import { toBuffer } from 'qrcode'; // Importar biblioteca 'qrcode'
 import { pathToFileURL } from 'url';
+import { enlaceQr } from '../cv_info/tipos.js';
 import comun from '../cv_info/data/comun.json' with { type: 'json' };
 
 // Carpeta por defecto donde se guardan los QR generados
@@ -23,6 +24,13 @@ export function qrFileName(bloque, id) {
  *   "qr": { "desde": "github", "porItem": true }   -> un QR por item
  *   "qr": { "desde": "link",   "porItem": false }  -> un QR para el bloque
  *
+ * `desde` tambien admite una LISTA por orden de preferencia:
+ *   "qr": { "desde": ["github", "link"], "porItem": true }
+ * Se coge el primer campo con valor, asi que un proyecto de repositorio
+ * privado saca su QR del enlace publico a la aplicacion en vez de quedarse
+ * sin ninguno. La resolucion vive en tipos.js porque cv.js tiene que aplicar
+ * exactamente la misma para que el dato apunte al PNG que este script escribe.
+ *
  * Recibe los datos por parametro para poder testearla sin tocar disco.
  */
 export function buildQrJobs(datos = comun) {
@@ -33,13 +41,13 @@ export function buildQrJobs(datos = comun) {
         if (!qr) continue;
 
         if (!qr.porItem) {
-            const enlace = contenido[qr.desde];
+            const enlace = enlaceQr(contenido, qr.desde);
             if (enlace) trabajos.push({ bloque, id: null, link: enlace, nombre: qrFileName(bloque) });
             continue;
         }
 
         for (const item of contenido.items ?? []) {
-            const enlace = item[qr.desde];
+            const enlace = enlaceQr(item, qr.desde);
             if (!enlace) continue;
             trabajos.push({ bloque, id: item.id, link: enlace, nombre: qrFileName(bloque, item.id) });
         }
