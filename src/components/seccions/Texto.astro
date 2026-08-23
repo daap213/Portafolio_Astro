@@ -17,7 +17,7 @@ const parrafos = Array.isArray(infoSeccion) ? infoSeccion : (infoSeccion?.parraf
   {
     parrafos.map((contenido: string) => (
       <p
-        class="text-justify text-gray-700 dark:text-gray-300 [&>strong]:text-yellow-600 dark:[&>strong]:text-yellow-100 [&>strong]:font-semibold"
+        class="text-justify text-[var(--dis-texto-suave)] [&>strong]:text-[var(--dis-acento)] [&>strong]:font-semibold"
         set:html={contenido}
       />
     ))

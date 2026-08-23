@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { IDIOMAS, configuracionDe } from '../helpers/configuraciones.js';
 import { IDIOMA_PREDETERMINADO, otrosIdiomas, IDIOMAS as LOCALES } from '@cv/locales.js';
+import { rutaDePortada } from '@cv/disenos.js';
 
 // Todas las secciones de la home, en orden: la primera va fuera del bucle en index.astro
 const seccionesDe = (config) => [config.pagIndex.primeraSeccion, ...config.pagIndex.secciones];
@@ -85,5 +86,21 @@ describe.each(IDIOMAS)('coherencia de la configuración (%s)', (_idioma, config)
         for (const pdf of pdfs) {
             expect(esperados.some((esperado) => pdf.endsWith(esperado)), `PDF no declarado: ${pdf}`).toBe(true);
         }
+    });
+});
+
+
+describe('enlaces de idioma de la portada', () => {
+    it('en el sitio publicado apuntan a /<idioma>/', () => {
+        expect(rutaDePortada('/', 'en')).toBe('/en/');
+        expect(rutaDePortada('/base/', 'en')).toBe('/base/en/');
+    });
+
+    it('dentro de la vista previa de un diseño se quedan en /vista/', () => {
+        // Regresión: apuntaban al sitio normal, así que cambiar de idioma dentro
+        // de la comparación devolvía al diseño ACTIVO y parecía que la vista
+        // previa se hubiera perdido sola.
+        expect(rutaDePortada('/', 'en', 'terminal')).toBe('/vista/terminal/en');
+        expect(rutaDePortada('/base/', 'es', 'neon')).toBe('/base/vista/neon/es');
     });
 });

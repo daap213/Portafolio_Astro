@@ -1,0 +1,44 @@
+---
+// Certificados del diseño "tarjetas": mosaico de fichas con la fecha arriba.
+//
+// `desplegable` no aplica aqui: el mosaico enseña todo, que es justo su gracia.
+// La opcion sigue existiendo para las demas variantes.
+interface Props {
+  infoSeccion: any;
+}
+const { infoSeccion } = Astro.props;
+---
+
+<div>
+  <h3 class="text-lg font-semibold text-[var(--dis-texto)]">
+    {infoSeccion.title}
+  </h3>
+
+  <ul
+    class="grid gap-4 mt-4"
+    style="grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr))"
+  >
+    {
+      infoSeccion.items.map((certificado: any) => (
+        <li
+          class="p-4 bg-[var(--dis-superficie)] border border-[var(--dis-borde)]"
+          style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
+        >
+          <time class="text-xs uppercase tracking-wide text-[var(--dis-acento)]">
+            {certificado.date}
+          </time>
+          <p class="mt-1 text-[var(--dis-texto)]">{certificado.title}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <a
+    href={infoSeccion.link}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-block mt-5 px-4 py-2 text-sm font-medium rounded-full bg-[var(--dis-superficie-suave)] text-[var(--dis-texto)] hover:bg-[var(--dis-acento)] hover:text-[var(--dis-superficie)] transition"
+  >
+    {infoSeccion.titleLink}
+  </a>
+</div>

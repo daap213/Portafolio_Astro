@@ -20,9 +20,9 @@ const { desplegable = true, mostrarEnlace = true } = opciones;
             titulo={ui.experience_dropdownText_title}
             desplegable={desplegable}
           >
-            <ul class="border border-gray-200 rounded overflow-hidden shadow-md">
+            <ul class="border border-[var(--dis-borde)] rounded overflow-hidden shadow-md">
               {experiencie.description.map((activity: any) => (
-                <li class="w-full px-4 py-2 border-b text-justify hover:bg-sky-100 hover:text-gray-900 border-gray-300 dark:border-gray-200 last:border-none transition-all duration-300 ease-in-out">
+                <li class="w-full px-4 py-2 border-b text-justify hover:bg-[var(--dis-superficie-suave)] border-[var(--dis-borde)] last:border-none transition-all duration-300 ease-in-out">
                   {activity}
                 </li>
               ))}

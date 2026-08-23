@@ -1,0 +1,112 @@
+---
+// Cuerpo de la portada, para cualquier idioma.
+//
+// Estaba copiado palabra por palabra en pages/index.astro y en
+// pages/[lang]/index.astro. Mientras solo hubo un diseno la copia era
+// inofensiva; ahora hay que repartir el diseno (clases del contenedor, tokens,
+// atributo data-diseno) y mantener dos copias en sincronia es justo el tipo de
+// deriva que este repositorio ya ha pagado antes.
+import Layout from "@/layouts/Layout.astro";
+import SectionContainer from "@/components/otros/SectionContainer.astro";
+import { construirPagina } from "@cv/paginaWeb";
+import { raizApp } from "@cv/cv";
+import { otrosIdiomas } from "@cv/locales";
+import { rutaDePortada } from "@cv/disenos";
+
+interface Props {
+  /** Codigo del idioma que se va a pintar. */
+  lang: string;
+  /**
+   * Diseno a usar en vez del activo. Solo lo pasa la ruta /vista/, que existe
+   * unicamente en `astro dev` (ver src/pages/vista/[diseno]/[lang].astro).
+   *
+   * NO se puede hacer con `?diseno=`: en una pagina prerenderizada Astro
+   * descarta la cadena de consulta, tambien en desarrollo, asi que
+   * `Astro.url.searchParams` llega siempre vacio.
+   */
+  diseno?: string;
+}
+
+const { lang, diseno: disenoPedido } = Astro.props;
+
+const { pagIndex, navItems, footerInfor, ui, diseno } = construirPagina(lang, {
+  diseno: disenoPedido,
+});
+
+// Un enlace por cada uno de los demas idiomas.
+//
+// Dentro de la vista previa de un diseno el conmutador de idioma tiene que
+// quedarse DENTRO de /vista/<diseno>/: apuntando al sitio normal, cambiar de
+// idioma devolvia al diseno ACTIVO y parecia que la comparacion se hubiera
+// perdido sola.
+const rutaDeIdioma = (codigo: string) =>
+  rutaDePortada(raizApp, codigo, disenoPedido);
+
+const idiomas = otrosIdiomas(lang).map((idioma) => ({
+  codigo: idioma.codigo,
+  etiqueta: idioma.etiqueta,
+  ruta: rutaDeIdioma(idioma.codigo),
+}));
+
+const primeraSeccion = pagIndex.primeraSeccion;
+const secciones = pagIndex.secciones;
+---
+
+<Layout
+  title={pagIndex.title}
+  description={pagIndex.description}
+  navItems={navItems}
+  footerInfor={footerInfor}
+  idiomas={idiomas}
+  ui={ui}
+  diseno={diseno}
+>
+  {/*
+    El aire que separa la primera seccion de la barra fija es ESTRUCTURAL, no
+    del diseno: estaba en `clases.seccion` de la seccion de presentacion, y
+    desde alli ganaba al preset del diseno y le imponia tambien su tipografia de
+    titulo. Aqui vale para los cinco disenos y ninguno tiene que repetirlo.
+  */}
+  <main class="px-4 py-16 md:py-32">
+    <SectionContainer
+      id={primeraSeccion.navitems.id}
+      class={primeraSeccion.classSeccion}
+      contenedor={diseno.contenedor}
+    >
+      <h2 class={primeraSeccion.classTittle}>
+        {
+          primeraSeccion.icon && (
+            <primeraSeccion.icon class={primeraSeccion.classIcon} />
+          )
+        }
+        {primeraSeccion.name}
+      </h2>
+      <primeraSeccion.seccion
+        infoSeccion={primeraSeccion.seccionInfo}
+        opciones={primeraSeccion.opciones}
+        ui={ui}
+      />
+    </SectionContainer>
+  </main>
+  <div class="space-y-24 px-4">
+    {
+      secciones.map((bloque) => (
+        <SectionContainer
+          id={bloque.navitems.id}
+          class={bloque.classSeccion}
+          contenedor={diseno.contenedor}
+        >
+          <h2 class={bloque.classTittle}>
+            {bloque.icon && <bloque.icon class={bloque.classIcon} />}
+            {bloque.name}
+          </h2>
+          <bloque.seccion
+            infoSeccion={bloque.seccionInfo}
+            opciones={bloque.opciones}
+            ui={ui}
+          />
+        </SectionContainer>
+      ))
+    }
+  </div>
+</Layout>

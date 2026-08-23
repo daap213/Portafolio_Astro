@@ -58,6 +58,7 @@ export async function leerEstado() {
     textos,
     seccionesWeb: await leerJson(FICHEROS.seccionesWeb),
     seccionesCv: existsSync(FICHEROS.seccionesCv) ? await leerJson(FICHEROS.seccionesCv) : null,
+    disenos: await leerJson(FICHEROS.disenos),
   };
 }
 
@@ -67,6 +68,7 @@ export function ficherosDe(estado) {
     [FICHEROS.locales, estado.locales],
     [FICHEROS.comun, estado.comun],
     [FICHEROS.seccionesWeb, estado.seccionesWeb],
+    [FICHEROS.disenos, estado.disenos],
   ]);
   if (estado.seccionesCv) salida.set(FICHEROS.seccionesCv, estado.seccionesCv);
   for (const [codigo, valor] of Object.entries(estado.contenidos)) {

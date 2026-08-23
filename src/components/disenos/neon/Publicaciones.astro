@@ -1,0 +1,39 @@
+---
+// Publicaciones del diseño "neon": fichas de cristal en rejilla.
+interface Props {
+  infoSeccion: any;
+  ui: any;
+}
+const { infoSeccion, ui } = Astro.props;
+---
+
+<div
+  class="grid gap-6"
+  style="grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr))"
+>
+  {
+    infoSeccion.map(({ title, authors, description, link, codigo }: any) => (
+      <article
+        title={description}
+        class="p-6 border border-[var(--dis-borde)] bg-[var(--dis-superficie)] backdrop-blur-xl transition duration-300 hover:border-[var(--dis-acento)]"
+        style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
+      >
+        <h3 class="text-lg font-bold text-[var(--dis-texto)]">{title}</h3>
+
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block mt-2 text-sm text-[var(--dis-enlace)] hover:underline"
+        >
+          {codigo}
+        </a>
+
+        <p class="mt-4 text-xs uppercase tracking-[0.15em] text-[var(--dis-acento)]">
+          {ui.publicaciones_autores}
+        </p>
+        <p class="mt-1 text-[var(--dis-texto-suave)]">{authors}</p>
+      </article>
+    ))
+  }
+</div>

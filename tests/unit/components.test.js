@@ -2,6 +2,8 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { IDIOMAS, configuracionDe } from '../helpers/configuraciones.js';
 import { IDIOMA_PREDETERMINADO, otrosIdiomas } from '@cv/locales.js';
+import { construirPagina } from '@cv/paginaWeb.js';
+import catalogoDisenos from '@cv/data/disenos.json' with { type: 'json' };
 
 // Los componentes compartidos se prueban con un idioma cualquiera: el predeterminado
 const configEs = configuracionDe(IDIOMA_PREDETERMINADO.codigo);
@@ -155,15 +157,26 @@ describe('el catálogo de tipos y el registro de componentes van a la par', () =
     it('todo tipo tiene componente en las listas que dice admitir', async () => {
         // `texto` declaraba alcance ["cv","web"] pero no tenía renderizador web:
         // la sección pasaba la validación y el build reventaba al pintarla.
+        //
+        // En la web el mapa tiene dos niveles (tipo -> variante -> componente) y
+        // lo que se exige es la variante base: es a la que cae un diseño que no
+        // trae la suya, así que sin ella el tipo no se puede pintar con NINGÚN
+        // diseño.
         const { COMPONENTES_WEB, COMPONENTES_CV } = await import('@cv/registro.js');
         const { TIPOS } = await import('@cv/tipos.js');
-        const porDestino = { web: COMPONENTES_WEB, cv: COMPONENTES_CV };
+        const { VARIANTE_BASE } = await import('@cv/disenos.js');
 
         for (const [nombre, tipo] of Object.entries(TIPOS)) {
-            for (const destino of tipo.alcance) {
+            if (tipo.alcance.includes('web')) {
                 expect(
-                    porDestino[destino][nombre],
-                    `el tipo "${nombre}" admite ${destino} pero no tiene componente de ${destino}`,
+                    COMPONENTES_WEB[nombre]?.[VARIANTE_BASE],
+                    `el tipo "${nombre}" admite web pero no tiene componente "${VARIANTE_BASE}"`,
+                ).toBeTruthy();
+            }
+            if (tipo.alcance.includes('cv')) {
+                expect(
+                    COMPONENTES_CV[nombre],
+                    `el tipo "${nombre}" admite cv pero no tiene componente de cv`,
                 ).toBeTruthy();
             }
         }
@@ -183,12 +196,99 @@ describe('el catálogo de tipos y el registro de componentes van a la par', () =
         }
     });
 
+    it('las variantes del catálogo son exactamente las del registro', async () => {
+        // Mismo reparto que iconos.js / ICONOS: disenos.js solo tiene los
+        // NOMBRES (lo cargan el administrador, validar.js y Playwright, que no
+        // saben parsear .astro) y registro.js les pone cara. Si se separan, el
+        // panel ofrece una variante que revienta el build al guardarla, o hay un
+        // componente que nadie puede elegir.
+        const { COMPONENTES_WEB } = await import('@cv/registro.js');
+        const { VARIANTES } = await import('@cv/disenos.js');
+
+        expect(Object.keys(VARIANTES).sort()).toEqual(Object.keys(COMPONENTES_WEB).sort());
+        for (const [tipo, nombres] of Object.entries(VARIANTES)) {
+            expect([...nombres].sort(), `variantes de "${tipo}"`).toEqual(
+                Object.keys(COMPONENTES_WEB[tipo] ?? {}).sort(),
+            );
+        }
+    });
+
     it('los nombres de icono del catálogo son exactamente los del registro', async () => {
         // iconos.js existe para que el administrador y validar.js puedan
         // comprobar `icono` sin importar registro.js, que arrastra .astro
         const { ICONOS } = await import('@cv/registro.js');
         const { NOMBRES_ICONO } = await import('@cv/iconos.js');
         expect([...NOMBRES_ICONO].sort()).toEqual(Object.keys(ICONOS).sort());
+    });
+});
+
+// ---------------------------------------------------------------------------
+
+describe('todos los diseños pintan todas las secciones', () => {
+    // El build solo compila el diseño ACTIVO, así que dist.test.js y los e2e
+    // dejan los demás sin tocar: un diseño podría llevar meses roto y no
+    // enterarse nadie hasta activarlo. Aquí se pintan los cinco con el Container
+    // API, que no necesita compilar nada.
+    const IDIOMA = IDIOMA_PREDETERMINADO.codigo;
+    const DISENOS = catalogoDisenos.disenos.map((diseno) => [diseno.id]);
+
+    const escapar = (texto) => texto.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const seccionesDe = (idDiseno) => {
+        const config = construirPagina(IDIOMA, { diseno: idDiseno });
+        return { config, secciones: [config.pagIndex.primeraSeccion, ...config.pagIndex.secciones] };
+    };
+
+    const pintar = (seccion, config) =>
+        container.renderToString(seccion.seccion, {
+            props: { infoSeccion: seccion.seccionInfo, ui: config.ui, opciones: seccion.opciones },
+        });
+
+    it.each(DISENOS)('%s: todas las secciones renderizan y no filtran valores sin resolver', async (id) => {
+        const { config, secciones } = seccionesDe(id);
+
+        for (const seccion of secciones) {
+            const html = await pintar(seccion, config);
+            expect(html.length, `${id}/${seccion.name}: sin HTML`).toBeGreaterThan(0);
+            for (const basura of ['undefined', '[object Object]', 'NaN']) {
+                expect(html.includes(basura), `${id}/${seccion.name} contiene "${basura}"`).toBe(false);
+            }
+        }
+    });
+
+    it.each(DISENOS)('%s: la presentación mantiene la foto y un enlace por botón', async (id) => {
+        // Es el contrato que comparten todas las variantes de `presentacion`:
+        // los e2e comprueban un a[href="/docs/<pdf>"] por idioma y que la foto
+        // cargue. Una variante que se los deje fuera rompe la suite entera.
+        const { config, secciones } = seccionesDe(id);
+        const html = await pintar(secciones[HERO], config);
+
+        expect(html.includes(config.sobreMi.imagenRuta), `${id}: falta la foto`).toBe(true);
+        for (const boton of config.sobreMi.botones) {
+            expect(html.includes(boton.url), `${id}: falta el botón ${boton.title}`).toBe(true);
+        }
+    });
+
+    it.each(DISENOS)('%s: cada proyecto tiene su título en un encabezado', async (id) => {
+        // Los e2e los buscan con getByRole('heading'), así que un <p> con pinta
+        // de título pasaría la vista y rompería la prueba.
+        const { config, secciones } = seccionesDe(id);
+        const html = decodificar(await pintar(secciones[PROYECTOS], config));
+
+        for (const proyecto of config.proyectos) {
+            const encabezado = new RegExp(`<h[1-6][^>]*>\\s*${escapar(proyecto.title)}`);
+            expect(encabezado.test(html), `${id}: "${proyecto.title}" no está en un encabezado`).toBe(true);
+        }
+    });
+
+    it('un diseño sin variante propia cae a la clásica en vez de romper', async () => {
+        // Es lo que hace manejable el catálogo: un diseño solo escribe los
+        // componentes que le dan carácter.
+        const { COMPONENTES_WEB } = await import('@cv/registro.js');
+        const { componenteWebDe } = await import('@cv/registro.js');
+        expect(componenteWebDe('formacion', 'neon')).toBe(COMPONENTES_WEB.formacion.clasico);
+        expect(componenteWebDe('proyectos', 'inventada')).toBe(COMPONENTES_WEB.proyectos.clasico);
+        expect(componenteWebDe('noExiste', 'clasico')).toBeNull();
     });
 });
 

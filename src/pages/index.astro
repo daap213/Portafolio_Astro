@@ -2,68 +2,8 @@
 // Raiz del sitio: sirve el idioma predeterminado.
 // Antes era una copia byte a byte de es/index.astro; ahora reutiliza la misma
 // plantilla que el resto de idiomas.
-import Layout from "@/layouts/Layout.astro";
-import SectionContainer from "@/components/otros/SectionContainer.astro";
-import { construirPagina } from "@cv/paginaWeb";
-import { raizApp } from "@cv/cv";
-import { IDIOMA_PREDETERMINADO, otrosIdiomas } from "@cv/locales";
-
-const lang = IDIOMA_PREDETERMINADO.codigo;
-const { pagIndex, navItems, footerInfor, ui } = construirPagina(lang);
-
-const idiomas = otrosIdiomas(lang).map((idioma) => ({
-  codigo: idioma.codigo,
-  etiqueta: idioma.etiqueta,
-  ruta: raizApp + idioma.codigo + "/",
-}));
-
-const primeraSeccion = pagIndex.primeraSeccion;
-const secciones = pagIndex.secciones;
+import Portada from "@/components/otros/Portada.astro";
+import { IDIOMA_PREDETERMINADO } from "@cv/locales";
 ---
 
-<Layout
-  title={pagIndex.title}
-  description={pagIndex.description}
-  navItems={navItems}
-  footerInfor={footerInfor}
-  idiomas={idiomas}
-  ui={ui}
->
-  <main class="px-4">
-    <SectionContainer
-      id={primeraSeccion.navitems.id}
-      class={primeraSeccion.classSeccion}
-    >
-      <h2 class={primeraSeccion.classTittle}>
-        {
-          primeraSeccion.icon && (
-            <primeraSeccion.icon class={primeraSeccion.classIcon} />
-          )
-        }
-        {primeraSeccion.name}
-      </h2>
-      <primeraSeccion.seccion
-        infoSeccion={primeraSeccion.seccionInfo}
-        opciones={primeraSeccion.opciones}
-        ui={ui}
-      />
-    </SectionContainer>
-  </main>
-  <div class="space-y-24 px-4">
-    {
-      secciones.map((bloque) => (
-        <SectionContainer id={bloque.navitems.id} class={bloque.classSeccion}>
-          <h2 class={bloque.classTittle}>
-            {bloque.icon && <bloque.icon class={bloque.classIcon} />}
-            {bloque.name}
-          </h2>
-          <bloque.seccion
-            infoSeccion={bloque.seccionInfo}
-            opciones={bloque.opciones}
-            ui={ui}
-          />
-        </SectionContainer>
-      ))
-    }
-  </div>
-</Layout>
+<Portada lang={IDIOMA_PREDETERMINADO.codigo} />

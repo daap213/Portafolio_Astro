@@ -1,0 +1,46 @@
+---
+// Habilidades del diseño "tarjetas": una tarjeta por grupo y cada destreza como
+// una pastilla. Sin acordeon: todo se ve de un vistazo.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarRelacionadas = true } = opciones;
+---
+
+<div
+  class="grid gap-6"
+  style="grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr))"
+>
+  {
+    infoSeccion.map((habilidad: any) => (
+      <section
+        class="p-5 bg-[var(--dis-superficie)] border border-[var(--dis-borde)]"
+        style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
+      >
+        <h3 class="text-lg font-bold text-[var(--dis-texto)]">
+          {habilidad.name}
+        </h3>
+
+        <ul class="flex flex-wrap gap-2 mt-3">
+          {habilidad.skills.map((skill: any) => (
+            <li class="px-3 py-1 text-sm rounded-full bg-[var(--dis-superficie-suave)] text-[var(--dis-texto-suave)]">
+              {skill}
+            </li>
+          ))}
+        </ul>
+
+        {mostrarRelacionadas && habilidad.related?.length > 0 && (
+          <ul class="flex flex-wrap gap-2 mt-3 pt-3 border-t border-[var(--dis-borde)]">
+            {habilidad.related.map((relacionada: any) => (
+              <li class="px-3 py-1 text-sm rounded-full border border-[var(--dis-acento)] text-[var(--dis-acento)]">
+                {relacionada}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    ))
+  }
+</div>

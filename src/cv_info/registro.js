@@ -8,6 +8,8 @@
 // los tests que usan el Container API de Astro. El administrador, los scripts
 // de node y Playwright deben quedarse en tipos.js / locales.js / cv.js.
 
+import { VARIANTE_BASE } from "./disenos.js";
+
 // Iconos de seccion
 import ProfileCheck from "@/components/icons/ProfileCheck.astro";
 import Briefcase from "@/components/icons/Briefcase.astro";
@@ -37,6 +39,28 @@ import EducationSeccion from "@/components/seccions/Education.astro";
 import AllSkills from "@/components/seccions/AllSkills.astro";
 import Certificados from "@/components/seccions/Certificados.astro";
 import PreviewFooter from "@/components/seccions/PreviewFooter.astro";
+
+// Variantes de diseño. Viven en components/disenos/<variante>/ para no tener que
+// renombrar nada de seccions/, que sigue siendo la variante "clasico".
+import PresentacionEditorial from "@/components/disenos/editorial/Presentacion.astro";
+import ProyectosEditorial from "@/components/disenos/editorial/Proyectos.astro";
+import PublicacionesEditorial from "@/components/disenos/editorial/Publicaciones.astro";
+import CitaEditorial from "@/components/disenos/editorial/Cita.astro";
+
+import PresentacionTerminal from "@/components/disenos/terminal/Presentacion.astro";
+import ProyectosTerminal from "@/components/disenos/terminal/Proyectos.astro";
+import HabilidadesTerminal from "@/components/disenos/terminal/Habilidades.astro";
+import CronologiaTerminal from "@/components/disenos/terminal/Cronologia.astro";
+
+import PresentacionTarjetas from "@/components/disenos/tarjetas/Presentacion.astro";
+import ProyectosTarjetas from "@/components/disenos/tarjetas/Proyectos.astro";
+import HabilidadesTarjetas from "@/components/disenos/tarjetas/Habilidades.astro";
+import CertificadosTarjetas from "@/components/disenos/tarjetas/Certificados.astro";
+
+import PresentacionNeon from "@/components/disenos/neon/Presentacion.astro";
+import ProyectosNeon from "@/components/disenos/neon/Proyectos.astro";
+import PublicacionesNeon from "@/components/disenos/neon/Publicaciones.astro";
+import CitaNeon from "@/components/disenos/neon/Cita.astro";
 
 // Renderizadores de impresion del CV (mundo aparte: sin Tailwind ni Layout)
 import PerfilCv from "@/components/cv/DatosPersonales.astro";
@@ -69,17 +93,45 @@ export const ICONOS = {
   Tailwind,
 };
 
-/** tipo de seccion -> componente que la pinta en la web. */
+/** tipo de seccion -> variante -> componente que la pinta en la web.
+ *
+ *  Dos niveles desde que existen los disenos: un tipo puede pintarse de varias
+ *  formas y es data/disenos.json quien elige. Los NOMBRES de variante viven en
+ *  disenos.js (que no puede importar .astro); aqui se les pone cara, igual que
+ *  iconos.js / ICONOS. components.test.js comprueba que las dos listas casen.
+ *
+ *  Todo tipo debe traer al menos `clasico`: es la variante a la que se cae
+ *  cuando un diseno no tiene la suya. */
 export const COMPONENTES_WEB = {
-  presentacion: Hero,
-  texto: Texto,
-  cronologia: Experience,
-  formacion: EducationSeccion,
-  proyectos: Projects,
-  publicaciones: Publications,
-  habilidades: AllSkills,
-  certificados: Certificados,
-  cita: PreviewFooter,
+  presentacion: {
+    clasico: Hero,
+    editorial: PresentacionEditorial,
+    terminal: PresentacionTerminal,
+    tarjetas: PresentacionTarjetas,
+    neon: PresentacionNeon,
+  },
+  texto: { clasico: Texto },
+  cronologia: { clasico: Experience, terminal: CronologiaTerminal },
+  formacion: { clasico: EducationSeccion },
+  proyectos: {
+    clasico: Projects,
+    editorial: ProyectosEditorial,
+    terminal: ProyectosTerminal,
+    tarjetas: ProyectosTarjetas,
+    neon: ProyectosNeon,
+  },
+  publicaciones: {
+    clasico: Publications,
+    editorial: PublicacionesEditorial,
+    neon: PublicacionesNeon,
+  },
+  habilidades: {
+    clasico: AllSkills,
+    terminal: HabilidadesTerminal,
+    tarjetas: HabilidadesTarjetas,
+  },
+  certificados: { clasico: Certificados, tarjetas: CertificadosTarjetas },
+  cita: { clasico: PreviewFooter, editorial: CitaEditorial, neon: CitaNeon },
 };
 
 /** tipo de seccion -> componente de impresion del CV. */
@@ -104,5 +156,14 @@ export const ETIQUETAS = {
 /** Busca un icono por nombre; devuelve "" si no hay (los .astro lo tratan como ausente). */
 export const iconoDe = (nombre) => (nombre ? (ICONOS[nombre] ?? "") : "");
 
-/** Componente web de un tipo, o null si ese tipo no se muestra en la web. */
-export const componenteWebDe = (tipo) => COMPONENTES_WEB[tipo] ?? null;
+/**
+ * Componente web de un tipo en una variante, o null si el tipo no se muestra
+ * en la web.
+ *
+ * La caida a `clasico` es deliberada y es lo que hace manejable el catalogo de
+ * disenos: uno solo escribe componente propio para las secciones que marcan su
+ * caracter, y el resto se pinta con el clasico, que esta tokenizado y adopta su
+ * paleta. Sin esta caida, cada diseno nuevo obligaria a escribir los nueve.
+ */
+export const componenteWebDe = (tipo, variante = VARIANTE_BASE) =>
+  COMPONENTES_WEB[tipo]?.[variante] ?? COMPONENTES_WEB[tipo]?.[VARIANTE_BASE] ?? null;

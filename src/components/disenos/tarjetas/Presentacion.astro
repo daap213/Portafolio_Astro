@@ -1,0 +1,79 @@
+---
+// Presentacion del diseño "tarjetas": una tarjeta grande a dos columnas, con la
+// foto en grande a un lado.
+//
+// CONTRATO (igual para toda variante de `presentacion`): un <a href> por boton
+// con su URL intacta, la foto de `imagenRuta` y el nombre visible.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarBotones = true } = opciones;
+
+const esPdf = (url: string) => url.split(".").pop()?.toLowerCase() === "pdf";
+---
+
+<div
+  class="overflow-hidden bg-[var(--dis-superficie)] border border-[var(--dis-borde)]"
+  style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
+>
+  <div class="grid md:grid-cols-[1fr_18rem]">
+    <div class="p-8 order-2 md:order-1">
+      <a
+        href={infoSeccion.estado.url}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-[var(--dis-superficie-suave)] text-[var(--dis-acento)] hover:opacity-80 transition"
+      >
+        {infoSeccion.estado.est}
+      </a>
+
+      <h1
+        class="mt-4 text-4xl font-bold tracking-tight text-[var(--dis-texto)] sm:text-5xl"
+      >
+        {infoSeccion.nombreTitulo}
+      </h1>
+      <p class="mt-2 text-lg text-[var(--dis-texto-suave)]">
+        {infoSeccion.titulo}
+      </p>
+
+      {
+        infoSeccion.contenido.map((content: any) => (
+          <p
+            class="mt-5 text-lg leading-relaxed text-[var(--dis-texto-suave)] [&>strong]:text-[var(--dis-acento)] [&>strong]:font-semibold"
+            set:html={content}
+          />
+        ))
+      }
+
+      {
+        mostrarBotones && (
+          <nav class="flex flex-wrap gap-3 mt-8">
+            {infoSeccion.botones.map((boton: any) => (
+              <a
+                href={boton.url}
+                download={esPdf(boton.url) ? boton.url.split("/").pop() : ""}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full bg-[var(--dis-superficie-suave)] text-[var(--dis-texto)] hover:bg-[var(--dis-acento)] hover:text-[var(--dis-superficie)] transition"
+              >
+                <boton.icon class="size-5" />
+                {boton.title}
+              </a>
+            ))}
+          </nav>
+        )
+      }
+    </div>
+
+    <div class="order-1 md:order-2 h-56 md:h-full">
+      <img
+        class="object-cover w-full h-full"
+        style="object-position: 50% 25%"
+        src={infoSeccion.imagenRuta}
+        alt={infoSeccion.nombre}
+      />
+    </div>
+  </div>
+</div>

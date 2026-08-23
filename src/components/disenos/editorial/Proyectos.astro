@@ -1,0 +1,97 @@
+---
+// Proyectos del diseño "editorial": lista de entradas separadas por una linea
+// fina, con la miniatura pequeña a la izquierda. Nada de tarjetas ni sombras.
+//
+// CONTRATO: el titulo de cada proyecto va en un ELEMENTO DE ENCABEZADO. Las
+// pruebas end-to-end lo buscan con getByRole('heading', { name, exact: true }),
+// asi que un <p> con clase de titulo pasaria la vista pero rompería la suite.
+import DropdownText from "@/components/otros/DropdownText.astro";
+
+interface Props {
+  infoSeccion: any;
+  ui: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, ui, opciones = {} } = Astro.props;
+const {
+  mostrarImagen = true,
+  mostrarEnlace = true,
+  mostrarEtiquetas = true,
+} = opciones;
+---
+
+<ol class="divide-y divide-[var(--dis-borde)] border-t border-[var(--dis-borde)]">
+  {
+    infoSeccion.map(
+      ({ image, title, description, tags, link, github }: any, indice: number) => (
+        <li class="py-8 flex gap-6">
+          <span
+            class="hidden sm:block shrink-0 w-8 pt-1 text-sm tabular-nums text-[var(--dis-texto-suave)]"
+            style="font-family: var(--dis-fuente-titulos)"
+          >
+            {String(indice + 1).padStart(2, "0")}
+          </span>
+
+          {mostrarImagen && image && (
+            <img
+              alt={title}
+              class="hidden md:block shrink-0 object-cover w-28 h-20 grayscale hover:grayscale-0 transition duration-500"
+              loading="eager"
+              decoding="async"
+              src={image}
+            />
+          )}
+
+          <div class="min-w-0 flex-1">
+            <h3
+              class="text-2xl font-normal text-[var(--dis-texto)]"
+              style="font-family: var(--dis-fuente-titulos)"
+            >
+              {title}
+            </h3>
+
+            {mostrarEtiquetas && tags?.length > 0 && (
+              <p class="mt-1 text-xs uppercase tracking-[0.14em] text-[var(--dis-texto-suave)]">
+                {tags.map((tag: any) => tag.name).join(" · ")}
+              </p>
+            )}
+
+            <DropdownText titulo={ui.project_dropdownText_title}>
+              {description.map((content: any) => (
+                <p
+                  class="mt-2 text-[var(--dis-texto-suave)] leading-relaxed"
+                  set:html={content}
+                />
+              ))}
+            </DropdownText>
+
+            {mostrarEnlace && (github || link) && (
+              <footer class="flex flex-wrap mt-3 gap-x-6 text-sm uppercase tracking-[0.12em]">
+                {github && (
+                  <a
+                    href={github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="border-b border-[var(--dis-acento)] pb-0.5 text-[var(--dis-texto)] hover:text-[var(--dis-acento)] transition"
+                  >
+                    {ui.proyectos_codigo}
+                  </a>
+                )}
+                {link && (
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="border-b border-[var(--dis-acento)] pb-0.5 text-[var(--dis-texto)] hover:text-[var(--dis-acento)] transition"
+                  >
+                    {ui.proyectos_vista_previa}
+                  </a>
+                )}
+              </footer>
+            )}
+          </div>
+        </li>
+      ),
+    )
+  }
+</ol>

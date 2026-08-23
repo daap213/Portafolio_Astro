@@ -6,6 +6,7 @@ import { CONTENIDOS, TEXTOS } from '@cv/data/indice.js';
 import comun from '@cv/data/comun.json' with { type: 'json' };
 import seccionesWeb from '@cv/data/secciones.web.json' with { type: 'json' };
 import seccionesCv from '@cv/data/secciones.cv.json' with { type: 'json' };
+import disenos from '@cv/data/disenos.json' with { type: 'json' };
 
 // Sin `astro check` (TypeScript 7 no expone API estable para plantillas .astro)
 // esta es la red de seguridad principal del repo: valida los JSON de datos y de
@@ -17,6 +18,7 @@ const estadoActual = () => ({
     textos: TEXTOS,
     seccionesWeb,
     seccionesCv,
+    disenos,
 });
 
 describe('esquema de los datos y de las secciones', () => {
@@ -214,6 +216,67 @@ describe('detección de problemas', () => {
             e.seccionesCv.secciones = e.seccionesCv.secciones.filter((s) => s.bloque !== 'proyectos');
         });
         expect(tieneAviso(r, 'DERIVA_ENTRE_LISTAS')).toBe(true);
+    });
+
+    // ---- diseños ----------------------------------------------------------
+    //
+    // Todo lo que el administrador puede escribir en disenos.json tiene que
+    // rebotar aquí: un diseño mal formado no revienta en el panel, revienta en
+    // el build, que es donde ya no hay nadie mirando.
+
+    it('detecta que falta el catálogo de diseños', () => {
+        const r = estropear((e) => { delete e.disenos; });
+        expect(tieneError(r, 'DISENOS_INVALIDOS')).toBe(true);
+    });
+
+    it('detecta un catálogo de diseños vacío', () => {
+        const r = estropear((e) => { e.disenos.disenos = []; });
+        expect(tieneError(r, 'SIN_DISENOS')).toBe(true);
+    });
+
+    it('detecta que el diseño activo no existe', () => {
+        const r = estropear((e) => { e.disenos.activo = 'no-existe'; });
+        expect(tieneError(r, 'DISENO_ACTIVO_DESCONOCIDO')).toBe(true);
+    });
+
+    it('detecta dos diseños con el mismo id', () => {
+        const r = estropear((e) => {
+            e.disenos.disenos.push(structuredClone(e.disenos.disenos[0]));
+        });
+        expect(tieneError(r, 'DISENO_DUPLICADO')).toBe(true);
+    });
+
+    it('detecta un token que no está en el catálogo', () => {
+        // Misma regla que las opciones de sección: un token que nadie lee sería
+        // un campo en el panel que no cambia nada.
+        const r = estropear((e) => { e.disenos.disenos[0].tokens.inventado = '#fff'; });
+        expect(tieneError(r, 'TOKEN_DESCONOCIDO')).toBe(true);
+    });
+
+    it('detecta una variante que no existe para ese tipo', () => {
+        const r = estropear((e) => { e.disenos.disenos[0].variantes.proyectos = 'inventada'; });
+        expect(tieneError(r, 'VARIANTE_DESCONOCIDA')).toBe(true);
+    });
+
+    it('detecta una variante puesta sobre un tipo que no es de la web', () => {
+        const r = estropear((e) => { e.disenos.disenos[0].variantes.referencias = 'clasico'; });
+        expect(tieneError(r, 'TIPO_FUERA_DE_ALCANCE')).toBe(true);
+    });
+
+    it('detecta una variante desconocida fijada en una sección', () => {
+        const r = estropear((e) => { e.seccionesWeb.secciones[2].variante = 'inventada'; });
+        expect(tieneError(r, 'VARIANTE_DESCONOCIDA')).toBe(true);
+    });
+
+    it('detecta una variante fijada en una sección del CV, que no tiene diseños', () => {
+        const r = estropear((e) => { e.seccionesCv.secciones[0].variante = 'clasico'; });
+        expect(tieneError(r, 'VARIANTE_FUERA_DE_ALCANCE')).toBe(true);
+    });
+
+    it('avisa (sin romper) de un preset de clases que nadie lee', () => {
+        const r = estropear((e) => { e.disenos.disenos[0].clases.inventada = 'p-4'; });
+        expect(tieneAviso(r, 'CLASE_DESCONOCIDA')).toBe(true);
+        expect(r.errores).toEqual([]);
     });
 });
 

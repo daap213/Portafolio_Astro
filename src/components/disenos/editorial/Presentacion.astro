@@ -1,0 +1,80 @@
+---
+// Presentacion del diseño "editorial": tipografia grande, sin insignias ni
+// pastillas, y los botones como enlaces subrayados.
+//
+// CONTRATO que toda variante de `presentacion` tiene que cumplir, porque hay
+// pruebas de build y end-to-end colgando de ello:
+//   - un <a href> por cada boton, con su URL tal cual (los PDF del CV se
+//     comprueban uno a uno, en todos los idiomas),
+//   - la foto con la ruta que llega en `imagenRuta`,
+//   - el nombre visible.
+// La forma es libre; esas tres cosas no.
+interface Props {
+  infoSeccion: any;
+  opciones?: Record<string, boolean>;
+}
+const { infoSeccion, opciones = {} } = Astro.props;
+const { mostrarBotones = true } = opciones;
+
+const esPdf = (url: string) => url.split(".").pop()?.toLowerCase() === "pdf";
+---
+
+<div class="max-w-2xl">
+  <div class="flex items-center gap-4">
+    <img
+      class="object-cover rounded-full size-14 grayscale"
+      style="object-position: 10% 30%"
+      src={infoSeccion.imagenRuta}
+      alt={infoSeccion.nombre}
+    />
+    <a
+      href={infoSeccion.estado.url}
+      target="_blank"
+      rel="noopener"
+      class="text-sm uppercase tracking-[0.18em] text-[var(--dis-acento)] hover:underline"
+    >
+      {infoSeccion.estado.est}
+    </a>
+  </div>
+
+  <h1
+    class="mt-8 text-5xl leading-[1.05] font-normal tracking-tight text-[var(--dis-texto)] sm:text-6xl"
+    style="font-family: var(--dis-fuente-titulos)"
+  >
+    {infoSeccion.nombreTitulo}
+  </h1>
+
+  <p class="mt-3 text-base text-[var(--dis-texto-suave)] italic">
+    {infoSeccion.titulo}
+  </p>
+
+  <hr class="mt-8 border-[var(--dis-borde)]" />
+
+  {
+    infoSeccion.contenido.map((content: any) => (
+      <p
+        class="mt-6 text-lg leading-relaxed text-[var(--dis-texto-suave)] [&>strong]:text-[var(--dis-texto)] [&>strong]:font-semibold"
+        set:html={content}
+      />
+    ))
+  }
+
+  {
+    mostrarBotones && (
+      <nav class="flex flex-wrap mt-10 gap-x-6 gap-y-2">
+        {infoSeccion.botones.map((boton: any) => (
+          <a
+            href={boton.url}
+            download={esPdf(boton.url) ? boton.url.split("/").pop() : ""}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-sm uppercase tracking-[0.12em] text-[var(--dis-texto)] border-b border-[var(--dis-acento)] pb-0.5 hover:text-[var(--dis-acento)] transition"
+          >
+            <boton.icon class="size-4" />
+            {boton.title}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</div>

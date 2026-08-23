@@ -30,9 +30,9 @@
       "enNav": true,
       "opciones": {},
       "clases": {
-        "seccion": "py-16 md:py-32",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-8 text-black/80 dark:text-white",
-        "icono": "size-8"
+        "seccion": "",
+        "titulo": "",
+        "icono": ""
       },
       "textos": {
         "es": {
@@ -59,8 +59,8 @@
       },
       "clases": {
         "seccion": "",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-        "icono": "size-8"
+        "titulo": "",
+        "icono": ""
       },
       "textos": {
         "es": {
@@ -89,8 +89,8 @@
       },
       "clases": {
         "seccion": "",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-        "icono": "size-7"
+        "titulo": "",
+        "icono": ""
       },
       "textos": {
         "es": {
@@ -116,8 +116,8 @@
       },
       "clases": {
         "seccion": "",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-        "icono": "size-8"
+        "titulo": "",
+        "icono": ""
       },
       "textos": {
         "es": {
@@ -143,8 +143,8 @@
       },
       "clases": {
         "seccion": "",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-        "icono": "size-8"
+        "titulo": "",
+        "icono": ""
       },
       "textos": {
         "es": {
@@ -170,8 +170,8 @@
       },
       "clases": {
         "seccion": "",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-        "icono": "size-8"
+        "titulo": "",
+        "icono": ""
       },
       "textos": {
         "es": {
@@ -198,8 +198,8 @@
       },
       "clases": {
         "seccion": "",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/80 dark:text-white",
-        "icono": "size-7"
+        "titulo": "",
+        "icono": ""
       },
       "textos": {
         "es": {
@@ -223,7 +223,7 @@
       "opciones": {},
       "clases": {
         "seccion": "",
-        "titulo": "flex items-center mb-6 text-3xl font-semibold gap-x-3 text-black/50 dark:text-white",
+        "titulo": "",
         "icono": ""
       },
       "textos": {

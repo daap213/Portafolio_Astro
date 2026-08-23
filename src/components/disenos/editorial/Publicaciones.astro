@@ -1,0 +1,51 @@
+---
+// Publicaciones del diseño "editorial": listado numerado, al modo de una
+// bibliografia. Sin tarjeta, sin fondo y sin sombra.
+interface Props {
+  infoSeccion: any;
+  ui: any;
+}
+const { infoSeccion, ui } = Astro.props;
+---
+
+<ol class="space-y-6">
+  {
+    infoSeccion.map(
+      ({ title, authors, description, link, codigo }: any, indice: number) => (
+        <li class="flex gap-4">
+          <span
+            class="shrink-0 w-8 pt-1 text-sm tabular-nums text-[var(--dis-texto-suave)]"
+            style="font-family: var(--dis-fuente-titulos)"
+          >
+            {String(indice + 1).padStart(2, "0")}
+          </span>
+          <div class="min-w-0">
+            <h3
+              class="text-xl font-normal text-[var(--dis-texto)]"
+              style="font-family: var(--dis-fuente-titulos)"
+            >
+              {title}
+            </h3>
+            <p class="mt-1 text-[var(--dis-texto-suave)]">
+              <span class="sr-only">{ui.publicaciones_autores}</span>
+              {authors}
+            </p>
+            {description && (
+              <p class="mt-1 text-sm text-[var(--dis-texto-suave)] italic">
+                {description}
+              </p>
+            )}
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block mt-1 text-sm text-[var(--dis-enlace)] hover:underline"
+            >
+              {codigo}
+            </a>
+          </div>
+        </li>
+      ),
+    )
+  }
+</ol>

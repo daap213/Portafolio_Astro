@@ -11,21 +11,22 @@ const { infoSeccion, ui } = Astro.props;
     infoSeccion.map(({ title, authors, description, link, codigo }: any) => (
       <div
         title={description}
-        class="block text-balance max-w-sm p-5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        class="block text-balance max-w-sm p-5 bg-[var(--dis-superficie)] border border-[var(--dis-borde)] transition hover:opacity-90"
+        style="border-radius: var(--dis-radio); box-shadow: var(--dis-sombra);"
       >
-        <h7 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+        <h7 class="mb-2 text-lg font-bold tracking-tight text-[var(--dis-texto)]">
           {title}
         </h7>
-        <p class="mb-2 mt-2 font-normal text-base text-sky-800 dark:text-sky-400">
+        <p class="mb-2 mt-2 font-normal text-base text-[var(--dis-enlace)]">
           <a href={link} target="_blank">
             {codigo}
           </a>
         </p>
 
-        <h7 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white">
+        <h7 class="mb-2 text-base font-bold tracking-tight text-[var(--dis-texto)]">
           {ui.publicaciones_autores}
         </h7>
-        <p class="font-normal  text-base text-gray-700 dark:text-gray-200">
+        <p class="font-normal  text-base text-[var(--dis-texto-suave)]">
           {authors}
         </p>
       </div>
