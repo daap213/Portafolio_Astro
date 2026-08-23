@@ -4,6 +4,7 @@ import { glob } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { DATOS } from '@cv/cv';
 import { CODIGOS, IDIOMAS, IDIOMA_PREDETERMINADO, otrosIdiomas } from '@cv/locales.js';
+import catalogoDisenos from '@cv/data/disenos.json' with { type: 'json' };
 
 const DIST = resolve(import.meta.dirname, '../../dist');
 
@@ -148,6 +149,63 @@ describe('contenido de las páginas generadas', () => {
 
     it('la raíz sirve el idioma predeterminado', () => {
         expect(leer('index.html')).toMatch(new RegExp(`<html lang="${IDIOMA_PREDETERMINADO.codigo}"`));
+    });
+});
+
+describe('el diseño activo llega a la página', () => {
+    // El build compila UN diseño, el que marca disenos.json. Que las variantes
+    // pintan se comprueba en unit con el Container API; aquí solo se ancla que
+    // lo publicado es el diseño elegido y que sus tokens llegan a tiempo.
+
+    it.each(PAGINAS_PORTADA)('%s marca el diseño activo en <html>', (pagina) => {
+        expect(leer(pagina)).toMatch(
+            new RegExp(`<html[^>]*data-diseno="${catalogoDisenos.activo}"`),
+        );
+    });
+
+    it.each(PAGINAS_PORTADA)('%s emite los tokens dentro del <head>', (pagina) => {
+        // Si el bloque cayera detrás del cuerpo, el primer pintado usaría los
+        // valores heredados y se corregiría después: el mismo fogonazo que ya
+        // costó mover el script del tema.
+        const html = leer(pagina);
+        const finHead = html.indexOf('</head>');
+        const posicion = html.indexOf('--dis-fondo');
+
+        expect(posicion, 'no están los tokens del diseño').toBeGreaterThan(-1);
+        expect(posicion, 'los tokens quedaron fuera del <head>').toBeLessThan(finHead);
+        expect(html).toContain(':root.dark{');
+    });
+
+    it.each(PAGINAS_PORTADA)('%s no ata ningún estilo en línea al sistema operativo', (pagina) => {
+        // La comprobación hermana solo mira los .css enlazados, y los tokens van
+        // en línea: sin esta aserción un diseño podría colar un
+        // @media (prefers-color-scheme) y contradecir el interruptor de tema.
+        //
+        // Se miran los <style>, no el <head> entero: el script del tema SÍ
+        // consulta prefers-color-scheme, y debe hacerlo — es como la opción
+        // «sistema» sabe qué tiene puesto el sistema operativo.
+        const estilos = [...leer(pagina).matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]);
+
+        expect(estilos.length, 'no hay ningún <style> en línea').toBeGreaterThan(0);
+        for (const css of estilos) {
+            expect(css.includes('prefers-color-scheme'), 'un estilo en línea sigue al sistema').toBe(false);
+        }
+    });
+
+    it('el CV no lleva diseño: es un mundo aparte', () => {
+        for (const [pagina] of PAGINAS_CV) {
+            const html = leer(pagina);
+            expect(html.includes('data-diseno'), `${pagina} recibió un diseño`).toBe(false);
+            expect(html.includes('--dis-fondo'), `${pagina} recibió tokens`).toBe(false);
+        }
+    });
+
+    it('las rutas de vista previa de diseños no se publican', () => {
+        // /vista/<diseno>/<idioma> existe solo en `astro dev`, con
+        // getStaticPaths devolviendo [] fuera de desarrollo. La prueba que
+        // enumera las páginas ya lo cubriría, pero conviene que el motivo esté
+        // dicho donde se lee.
+        expect(existsSync(resolve(DIST, 'vista'))).toBe(false);
     });
 });
 
