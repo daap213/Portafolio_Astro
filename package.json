@@ -23,7 +23,7 @@
     "@fontsource-variable/onest": "5.3.0",
     "astro": "7.2.1",
     "astro-robots-txt": "^1.0.0",
-    "puppeteer": "^25.2.0",
+    "puppeteer": "^25.8.0",
     "qrcode": "^1.5.4",
     "typescript": "7.0.2"
   },
