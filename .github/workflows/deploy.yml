@@ -59,7 +59,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4 # lee la versión del campo packageManager
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24 # astro 7 exige >= 22.12.0
           cache: pnpm
