@@ -22,7 +22,7 @@ jobs:
     outputs:
       src: ${{ steps.changes.outputs.src }} # Salida para cambios en archivos fuente
     steps:
-      - uses: actions/checkout@v6 # Clona el repositorio
+      - uses: actions/checkout@v7 # Clona el repositorio
       - uses: dorny/paths-filter@v3 # Filtra cambios en los archivos especificados
         id: changes
         with:
@@ -53,7 +53,7 @@ jobs:
     env:
       PROD: ${{ false }} # Los PDF se imprimen desde el preview local, no desde producción
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
 
