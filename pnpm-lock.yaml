@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@fontsource-variable/onest':
-        specifier: 5.3.0
-        version: 5.3.0
+        specifier: 5.3.1
+        version: 5.3.1
       astro:
         specifier: 7.2.1
         version: 7.2.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@26.2.0)(jiti@2.7.0)(yaml@2.9.0)
@@ -367,8 +367,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource-variable/onest@5.3.0':
-    resolution: {integrity: sha512-K4Es0F3M+iFnVY5mfunimhPSk1Uvl3eyovQVWjtf8oS00a7WSrSg2BD5Bh/pAcAZUe4ocV4M08dg5tvCULBJ7Q==}
+  '@fontsource-variable/onest@5.3.1':
+    resolution: {integrity: sha512-xaaw6G4HDB2/RczsWLD/2bnib4ykmQlTlBUN3GOEOiyErilZukQWVJG95h9zwAy0i8KY+QzDa+COPfqhI72Acw==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2347,7 +2347,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@fontsource-variable/onest@5.3.0': {}
+  '@fontsource-variable/onest@5.3.1': {}
 
   '@img/colour@1.1.0':
     optional: true
