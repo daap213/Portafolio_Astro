@@ -96,6 +96,36 @@ p {
   line-height: 0;
 }
 
+/*
+ * Titulo a la izquierda y fecha a la derecha, en la misma linea (certificados).
+ *
+ * Mismo motivo que .item_qr: sin Tailwind, `text-end` no existe y los dos
+ * encabezados caian uno debajo del otro, asi que cada certificado ocupaba dos
+ * lineas y sus margenes por defecto. Los margenes se anulan aqui porque los
+ * de h3/h4 son los del navegador, no los de esta hoja.
+ */
+.item_fecha {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8em;
+  margin-top: 0.45em;
+}
+
+.item_fecha > * {
+  margin: 0;
+}
+
+.item_fecha > :first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.item_fecha > :last-child {
+  flex: 0 0 auto;
+  text-align: right;
+}
+
 /* Estilos de impresión para evitar espacios en blanco */
 @media print {
   /* Permitir que las secciones grandes se dividan */
