@@ -10,8 +10,8 @@ const { mostrarQr = true } = opciones;
 
 {
   infoSeccion.map((publicacion: any) => (
-    <div class="flex items-center border-b-2 border-dashed  border-gray-300">
-      <div class="w-full check_y">
+    <div class="item_qr border-b-2 border-dashed  border-gray-300">
+      <div class="item_qr_texto w-full check_y">
         <h3 class="mt-2 font-semibold ">{publicacion.title}</h3>
         <p class=" text-sm px-3 py-1  text-justify">
           {publicacion.description + " " + publicacion.authors}

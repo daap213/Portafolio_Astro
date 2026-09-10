@@ -72,6 +72,30 @@ p {
   align-items: center;
 }
 
+/*
+ * Item con el QR al costado (proyectos, publicaciones).
+ *
+ * Estas paginas no cargan Tailwind, asi que las utilidades `flex`/`items-center`
+ * del marcado no existen: el QR caia en flujo normal, debajo del titulo y de la
+ * descripcion, y cada item gastaba una fila entera de mas. La maquetacion en dos
+ * columnas tiene que vivir aqui, en la unica hoja de estilos del CV.
+ */
+.item_qr {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.item_qr > .item_qr_texto {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.item_qr > a {
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
 /* Estilos de impresión para evitar espacios en blanco */
 @media print {
   /* Permitir que las secciones grandes se dividan */
